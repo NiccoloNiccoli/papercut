@@ -14,6 +14,8 @@ The site files are in the root of [NiccoloNiccoli/papercut](https://github.com/N
 
 Edit `src/papers.js`. Each paper needs a unique `slug`, `date` in `YYYY-MM-DD` format, `topic`, `title`, `summary`, `care`, and `readMinutes`. Add a `sections` object for a full detail page. The RoadTrip Attack entry is sourced from [arXiv:2607.03277](https://arxiv.org/abs/2607.03277). Entries without `sourceUrl` are illustrative layout content and are marked as samples on the site.
 
+`images/roadtrip-figure-1.png` is Figure 1 from [the paper's HTML version](https://arxiv.org/html/2607.03277#S1.F1), reproduced unchanged with credit in the article.
+
 The homepage heading uses the visitor's current date. It shows the newest available issue below that heading, and older entries in Archive. The queue is stored in each visitor's browser.
 
 The PaperCut wordmark uses the supplied `Franxurter` font from `fonts/Franxurter.ttf`; the rest of the site uses Noto Sans. The supplied font's embedded license text says it may not be used for commercial purposes. Confirm licensing before using PaperCut commercially.
