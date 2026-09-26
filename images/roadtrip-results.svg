@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" role="img" aria-labelledby="title desc">
+  <title id="title">RoadTrip Attack versus PGD on targeted geolocation accuracy</title>
+  <desc id="desc">At a perturbation budget of two out of 255, RoadTrip Attack reaches 93.43 percent versus 71.81 percent for PGD on Im2GPS3k, and 88.60 percent versus 62.30 percent on YFCC4k. Higher means more attacked predictions within one kilometer of the chosen target.</desc>
+  <rect width="800" height="280" rx="16" fill="#f7f8fa"/>
+  <g font-family="'Noto Sans',Arial,sans-serif">
+    <text x="24" y="38" fill="#20242b" font-size="18" font-weight="700">Target reached within 1 km</text>
+    <text x="24" y="62" fill="#65707c" font-size="12">White-box GeoCLIP · perturbation budget 2/255 · higher is better for the attack</text>
+    <rect x="536" y="26" width="13" height="13" rx="3" fill="#f10e43"/><text x="556" y="37" fill="#4a555e" font-size="12">RoadTrip Attack</text>
+    <rect x="678" y="26" width="13" height="13" rx="3" fill="#9aa8ad"/><text x="698" y="37" fill="#4a555e" font-size="12">PGD</text>
+    <text x="24" y="102" fill="#20242b" font-size="14" font-weight="700">Im2GPS3k</text>
+    <rect x="146" y="85" width="580" height="15" rx="7.5" fill="#e7ebed"/><rect x="146" y="85" width="542" height="15" rx="7.5" fill="#f10e43"/><text x="735" y="98" fill="#a90a32" font-size="12" font-weight="700">93.43%</text>
+    <rect x="146" y="109" width="580" height="15" rx="7.5" fill="#e7ebed"/><rect x="146" y="109" width="417" height="15" rx="7.5" fill="#9aa8ad"/><text x="735" y="122" fill="#56666d" font-size="12" font-weight="700">71.81%</text>
+    <path d="M24 146H776" stroke="#dfe5e8"/>
+    <text x="24" y="176" fill="#20242b" font-size="14" font-weight="700">YFCC4k</text>
+    <rect x="146" y="159" width="580" height="15" rx="7.5" fill="#e7ebed"/><rect x="146" y="159" width="514" height="15" rx="7.5" fill="#f10e43"/><text x="735" y="172" fill="#a90a32" font-size="12" font-weight="700">88.60%</text>
+    <rect x="146" y="183" width="580" height="15" rx="7.5" fill="#e7ebed"/><rect x="146" y="183" width="361" height="15" rx="7.5" fill="#9aa8ad"/><text x="735" y="196" fill="#56666d" font-size="12" font-weight="700">62.30%</text>
+    <path d="M146 222H726" stroke="#cbd4d8"/><g fill="#7b8991" font-size="11"><text x="143" y="238">0</text><text x="283" y="238">25</text><text x="428" y="238">50</text><text x="573" y="238">75</text><text x="714" y="238">100%</text></g>
+    <text x="24" y="263" fill="#65707c" font-size="11">Values reported in the paper’s white-box experiments; chart redrawn for PaperCut.</text>
+  </g>
+</svg>
+
