@@ -8,9 +8,7 @@ From this folder, run `python -m http.server 8080` and open `http://localhost:80
 
 ## Publish on GitHub Pages
 
-1. Create a public GitHub repository and upload the contents of this folder to its root.
-2. In **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save.
-3. GitHub will display the published URL in the same Pages settings screen.
+The site files are in the root of [NiccoloNiccoli/papercut](https://github.com/NiccoloNiccoli/papercut). In **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save. Once Pages finishes publishing, the site will be at <https://niccoloniccoli.github.io/papercut/>.
 
 ## Editing content
 
