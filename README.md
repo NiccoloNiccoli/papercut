@@ -16,5 +16,5 @@ Edit `src/papers.js`. Each paper needs a unique `slug`, `date` in `YYYY-MM-DD` f
 
 The homepage heading uses the visitor's current date. It shows the newest available issue below that heading, and older entries in Archive. The queue is stored in each visitor's browser.
 
-The wordmark uses `Frankfurter` when that font is installed or supplied as a licensed webfont; otherwise it falls back to Noto Sans Black. Add a licensed webfont file and an `@font-face` rule to `styles.css` when available. The rest of the site uses Noto Sans.
+The PaperCut wordmark uses the supplied `Franxurter` font from `fonts/Franxurter.ttf`; the rest of the site uses Noto Sans. The supplied font's embedded license text says it may not be used for commercial purposes. Confirm licensing before using PaperCut commercially.
 
