@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20260926-visual-1';
+import { papers, topics } from './papers.js?v=20260926-paper-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
@@ -18,7 +18,7 @@ const isSaved = slug => getQueue().includes(slug);
 function card(paper) {
   return `<article class="paper-card">
     <div class="card-meta"><span class="topic-pill">${escape(paper.topic)}</span><span>${escape(paper.venue ?? 'Sample paper')} · ${paper.readMinutes} min read</span></div>
-    ${paper.visuals?.hero ? `<a class="card-visual" href="${paperUrl(paper.slug)}" aria-label="Read ${escape(paper.title)}"><img src="${escape(paper.visuals.hero.src)}" alt="${escape(paper.visuals.hero.alt)}" loading="eager"></a>` : ''}
+    ${paper.visuals?.hero ? `<a class="card-visual" href="${paperUrl(paper.slug)}" aria-label="Read ${escape(paper.title)}"><img src="${escape(paper.visuals.hero.src)}" alt="${escape(paper.visuals.hero.alt)}" loading="eager"></a><p class="card-image-credit"><a href="${escape(paper.visuals.hero.creditUrl)}" target="_blank" rel="noopener noreferrer">Figure 1 from the paper ↗</a></p>` : ''}
     <h3><a href="${paperUrl(paper.slug)}">${escape(paper.title)}</a></h3>
     <p class="card-summary">${escape(paper.summary)}</p>
     <div class="care-preview"><strong>Why I might care</strong><p>${escape(paper.care)}</p></div>
@@ -53,11 +53,11 @@ function home() {
 }
 
 function visualFigure(visual, className = '') {
-  return `<figure class="article-figure ${className}"><div class="figure-media"><img src="${escape(visual.src)}" alt="${escape(visual.alt)}" loading="lazy"></div><figcaption>${escape(visual.caption)}</figcaption></figure>`;
+  return `<figure class="article-figure ${className}"><div class="figure-media"><img src="${escape(visual.src)}" alt="${escape(visual.alt)}" loading="lazy"></div><figcaption>${visual.creditUrl ? `<a href="${escape(visual.creditUrl)}" target="_blank" rel="noopener noreferrer">${escape(visual.caption)} ↗</a>` : escape(visual.caption)}</figcaption></figure>`;
 }
 
-function section(id, paragraphs, visual) {
-  return `<section class="summary-section ${id === 'Why I might care' ? 'highlight-section' : ''}" id="${id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}"><h2>${escape(id)}</h2>${paragraphs.map(text => `<p>${escape(text)}</p>`).join('')}${visual ? visualFigure(visual, 'results-figure') : ''}</section>`;
+function section(id, paragraphs) {
+  return `<section class="summary-section ${id === 'Why I might care' ? 'highlight-section' : ''}" id="${id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}"><h2>${escape(id)}</h2>${paragraphs.map(text => `<p>${escape(text)}</p>`).join('')}</section>`;
 }
 
 function detail(paper) {
@@ -75,7 +75,7 @@ function detail(paper) {
   const order = ['TL;DR', 'Why I might care', 'Why it matters', 'Main idea', 'Method', 'Experiments', 'What is new', 'Limitations'];
   app.innerHTML = `<div class="content-grid detail-grid"><aside class="detail-nav"><a class="back-link" href="./">← Back to today</a><div class="on-this-page"><strong>ON THIS PAGE</strong><nav aria-label="On this page">${order.map(key => `<a href="#${key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}">${escape(key)}</a>`).join('')}</nav></div></aside>
   <article class="detail-main"><div class="detail-intro"><span class="topic-pill">${escape(paper.topic)}</span><h1>${escape(paper.title)}</h1><p class="detail-meta">${paper.sourceUrl ? `${escape(paper.authors)} · ${escape(paper.venue)} · Published ${escape(longDate(paper.publishedDate))}` : `Illustrative paper · ${escape(longDate(paper.date))}`} · ${paper.readMinutes} min read</p><div class="detail-actions">${paper.sourceUrl ? `<a class="button button-dark" href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">Read paper ↗</a><a class="button button-light" href="${escape(paper.pdfUrl)}" target="_blank" rel="noopener noreferrer">PDF ↗</a>` : ''}<button class="button button-light queue-button" data-save="${escape(paper.slug)}" aria-pressed="${isSaved(paper.slug)}">${isSaved(paper.slug) ? '✓ Saved' : '+ Reading queue'}</button></div></div>
-  ${paper.visuals?.hero ? visualFigure(paper.visuals.hero, 'hero-figure') : ''}<div class="summary-panel">${order.map(key => section(key, content[key], key === 'Experiments' ? paper.visuals?.experiments : null)).join('')}</div><p class="source-note">${paper.sourceUrl ? `Summary based on the <a href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">original paper on arXiv ↗</a>. “Why I might care” includes a suggested follow-up.` : 'Sample content for the layout preview. Add a source link when replacing it with a real paper summary.'}</p></article>
+  ${paper.visuals?.hero ? visualFigure(paper.visuals.hero, 'hero-figure') : ''}<div class="summary-panel">${order.map(key => section(key, content[key])).join('')}</div><p class="source-note">${paper.sourceUrl ? `Summary based on the <a href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">original paper on arXiv ↗</a>. “Why I might care” includes a suggested follow-up.` : 'Sample content for the layout preview. Add a source link when replacing it with a real paper summary.'}</p></article>
   <aside class="right-sidebar">${glancePanel(paper)}${listPanel('Related summaries', papers.filter(p => p.slug !== paper.slug).slice(0, 2))}<div class="green-note"><strong>Read with a question.</strong><p>What would I test differently in my own setup?</p></div></aside></div>`;
 }
 
