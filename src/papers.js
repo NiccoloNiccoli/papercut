@@ -14,6 +14,18 @@ export const papers = [
     summary: 'RoadTrip Attack redirects a retrieval-based geolocalizer toward a distant chosen location by optimizing a sequence of intermediate geographic targets.',
     care: 'A concrete attack and evaluation baseline if you study geolocation privacy or adversarial robustness.',
     readMinutes: 7,
+    visuals: {
+      hero: {
+        src: './images/roadtrip-illustration.svg',
+        alt: 'Conceptual illustration: a lightly altered photo sends a geolocalization model through intermediate predicted places toward a distant chosen target.',
+        caption: 'How the attack works, illustrated for PaperCut. The photo and locations are schematic, not experiment examples.'
+      },
+      experiments: {
+        src: './images/roadtrip-results.svg',
+        alt: 'At a 2/255 perturbation budget, targeted accuracy within 1 km is 93.43% for RoadTrip Attack versus 71.81% for PGD on Im2GPS3k, and 88.60% versus 62.30% on YFCC4k.',
+        caption: 'PaperCut chart of the paper’s reported white-box GeoCLIP results. Higher means more predictions within 1 km of the attacker-chosen target.'
+      }
+    },
     sections: {
       'TL;DR': ['RoadTrip Attack (RTA) adds a small image perturbation that steers a retrieval-based geolocalizer toward an attacker-chosen location. Instead of optimizing directly for that destination, it searches over intermediate geographic targets and keeps the most promising paths.'],
       'Why I might care': ['If you work on image geolocalization or adversarial robustness, RTA offers a task-specific way to probe privacy risk. Its black-box transfer tests are especially relevant when the model used by a third party is unknown.', 'A useful follow-up is to test whether ordinary image processing, such as JPEG compression, reduces the attack; the paper identifies preprocessing and purification defenses as future work.'],
