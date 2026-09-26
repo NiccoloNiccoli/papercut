@@ -12,7 +12,7 @@ The site files are in the root of [NiccoloNiccoli/papercut](https://github.com/N
 
 ## Editing content
 
-Edit `src/papers.js`. Each paper needs a unique `slug`, `date` in `YYYY-MM-DD` format, `topic`, `title`, `summary`, `care`, and `readMinutes`. Add a `sections` object for a full detail page. The current entries are illustrative layout content; replace them with sourced papers before presenting them as research summaries.
+Edit `src/papers.js`. Each paper needs a unique `slug`, `date` in `YYYY-MM-DD` format, `topic`, `title`, `summary`, `care`, and `readMinutes`. Add a `sections` object for a full detail page. The RoadTrip Attack entry is sourced from [arXiv:2607.03277](https://arxiv.org/abs/2607.03277). Entries without `sourceUrl` are illustrative layout content and are marked as samples on the site.
 
 The homepage heading uses the visitor's current date. It shows the newest available issue below that heading, and older entries in Archive. The queue is stored in each visitor's browser.
 
