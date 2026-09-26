@@ -16,14 +16,10 @@ export const papers = [
     readMinutes: 7,
     visuals: {
       hero: {
-        src: './images/roadtrip-illustration.svg',
-        alt: 'Conceptual illustration: a lightly altered photo sends a geolocalization model through intermediate predicted places toward a distant chosen target.',
-        caption: 'How the attack works, illustrated for PaperCut. The photo and locations are schematic, not experiment examples.'
-      },
-      experiments: {
-        src: './images/roadtrip-results.svg',
-        alt: 'At a 2/255 perturbation budget, targeted accuracy within 1 km is 93.43% for RoadTrip Attack versus 71.81% for PGD on Im2GPS3k, and 88.60% versus 62.30% on YFCC4k.',
-        caption: 'PaperCut chart of the paper’s reported white-box GeoCLIP results. Higher means more predictions within 1 km of the attacker-chosen target.'
+        src: './images/roadtrip-figure-1.png',
+        alt: 'Figure 1 from the paper: an original photo, a subtly perturbed version, and the RoadTrip Attack path through candidate geographic locations toward a target.',
+        caption: 'Figure 1 from Niccoli, Becattini and Seidenari, “Defending from GeoLocalization through Adversarial Road Trips” (arXiv:2607.03277).',
+        creditUrl: 'https://arxiv.org/html/2607.03277#S1.F1'
       }
     },
     sections: {
