@@ -17,7 +17,7 @@ const isSaved = slug => getQueue().includes(slug);
 
 function card(paper) {
   return `<article class="paper-card">
-    <div class="card-meta"><span class="topic-pill">${escape(paper.topic)}</span><span>Sample paper · ${paper.readMinutes} min read</span></div>
+    <div class="card-meta"><span class="topic-pill">${escape(paper.topic)}</span><span>${escape(paper.venue ?? 'Sample paper')} · ${paper.readMinutes} min read</span></div>
     <h3><a href="${paperUrl(paper.slug)}">${escape(paper.title)}</a></h3>
     <p class="card-summary">${escape(paper.summary)}</p>
     <div class="care-preview"><strong>Why I might care</strong><p>${escape(paper.care)}</p></div>
@@ -30,7 +30,7 @@ function topicsNav() {
 }
 
 function listPanel(title, entries) {
-  return `<section class="side-panel"><h2>${title}</h2>${entries.length ? entries.map(p => `<a class="side-entry" href="${paperUrl(p.slug)}"><strong>${escape(p.title)}</strong><span>${escape(shortDate(p.date))} · ${escape(p.topic)}</span></a>`).join('') : '<p class="empty-small">Save a paper to read it later.</p>'}</section>`;
+  return `<section class="side-panel"><h2>${title}</h2>${entries.length ? entries.map(p => `<a class="side-entry" href="${paperUrl(p.slug)}"><strong>${escape(p.title)}</strong><span>${p.sourceUrl ? '' : 'Sample · '}${escape(shortDate(p.date))} · ${escape(p.topic)}</span></a>`).join('') : '<p class="empty-small">Save a paper to read it later.</p>'}</section>`;
 }
 
 function glancePanel(paper) {
@@ -40,15 +40,15 @@ function glancePanel(paper) {
 function home() {
   document.title = 'PaperCut — Daily research summaries';
   document.querySelector('.nav-today').setAttribute('aria-current', 'page');
-  const matches = papers.filter(p => (state.topic === 'All topics' || p.topic === state.topic) && (!state.query || `${p.title} ${p.summary} ${p.topic}`.toLowerCase().includes(state.query)));
+  const matches = papers.filter(p => (state.topic === 'All topics' || p.topic === state.topic) && (!state.query || `${p.title} ${p.summary} ${p.topic} ${p.authors ?? ''}`.toLowerCase().includes(state.query)));
   const featured = matches.filter(p => p.date === newestDate);
-  const archived = matches.filter(p => p.date !== newestDate);
+  const archived = matches.filter(p => p.date !== newestDate).sort((a, b) => b.date.localeCompare(a.date));
   const saved = getQueue().map(slug => papers.find(p => p.slug === slug)).filter(Boolean);
   app.innerHTML = `<div class="content-grid">${topicsNav()}<div class="home-main">
     <h1>${escape(today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }))}</h1>
     <div class="cards">${featured.length ? featured.map(card).join('') : '<div class="empty-state">No summaries match this search. Try another topic or keyword.</div>'}</div>
-    <section class="archive" id="archive"><h2>Archive</h2>${archived.length ? archived.map(p => `<a class="archive-row" href="${paperUrl(p.slug)}"><span>${escape(shortDate(p.date))}</span><strong>${escape(p.title)}</strong><span class="archive-read">Read →</span></a>`).join('') : '<p class="empty-small">No older summaries match this search.</p>'}</section>
-  </div><aside class="right-sidebar">${listPanel('Reading Queue', saved)}${listPanel('Recent Summaries', papers.filter(p => p.date !== newestDate).slice(0, 3))}<div class="green-note"><strong>A little research, every day.</strong><p>One or two papers. Ready for your morning reading.</p></div></aside></div>`;
+    <section class="archive" id="archive"><h2>Archive</h2>${archived.length ? archived.map(p => `<a class="archive-row" href="${paperUrl(p.slug)}"><span>${escape(shortDate(p.date))}</span><strong>${escape(p.title)}${p.sourceUrl ? '' : ' · Sample'}</strong><span class="archive-read">Read →</span></a>`).join('') : '<p class="empty-small">No older summaries match this search.</p>'}</section>
+  </div><aside class="right-sidebar">${listPanel('Reading Queue', saved)}${listPanel('Recent Summaries', [...papers].filter(p => p.date !== newestDate).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3))}<div class="green-note"><strong>A little research, every day.</strong><p>One or two papers. Ready for your morning reading.</p></div></aside></div>`;
 }
 
 function section(id, paragraphs) {
@@ -69,8 +69,8 @@ function detail(paper) {
   };
   const order = ['TL;DR', 'Why I might care', 'Why it matters', 'Main idea', 'Method', 'Experiments', 'What is new', 'Limitations'];
   app.innerHTML = `<div class="content-grid detail-grid"><aside class="detail-nav"><a class="back-link" href="./">← Back to today</a><div class="on-this-page"><strong>ON THIS PAGE</strong><nav aria-label="On this page">${order.map(key => `<a href="#${key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}">${escape(key)}</a>`).join('')}</nav></div></aside>
-  <article class="detail-main"><div class="detail-intro"><span class="topic-pill">${escape(paper.topic)}</span><h1>${escape(paper.title)}</h1><p class="detail-meta">Illustrative paper · ${escape(longDate(paper.date))} · ${paper.readMinutes} min read</p><div class="detail-actions"><button class="button button-light queue-button" data-save="${escape(paper.slug)}" aria-pressed="${isSaved(paper.slug)}">${isSaved(paper.slug) ? '✓ Saved' : '+ Reading queue'}</button></div></div>
-  <div class="summary-panel">${order.map(key => section(key, content[key])).join('')}</div><p class="source-note">Sample content for the layout preview. Add a source link when replacing it with a real paper summary.</p></article>
+  <article class="detail-main"><div class="detail-intro"><span class="topic-pill">${escape(paper.topic)}</span><h1>${escape(paper.title)}</h1><p class="detail-meta">${paper.sourceUrl ? `${escape(paper.authors)} · ${escape(paper.venue)} · Published ${escape(longDate(paper.publishedDate))}` : `Illustrative paper · ${escape(longDate(paper.date))}`} · ${paper.readMinutes} min read</p><div class="detail-actions">${paper.sourceUrl ? `<a class="button button-dark" href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">Read paper ↗</a><a class="button button-light" href="${escape(paper.pdfUrl)}" target="_blank" rel="noopener noreferrer">PDF ↗</a>` : ''}<button class="button button-light queue-button" data-save="${escape(paper.slug)}" aria-pressed="${isSaved(paper.slug)}">${isSaved(paper.slug) ? '✓ Saved' : '+ Reading queue'}</button></div></div>
+  <div class="summary-panel">${order.map(key => section(key, content[key])).join('')}</div><p class="source-note">${paper.sourceUrl ? `Summary based on the <a href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">original paper on arXiv ↗</a>. “Why I might care” includes a suggested follow-up.` : 'Sample content for the layout preview. Add a source link when replacing it with a real paper summary.'}</p></article>
   <aside class="right-sidebar">${glancePanel(paper)}${listPanel('Related summaries', papers.filter(p => p.slug !== paper.slug).slice(0, 2))}<div class="green-note"><strong>Read with a question.</strong><p>What would I test differently in my own setup?</p></div></aside></div>`;
 }
 
