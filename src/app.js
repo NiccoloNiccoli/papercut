@@ -27,7 +27,7 @@ function card(paper) {
 }
 
 function topicsNav() {
-  return `<aside class="topics-sidebar" id="topics"><h2>Topics</h2><nav aria-label="Filter by topic">${topics.map(topic => `<button class="topic-button ${state.topic === topic ? 'selected' : ''}" data-topic="${escape(topic)}" aria-pressed="${state.topic === topic}">${escape(topic)}</button>`).join('')}</nav><div class="sidebar-note"><strong>YOUR RESEARCH</strong><p>A small daily selection.<br>A little less to keep up with.</p></div></aside>`;
+  return `<aside class="topics-sidebar" id="topics"><h2>Topics</h2><nav aria-label="Filter by topic">${topics.map(topic => `<button class="topic-button ${state.topic === topic ? 'selected' : ''}" data-topic="${escape(topic)}" aria-pressed="${state.topic === topic}">${escape(topic)}</button>`).join('')}</nav></aside>`;
 }
 
 function listPanel(title, entries) {
@@ -49,7 +49,7 @@ function home() {
     <h1>${escape(today.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }))}</h1>
     <div class="cards">${featured.length ? featured.map(card).join('') : '<div class="empty-state">No summaries match this search. Try another topic or keyword.</div>'}</div>
     <section class="archive" id="archive"><h2>Archive</h2>${archived.length ? archived.map(p => `<a class="archive-row" href="${paperUrl(p.slug)}"><span>${escape(shortDate(p.date))}</span><strong>${escape(p.title)}${p.sourceUrl ? '' : ' · Sample'}</strong><span class="archive-read">Read →</span></a>`).join('') : '<p class="empty-small">No older summaries match this search.</p>'}</section>
-  </div><aside class="right-sidebar">${listPanel('Reading Queue', saved)}${listPanel('Recent Summaries', [...papers].filter(p => p.date !== newestDate).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3))}<div class="green-note"><strong>A little research, every day.</strong><p>One or two papers. Ready for your morning reading.</p></div></aside></div>`;
+  </div><aside class="right-sidebar">${listPanel('Reading Queue', saved)}${listPanel('Recent Summaries', [...papers].filter(p => p.date !== newestDate).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3))}</aside></div>`;
 }
 
 function visualFigure(visual, className = '') {
