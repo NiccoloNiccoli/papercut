@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js';
+import { papers, topics } from './papers.js?v=20260926-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
