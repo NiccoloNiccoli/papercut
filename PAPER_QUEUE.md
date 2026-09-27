@@ -19,7 +19,7 @@
 ### Monday 28 September · geolocation, VPR, image retrieval
 
 1. [GeoSURGE: Geo-localization using Semantic Fusion with Hierarchy of Geographic Embeddings](https://openaccess.thecvf.com/content/CVPR2026/html/Daruna_GeoSURGE_Geo-localization_using_Semantic_Fusion_with_Hierarchy_of_Geographic_Embeddings_CVPR_2026_paper.html) — **CVPR 2026** · Image geolocation with geographic embeddings; directly relevant to location prediction models.
-2. [DialogueVPR: Towards Conversational Visual Place Recognition](https://openaccess.thecvf.com/content/CVPR2026/html/Song_DialogueVPR_Towards_Conversational_Visual_Place_Recognition_CVPR_2026_paper.html) — **CVPR 2026** · Connects VPR with conversational, multimodal queries.
+2. [EventGeM: Global-to-Local Feature Matching for Event-Based Visual Place Recognition](https://arxiv.org/pdf/2603.05807v2) — **arXiv preprint, under review** · Global-to-local feature matching for viewpoint-robust VPR with event cameras; first public version 6 March, revised 18 September 2026.
 3. [TIGER: A Unified Framework for Time, Images and Geo-location Retrieval](https://openaccess.thecvf.com/content/CVPR2026/html/Shatwell_TIGER_A_Unified_Framework_for_Time_Images_and_Geo-location_Retrieval_CVPR_2026_paper.html) — **CVPR 2026** · Retrieval combining image, location and time.
 
 ### Tuesday 29 September · attacks, robustness, bias
@@ -32,7 +32,7 @@
 
 1. [Guiding a Diffusion Transformer with the Internal Dynamics of Itself](https://openaccess.thecvf.com/content/CVPR2026/html/Zhou_Guiding_a_Diffusion_Transformer_with_the_Internal_Dynamics_of_Itself_CVPR_2026_paper.html) — **CVPR 2026** · Sampling and internal guidance in diffusion transformers.
 2. [Generative Neural Video Compression via Video Diffusion Prior](https://openaccess.thecvf.com/content/CVPR2026/html/Mao_Generative_Neural_Video_Compression_via_Video_Diffusion_Prior_CVPR_2026_paper.html) — **CVPR 2026** · Generative video compression, also relevant to your latent video research.
-3. [DreamShot: Personalized Storyboard Synthesis with Video Diffusion Prior](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_DreamShot_Personalized_Storyboard_Synthesis_with_Video_Diffusion_Prior_CVPR_2026_paper.html) — **CVPR 2026** · Controllable, multi-shot video generation.
+3. [SSR-Merge: Subspace Signal Routing for Training-Free LoRA Merging in Diffusion Models](https://arxiv.org/pdf/2606.10617) — **ICML 2026** ([official conference listing](https://icml.cc/Downloads/2026)) · Training-free combination of diffusion LoRAs by routing signals in a shared subspace.
 
 ### Thursday 1 October · VLM and occasional ecology
 
@@ -51,7 +51,7 @@
 ### Monday 5 October · geolocation, VPR, cross-view
 
 1. [Lost in the Tail: Addressing Geographic Imbalance in Urban Visual Place Recognition](https://arxiv.org/abs/2607.00090) — **ECCV 2026** ([official accepted-paper list](https://eccv.ecva.net/Conferences/2026/AcceptedPapers)) · Geographic sampling imbalance in urban VPR; especially relevant to GeoBiaset.
-2. [LaVPR: Benchmarking Language and Vision for Place Recognition](https://arxiv.org/abs/2602.03253) — **ECCV 2026** ([official accepted-paper list](https://eccv.ecva.net/Conferences/2026/AcceptedPapers)) · Language and vision for VPR evaluation.
+2. [Multi-viewpoint Geo-localization with Event Cameras](https://arxiv.org/pdf/2609.21219v1) — **arXiv preprint, under review** · MegaEvent studies viewpoint-robust event-based VPR; first public version 18 September 2026.
 3. [GeoBridge: A Semantic-Anchored Multi-View Foundation Model Bridging Images and Text for Geo-Localization](https://openaccess.thecvf.com/content/CVPR2026/html/Song_GeoBridge_A_Semantic-Anchored_Multi-View_Foundation_Model_Bridging_Images_and_Text_CVPR_2026_paper.html) — **CVPR 2026** · Occasional cross-view geolocation with a multimodal angle.
 
 ### Tuesday 6 October · attacks, robustness, bias
@@ -81,3 +81,9 @@
 ## Production checklist
 
 For each slot: `selected → paper checked/downloaded → summary drafted → fact checked → site entry published → live URL verified`. Add the published site URL here when complete. If a slot changes, retain the reason in the Git commit history. The site's **Reading Queue** is currently a separate, visitor-local bookmark feature; this file is the editorial production queue.
+
+## Reserve candidates
+
+- [DialogueVPR: Towards Conversational Visual Place Recognition](https://openaccess.thecvf.com/content/CVPR2026/html/Song_DialogueVPR_Towards_Conversational_Visual_Place_Recognition_CVPR_2026_paper.html) — CVPR 2026; moved from 28 September to make room for EventGeM.
+- [LaVPR: Benchmarking Language and Vision for Place Recognition](https://arxiv.org/abs/2602.03253) — ECCV 2026; moved from 5 October to make room for MegaEvent.
+- [DreamShot: Personalized Storyboard Synthesis with Video Diffusion Prior](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_DreamShot_Personalized_Storyboard_Synthesis_with_Video_Diffusion_Prior_CVPR_2026_paper.html) — CVPR 2026; moved from 30 September to make room for SSR-Merge.
