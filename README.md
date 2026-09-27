@@ -12,6 +12,8 @@ The site files are in the root of [NiccoloNiccoli/papercut](https://github.com/N
 
 ## Editing content
 
+The two-week editorial plan and paper selection rules live in [`PAPER_QUEUE.md`](PAPER_QUEUE.md). Its 30 dated slots are production candidates; the site only displays papers added to `src/papers.js`. The site's **Reading Queue** is a separate bookmark list stored in each visitor's browser.
+
 Edit `src/papers.js`. Each paper needs a unique `slug`, `date` in `YYYY-MM-DD` format, `topic`, `title`, `summary`, `care`, and `readMinutes`. Add a `sections` object for a full detail page. The RoadTrip Attack entry is sourced from [arXiv:2607.03277](https://arxiv.org/abs/2607.03277). Entries without `sourceUrl` are illustrative layout content and are marked as samples on the site.
 
 `images/roadtrip-figure-1.png` is Figure 1 from [the paper's HTML version](https://arxiv.org/html/2607.03277#S1.F1), reproduced unchanged with credit in the article.
