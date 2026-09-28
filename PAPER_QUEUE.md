@@ -12,7 +12,7 @@
 - Prefer a strong venue when candidates are comparably relevant. Relevance, a clear contribution, and variety within each day's three papers determine the final choice. There is no numeric score or fixed quota per venue.
 - Confirm title, authors, venue, publication status, dates, methods and results from the actual paper before writing a summary. If a candidate has a preprint and a proceedings version, use the latest authoritative version and identify it correctly. Never infer quantitative results from the title or abstract alone.
 - Keep one paper in one slot only; check the site and previous queues for duplicates. Replace inaccessible, retracted, out-of-scope or insufficiently verified candidates before publication.
-- For each finished site entry, provide TL;DR, Why it matters, Main idea, Method, Experiments, What is new, Limitations and Why I might care; use figures from the paper only with attribution and a source link.
+- For each finished site entry, provide TL;DR, Why it matters, Main idea, Method, Experiments, What is new, Limitations and Why I might care; include at least one pertinent original figure from the paper for every published entry, with descriptive alt text, caption, author attribution and a link to the figure or paper. Do not reinterpret or generate figures; leave a slot open if its figure cannot be verified or obtained.
 
 ## Week 1 · 28 September–2 October
 

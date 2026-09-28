@@ -13,6 +13,14 @@ export const papers = [
   "summary": "GeoSURGE matches an image to learned geographic cell embeddings at several scales, after fusing RGB features with a semantic segmentation map.",
   "care": "For geolocation attacks, test whether its cell hierarchy changes transfer from GeoCLIP. This is a proposed experiment, not a result in the paper.",
   "readMinutes": 5,
+  "visuals": {
+  "hero": {
+    "src": "./images/geosurge-figure-1.png",
+    "alt": "GeoSURGE workflow: an RGB photograph and semantic segmentation feed CLIP and semantic fusion, which are matched to hierarchical geographic embeddings for a predicted location.",
+    "caption": "Figure 1 from Daruna et al., “GeoSURGE” (CVPR 2026). Rendered from the official paper without altering the diagram.",
+    "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Daruna_GeoSURGE_Geo-localization_using_Semantic_Fusion_with_Hierarchy_of_Geographic_Embeddings_CVPR_2026_paper.pdf#page=2"
+  }
+},
   "sections": {
     "TL;DR": [
       "GeoSURGE learns embeddings for nested geographic cells and aligns them with image features. A segmentation-aware visual encoder helps it distinguish scenes whose appearance alone is ambiguous."
@@ -54,6 +62,14 @@ export const papers = [
   "summary": "EventGeM turns event-camera streams into place descriptors, retrieves a shortlist, then checks local keypoint geometry to handle changed viewpoints.",
   "care": "For VPR, test whether regional pooling and geometric reranking still help when train and test routes differ. This is a proposed experiment.",
   "readMinutes": 5,
+  "visuals": {
+  "hero": {
+    "src": "./images/eventgem-figure-1.png",
+    "alt": "EventGeM workflow: an event stream passes through SuperEvent; global features shortlist places by cosine similarity and local keypoints re-rank them with RANSAC.",
+    "caption": "Figure 1 from Hines et al., “EventGeM” (arXiv:2603.05807v2). Rendered from the original paper without altering the diagram.",
+    "creditUrl": "https://arxiv.org/html/2603.05807v2#S1.F1"
+  }
+},
   "sections": {
     "TL;DR": [
       "EventGeM retrieves places from event-camera data with a frozen event-native transformer, learned regional GeM pooling, and keypoint-based geometric re-ranking. The revised paper also tests a deliberately shifted camera path."
@@ -95,6 +111,14 @@ export const papers = [
   "summary": "TIGeR puts images, coordinates and capture time in a shared space to retrieve the same place at a requested time and to predict place or time.",
   "care": "For geolocation retrieval, test whether capture time improves seasonal matches without leaking camera identity. This is a proposed test, not an author result.",
   "readMinutes": 5,
+  "visuals": {
+  "hero": {
+    "src": "./images/tiger-figure-1.png",
+    "alt": "TIGeR example: a snowy query image and a July target time retrieve a summer image of the same place from an image gallery.",
+    "caption": "Figure 1 from Shatwell, Swetha and Shah, “TIGeR” (CVPR 2026). Original figure reproduced unchanged.",
+    "creditUrl": "https://arxiv.org/html/2603.24749v2#S1.F1"
+  }
+},
   "sections": {
     "TL;DR": [
       "TIGeR learns a shared representation of images, GPS and capture time. It can retrieve an image of a query place at a requested time, and reuse the representation for geolocation and time prediction."
