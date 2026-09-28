@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 30 selected candidates; summaries and site entries are not yet published.  
+**Status:** 3 verified summaries published (28 September); 27 selected slots remain.  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -18,9 +18,9 @@
 
 ### Monday 28 September · geolocation, VPR, image retrieval
 
-1. [GeoSURGE: Geo-localization using Semantic Fusion with Hierarchy of Geographic Embeddings](https://openaccess.thecvf.com/content/CVPR2026/html/Daruna_GeoSURGE_Geo-localization_using_Semantic_Fusion_with_Hierarchy_of_Geographic_Embeddings_CVPR_2026_paper.html) — **CVPR 2026** · Image geolocation with geographic embeddings; directly relevant to location prediction models.
-2. [EventGeM: Global-to-Local Feature Matching for Event-Based Visual Place Recognition](https://arxiv.org/pdf/2603.05807v2) — **arXiv preprint, under review** · Global-to-local feature matching for viewpoint-robust VPR with event cameras; first public version 6 March, revised 18 September 2026.
-3. [TIGER: A Unified Framework for Time, Images and Geo-location Retrieval](https://openaccess.thecvf.com/content/CVPR2026/html/Shatwell_TIGER_A_Unified_Framework_for_Time_Images_and_Geo-location_Retrieval_CVPR_2026_paper.html) — **CVPR 2026** · Retrieval combining image, location and time.
+1. [GeoSURGE: Geo-localization using Semantic Fusion with Hierarchy of Geographic Embeddings](https://openaccess.thecvf.com/content/CVPR2026/html/Daruna_GeoSURGE_Geo-localization_using_Semantic_Fusion_with_Hierarchy_of_Geographic_Embeddings_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=geosurge-hierarchical-geographic-embeddings
+2. [EventGeM: Global-to-Local Feature Matching for Event-Based Visual Place Recognition](https://arxiv.org/pdf/2603.05807v2) — **arXiv preprint v2, under review** · First public 6 March, revised 18 September 2026; the revised method uses SuperEvent, learned regional GeM and keypoint re-ranking. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=eventgem-event-based-place-recognition
+3. [TIGeR: A Unified Framework for Time, Images and Geo-location Retrieval](https://openaccess.thecvf.com/content/CVPR2026/html/Shatwell_TIGER_A_Unified_Framework_for_Time_Images_and_Geo-location_Retrieval_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=tiger-geo-time-aware-retrieval
 
 ### Tuesday 29 September · attacks, robustness, bias
 
