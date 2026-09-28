@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20260927-real-only-1';
+import { papers, topics } from './papers.js?v=20260928-verified-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
