@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 3 verified summaries published (28 September); 27 selected slots remain.  
+**Status:** 6 verified summaries published (28–29 September); 24 selected slots remain.  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -24,9 +24,9 @@
 
 ### Tuesday 29 September · attacks, robustness, bias
 
-1. [Transform to Transfer: Boosting Adversarial Attack Transferability on Vision-Language Pre-training Models](https://openaccess.thecvf.com/content/CVPR2026/html/Li_Transform_to_Transfer_Boosting_Adversarial_Attack_Transferability_on_Vision-Language_Pre-training_CVPR_2026_paper.html) — **CVPR 2026** · Transfer attacks against vision-language pretraining models.
-2. [Interpretable Debiasing of Vision-Language Models for Social Fairness](https://openaccess.thecvf.com/content/CVPR2026/html/An_Interpretable_Debiasing_of_Vision-Language_Models_for_Social_Fairness_CVPR_2026_paper.html) — **CVPR 2026** · Mechanisms of VLM bias and an interpretable mitigation approach.
-3. [Towards Robust Vision Transformers: Path Dependency Analysis and a Simple Two-Stage Adversarial Training](https://openaccess.thecvf.com/content/CVPR2026/html/Kim_Towards_Robust_Vision_Transformers_Path_Dependency_Analysis_and_a_Simple_CVPR_2026_paper.html) — **CVPR 2026** · Adversarial training and robustness of ViTs.
+1. [Transform to Transfer: Boosting Adversarial Attack Transferability on Vision-Language Pre-training Models](https://openaccess.thecvf.com/content/CVPR2026/html/Li_Transform_to_Transfer_Boosting_Adversarial_Attack_Transferability_on_Vision-Language_Pre-training_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=transform-to-transfer-vlp-attacks
+2. [Interpretable Debiasing of Vision-Language Models for Social Fairness](https://openaccess.thecvf.com/content/CVPR2026/html/An_Interpretable_Debiasing_of_Vision-Language_Models_for_Social_Fairness_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=debiaslens-vlm-social-fairness
+3. [Towards Robust Vision Transformers: Path Dependency Analysis and a Simple Two-Stage Adversarial Training](https://openaccess.thecvf.com/content/CVPR2026/html/Kim_Towards_Robust_Vision_Transformers_Path_Dependency_Analysis_and_a_Simple_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=robust-vision-transformers-path-dependency
 
 ### Wednesday 30 September · generative vision
 
