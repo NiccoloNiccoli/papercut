@@ -1,6 +1,153 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
   {
+    "slug": "transform-to-transfer-vlp-attacks",
+    "date": "2026-09-29",
+    "publishedDate": "2026-06",
+    "topic": "Adversarial attacks",
+    "title": "Transform to Transfer: Boosting Adversarial Attack Transferability on Vision-Language Pre-training Models",
+    "authors": "Yang Li, Jia-Li Yin, Luojun Lin, Wei Lin",
+    "venue": "CVPR 2026 · first public June 2026",
+    "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_Transform_to_Transfer_Boosting_Adversarial_Attack_Transferability_on_Vision-Language_Pre-training_CVPR_2026_paper.html",
+    "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_Transform_to_Transfer_Boosting_Adversarial_Attack_Transferability_on_Vision-Language_Pre-training_CVPR_2026_paper.pdf",
+    "summary": "TTA combines learned block-wise image transformations with boosted integrated gradients to make image-and-text attacks transfer across VLP models.",
+    "care": "For RoadTrip Attack and GeoCLIP, test whether TTA-style transformation sampling improves transfer to other geolocalizers. This is my proposal, not an author result.",
+    "readMinutes": 5,
+    "visuals": {
+      "hero": {
+        "src": "./images/tta-figure-1.png",
+        "alt": "Original Figure 1 contrasts SGA and LSSA scaling and shuffle, DRA sampling, and TTA transformations, with transfer attack success bar charts for three target VLP models.",
+        "caption": "Figure 1 from Li et al., “Transform to Transfer” (CVPR 2026); cropped from the official paper.",
+        "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_Transform_to_Transfer_Boosting_Adversarial_Attack_Transferability_on_Vision-Language_Pre-training_CVPR_2026_paper.pdf#page=1"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "Transform to Transfer Attack (TTA) makes multimodal adversarial examples more transferable by learning which block-wise image transformations to sample and averaging gradients over transformed interpolation paths."
+      ],
+      "Why I might care": [
+        "RoadTrip Attack tests transfer from GeoCLIP to other geolocalizers; TTA addresses the same source-model overfitting problem in image–text retrieval. My proposed experiment is to add TTA-style transformation sampling to a GeoCLIP surrogate attack and measure target-location error on Img2Loc and G3 at a fixed pixel budget and query cost. The authors do not test geolocation."
+      ],
+      "Why it matters": [
+        "A perturbation that breaks one vision-language model may fail on another architecture. The paper studies transfer under a black-box target setting, where gradients come only from a source model."
+      ],
+      "Main idea": [
+        "Diversify the images seen during attack optimization and use a transformed version of integrated gradients to reduce reliance on a single source-model gradient path."
+      ],
+      "Method": [
+        "TTA samples image scales, then learns probability distributions over block partitions and within-block transformation sequences. Its boosted integrated gradient uses one interpolation point for each transformed path instead of many nearby points on one path. Text perturbations use BERT-Attack-style word substitution in GloVe space. The reported setup uses an 8/255 image budget, ten update steps, and one word substitution."
+      ],
+      "Experiments": [
+        "On Flickr30K image–text retrieval, attacks crafted on ALBEF and transferred to CLIP ViT-B/16 achieve 92.27% text-retrieval R@1 attack success with TTA versus 53.25% with LSSA; image-retrieval R@1 attack success is 92.82% versus 60.89%. The targets are black-box to the attack and the image perturbation budget is 8/255. Table 1 also tests TCL and CLIP with a ResNet-101 image encoder.",
+        "For a separate cross-task transfer, ALBEF retrieval attacks generated on MSCOCO reduce BLIP captioning CIDEr from 133.3 on clean inputs to 28.5, versus 63.4 with LSSA; lower caption scores indicate a stronger attack here. The paper also reports ALBEF visual-grounding transfer on RefCOCO+."
+      ],
+      "What is new": [
+        "The learned distribution over block-level transformation combinations and the boosted integrated-gradient sampling scheme are combined in one multimodal transfer attack. Ablations remove each component separately."
+      ],
+      "Limitations": [
+        "The tested targets are ALBEF, TCL and two CLIP encoder variants, with Flickr30K as the main retrieval benchmark; this does not establish transfer to arbitrary VLMs or geolocalizers. More transformed samples consume more attack computation: Table 3 reports 28.44 seconds for TTA with 20 augmented images versus 27.33 seconds for LSSA under its measured setup. The paper does not evaluate defenses."
+      ]
+    }
+  },
+  {
+    "slug": "debiaslens-vlm-social-fairness",
+    "date": "2026-09-29",
+    "publishedDate": "2026-02-27",
+    "topic": "Vision-language bias",
+    "title": "Interpretable Debiasing of Vision-Language Models for Social Fairness",
+    "authors": "Na Min An, Yoonna Jang, Yusuke Hirota, Ryo Hachiuma, Isabelle Augenstein, Hyunjung Shim",
+    "venue": "CVPR 2026 · first public 27 Feb 2026",
+    "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/An_Interpretable_Debiasing_of_Vision-Language_Models_for_Social_Fairness_CVPR_2026_paper.html",
+    "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/An_Interpretable_Debiasing_of_Vision-Language_Models_for_Social_Fairness_CVPR_2026_paper.pdf",
+    "summary": "DeBiasLens uses sparse autoencoders to find demographic-responsive features in VLM encoders, then attenuates selected features at inference.",
+    "care": "For GeoBiaset, probe whether foreground demographic cues correlate with location errors, then test targeted SAE intervention. This is my proposed test, not a paper result.",
+    "readMinutes": 5,
+    "visuals": {
+      "hero": {
+        "src": "./images/debiaslens-figure-1.jpg",
+        "alt": "Original Figure 1 shows different faces retrieved for a CEO prompt before and after DeBiasLens, and an ambiguous visual question with answer distributions before and after intervention.",
+        "caption": "Figure 1 from An et al., “Interpretable Debiasing of Vision-Language Models for Social Fairness” (CVPR 2026); cropped from the official paper.",
+        "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/An_Interpretable_Debiasing_of_Vision-Language_Models_for_Social_Fairness_CVPR_2026_paper.pdf#page=1"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "DeBiasLens trains sparse autoencoders on frozen vision-language features, identifies demographic-responsive latent units, and reduces their contribution at inference to lower measured social bias."
+      ],
+      "Why I might care": [
+        "GeoBiaset asks how people and foreground content can skew a geolocalizer. My proposed test is to fit an SAE to a geolocation encoder, probe which features respond to demographic foreground cues, and compare localization errors before and after a targeted intervention across geographic groups. This paper tests social bias in retrieval and VQA, not geolocation or GeoBiaset."
+      ],
+      "Why it matters": [
+        "Bias can enter through either image or text features, while broad retraining may disturb useful representations. A localized intervention offers a way to inspect which features correlate with measured bias and to control the utility trade-off."
+      ],
+      "Main idea": [
+        "Use a sparse autoencoder as a lens on the encoder. Find latent units that activate frequently for one demographic group and less often for others, then attenuate their activations when encoding new inputs."
+      ],
+      "Method": [
+        "The authors train top-k sparse autoencoders on image or text encoder activations, using facial images or captions without demographic labels for SAE training. Group labels are then required to probe and select social units: activation frequency and group specificity identify candidates, and the strongest units are chosen. At inference, a weighted combination of original and SAE-modulated activations replaces the encoder representation. The intervention can be applied to CLIP or to encoders inside LLaVA and InternVL."
+      ],
+      "Experiments": [
+        "For CLIP ViT-B/16 on FairFace text-to-image retrieval, Max Skew@1000 is reported after multiplying by 100; lower means a retrieved demographic distribution closer to uniform. On occupation prompts, text-side DeBiasLens scores 16.2 versus 33.5 for the reproduced CLIP baseline, while Bend-VLM scores 10.2. On stereotype prompts, it scores 8.1 versus 32.5 for CLIP and 9.1 for Bend-VLM. Thus it improves these measures over CLIP but is not best on every prompt type.",
+        "The paper also tests VQA on VLAGenderBias and SBBench. Its intervention-strength ablation shows a real trade-off: for CLIP ViT-B/16, changing the text-side weight from 0 to 0.6 changes ImageNette accuracy from 99.1% to 98.5% and FairFace Max Skew from 16.7 to 7.1 under the paper’s setup."
+      ],
+      "What is new": [
+        "The paper connects sparse-autoencoder feature inspection to a targeted inference-time debiasing intervention across image and text encoders, and tests neuron specificity rather than relying only on final outputs."
+      ],
+      "Limitations": [
+        "SAE training is label-free, but demographic labels are still needed to select units. Max Skew measures deviation from a uniform demographic distribution, which is a specific fairness target rather than a complete fairness assessment. The paper shows that some selected units also encode hairstyle or other concepts, and stronger intervention can reduce general-task accuracy; effects also vary by encoder and training dataset."
+      ]
+    }
+  },
+  {
+    "slug": "robust-vision-transformers-path-dependency",
+    "date": "2026-09-29",
+    "publishedDate": "2026-06",
+    "topic": "Adversarial robustness",
+    "title": "Towards Robust Vision Transformers: Path Dependency Analysis and a Simple Two-Stage Adversarial Training",
+    "authors": "Seongmin Kim, Byung Cheol Song",
+    "venue": "CVPR 2026 · first public June 2026",
+    "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Kim_Towards_Robust_Vision_Transformers_Path_Dependency_Analysis_and_a_Simple_CVPR_2026_paper.html",
+    "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Kim_Towards_Robust_Vision_Transformers_Path_Dependency_Analysis_and_a_Simple_CVPR_2026_paper.pdf",
+    "summary": "A gradient-path diagnostic finds attack sensitivity in ViT residual paths; a second training stage distills class attention maps and learns residual gates.",
+    "care": "For GeoCLIP or GeoSURGE visual backbones, test whether attention-map distillation changes robustness to RoadTrip Attack without harming geolocation. This is my proposal.",
+    "readMinutes": 5,
+    "visuals": {
+      "hero": {
+        "src": "./images/gpm-figure-1.png",
+        "alt": "Original Figure 1 diagrams Gradient Path Masking: forward attention is unchanged, while backward attack gradients are blocked separately in QK, value and residual paths.",
+        "caption": "Figure 1 from Kim and Song, “Towards Robust Vision Transformers” (CVPR 2026); cropped from the official paper.",
+        "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Kim_Towards_Robust_Vision_Transformers_Path_Dependency_Analysis_and_a_Simple_CVPR_2026_paper.pdf#page=2"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "The authors separate attack gradients through a ViT block’s query–key, value and residual paths, then add class-attention distillation and learned residual gates to adversarial training."
+      ],
+      "Why I might care": [
+        "GeoCLIP and GeoSURGE use ViT visual encoders, and RoadTrip Attack probes their adversarial behavior. My proposed test is to train a geolocation ViT with this two-stage scheme, then compare clean distance accuracy and RoadTrip Attack success against a matched adversarial-training baseline. This paper evaluates image classification and segmentation, not geolocation."
+      ],
+      "Why it matters": [
+        "Adversarial training recipes built for CNNs may behave differently in transformers. Looking at separate gradient paths and attention maps gives a more specific diagnostic than treating the ViT as one block."
+      ],
+      "Main idea": [
+        "Mask one backward gradient path at a time to see which attack directions depend on it. Use the resulting observations to distill class-attention maps from an adversarially trained teacher into a student and give each student block a learnable residual-path scale."
+      ],
+      "Method": [
+        "Gradient Path Masking leaves the forward pass intact and zeroes the attack gradient through the QK, value or residual branch during backpropagation. In stage one, an ImageNet-pretrained teacher receives conventional adversarial training. In stage two, a student trains with the same adversarial loss plus a pre-softmax class-attention-map distillation loss; learned scalar gates multiply its residual branches. Teacher and student each train for 40 epochs in the reported setup."
+      ],
+      "Experiments": [
+        "On CIFAR-10 with a ViT under PGD-20, attack success is 48.14% with full gradients, 44.59% when QK gradients are masked, and 21.83% when residual gradients are masked (Table 1). Masking limits the attacker’s gradient access; these numbers diagnose the attack, not certified robustness of a modified model.",
+        "For ImageNet-pretrained ViT-S adversarially trained on CIFAR-10 with an 8/255 attack budget, PGD-AT gives 79.59% clean accuracy and 46.37% AutoAttack accuracy; the two-stage method gives 82.01% and 47.41%. On ImageNette, ConViT under PGD-AT moves from 39.00% to 56.20% AutoAttack accuracy, with clean accuracy from 69.00% to 84.20%. Table 3 evaluates ViT, DeiT, ConViT, CeiT and CvT under PGD-AT, TRADES and MART."
+      ],
+      "What is new": [
+        "The Gradient Path Masking analysis, plus a two-stage training recipe that combines hierarchical class-attention distillation with per-block residual gating. The ablation separately measures the two additions."
+      ],
+      "Limitations": [
+        "The robustness results are on CIFAR-10 and ImageNette with ImageNet-pretrained, mostly small ViT variants; broader tasks and scales are untested. The two-stage setup trains a teacher and then a student, adding training work. Path masking weakens the attack gradient, so its attack-success drop alone does not prove a causal robustness mechanism. The paper’s explanation linking global early attention to hybrid-model behavior remains an interpretation of these experiments."
+      ]
+    }
+  },
+  {
   "slug": "geosurge-hierarchical-geographic-embeddings",
   "date": "2026-09-28",
   "publishedDate": "2025-10-01",

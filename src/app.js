@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20260928-figures-2';
+import { papers, topics } from './papers.js?v=20260929-verified-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
@@ -7,7 +7,7 @@ const newestDate = papers[0].date;
 const state = { topic: 'All topics', query: '' };
 const queueKey = 'papercut-reading-queue-v1';
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-const longDate = date => new Date(`${date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const longDate = date => /^\d{4}-\d{2}$/.test(date) ? new Date(`${date}-01T12:00:00`).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : new Date(`${date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 const shortDate = date => new Date(`${date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 const paperUrl = slug => `./?paper=${encodeURIComponent(slug)}`;
 const getQueue = () => { try { const saved = JSON.parse(localStorage.getItem(queueKey)); return Array.isArray(saved) ? saved : []; } catch { return []; } };
