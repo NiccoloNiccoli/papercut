@@ -1,5 +1,154 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
+{
+  "slug": "internal-guidance-diffusion-transformers",
+  "date": "2026-09-30",
+  "publishedDate": "2025-12-30",
+  "topic": "Diffusion guidance",
+  "title": "Guiding a Diffusion Transformer with the Internal Dynamics of Itself",
+  "authors": "Xingyu Zhou, Qifan Li, Xiaobin Hu, Hai Chen, Shuhang Gu",
+  "venue": "CVPR 2026 · first public 30 Dec 2025",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhou_Guiding_a_Diffusion_Transformer_with_the_Internal_Dynamics_of_Itself_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhou_Guiding_a_Diffusion_Transformer_with_the_Internal_Dynamics_of_Itself_CVPR_2026_paper.pdf",
+  "summary": "Internal Guidance trains an intermediate denoising head, then extrapolates from its prediction toward the final prediction in the same transformer pass.",
+  "care": "For latent video compression, test internal guidance in a generative refiner at fixed bitrate and compute. This is my proposed experiment, not a paper result.",
+  "readMinutes": 4,
+  "visuals": {
+    "hero": {
+      "src": "./images/internal-guidance-figure-2.png",
+      "alt": "Original Figure 2 shows a diffusion transformer with intermediate and final output heads supervised by denoising losses, followed by the Internal Guidance sampling equation.",
+      "caption": "Figure 2 — Internal Guidance training and sampling. Original figure by Zhou et al. (CVPR 2026), cropped from the official paper; the intermediate and final predictions share one backbone pass.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhou_Guiding_a_Diffusion_Transformer_with_the_Internal_Dynamics_of_Itself_CVPR_2026_paper.pdf#page=3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Internal Guidance (IG) uses a diffusion transformer’s own intermediate prediction as its weaker guide. An auxiliary denoising head is trained alongside the final head; sampling extrapolates toward the final prediction without another backbone evaluation for IG alone."
+    ],
+    "Why I might care": [
+      "The queue’s latent video compression theme also relies on generative refinement, where guidance can change both detail and fidelity. My proposed experiment: train an intermediate head in a video latent refiner, then compare IG with the unguided decoder at fixed bitrate, sampling steps and compute. Track perceptual quality, temporal consistency and downstream detection accuracy separately. The authors test image generation, not video compression or detection."
+    ],
+    "Why it matters": [
+      "Guidance can improve generated images, but classifier-free guidance requires conditional and unconditional predictions, while guidance with a separate weaker model adds another model evaluation. IG obtains two predictions from different depths of one trained backbone."
+    ],
+    "Main idea": [
+      "Treat the intermediate prediction as a less mature estimate of the same denoising target. Move beyond the final prediction along the difference between final and intermediate outputs, rather than constructing a degraded external model."
+    ],
+    "Method": [
+      "Attach an output head at an intermediate block and optimize the final loss plus a weighted intermediate denoising loss. At sampling, combine predictions as D_i + w(D_f − D_i): w = 1 recovers the final prediction, while w > 1 extrapolates. Head placement and the noise interval where guidance is applied are tuned. IG can be combined with classifier-free guidance; that combination still requires its conditional/unconditional evaluations."
+    ],
+    "Experiments": [
+      "Table 1 tests head placement on ImageNet-1K at 256×256 with SiT-B/2 trained for 80 epochs. With the auxiliary head at block 4, FID is 30.60 using the final output alone and 19.02 with IG at w = 1.5; the unmodified SiT-B/2 baseline scores 33.02. Lower FID is better. Evaluation uses 50,000 generated images with randomly sampled class labels and a 250-step Euler–Maruyama sampler.",
+      "Table 5 reports LightningDiT-XL/1 + IG at 680 epochs: FID 1.34 without CFG and 1.19 with CFG and a guidance interval, versus 2.17 and 1.35 for LightningDiT at 800 epochs. These are comparisons between training recipes: the IG run also changes AdamW to Muon and the EMA coefficient, so the full gain cannot be attributed to IG alone. The supplementary class-balanced sampling results use a different protocol and should not be mixed with these numbers."
+    ],
+    "What is new": [
+      "The same intermediate supervision supplies both a training signal and a sampling guide. The paper studies head depth, guidance strength and noise intervals, rather than requiring a separately trained or explicitly degraded guide."
+    ],
+    "Limitations": [
+      "This needs an auxiliary head trained with the model; it is not a training-free switch for an arbitrary pretrained checkpoint. Later head placements can worsen results, and guidance settings matter. The evidence is mainly class-conditional ImageNet generation, including higher-resolution supplementary tests; it does not establish preservation of source details in compression or universal diversity benefits."
+    ]
+  }
+},
+{
+  "slug": "gnvc-vd-video-diffusion-compression",
+  "date": "2026-09-30",
+  "publishedDate": "2025-12-04",
+  "topic": "Generative video compression",
+  "title": "Generative Neural Video Compression via Video Diffusion Prior",
+  "authors": "Qi Mao, Hao Cheng, Tinghan Yang, Libiao Jin, Siwei Ma",
+  "venue": "CVPR 2026 · first public 4 Dec 2025",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Mao_Generative_Neural_Video_Compression_via_Video_Diffusion_Prior_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Mao_Generative_Neural_Video_Compression_via_Video_Diffusion_Prior_CVPR_2026_paper.pdf",
+  "summary": "GNVC-VD entropy-codes spatiotemporal video latents, then jointly refines them with a frozen video diffusion prior and learned conditioning adapters.",
+  "care": "For latent video compression, test whether perceptual gains preserve detection and identity at fixed bitrate. This is my proposed test, not an author result.",
+  "readMinutes": 4,
+  "visuals": {
+    "hero": {
+      "src": "./images/gnvc-vd-figure-3.png",
+      "alt": "Original Figure 3 shows the GNVC-VD video encoder, contextual latent codec and bitstream, noise addition, VideoDiT refinement, 3D VAE decoder, and the codec and adapter internals.",
+      "caption": "Figure 3 — GNVC-VD pipeline, contextual latent coding and flow-matching refinement. Original figure by Mao et al. (CVPR 2026), cropped from the official paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Mao_Generative_Neural_Video_Compression_via_Video_Diffusion_Prior_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "GNVC-VD compresses a video’s spatiotemporal latents and uses a pretrained video diffusion model to refine the decoded sequence jointly. It targets perceptual quality at very low bitrates, with substantial decoding cost."
+    ],
+    "Why I might care": [
+      "This directly matches the queue’s latent video compression theme: it separates the transmitted representation from a foundation model’s reconstruction prior. My proposed test is to compare the refined and unrefined reconstructions at the same bitrate on object detection and identity consistency, alongside LPIPS and temporal metrics. Does plausible detail help the downstream task, or change its evidence? The authors evaluate perceptual quality and temporal coherence, not downstream detector accuracy."
+    ],
+    "Why it matters": [
+      "An image-based generative prior can restore convincing textures frame by frame while making them drift over time. A video prior can coordinate refinement across the sequence, but perceptual similarity and exact source fidelity remain different objectives."
+    ],
+    "Main idea": [
+      "Code a compact sequence with temporal context, then correct compression degradation in the video model’s own latent space. Refine the sequence together instead of independently enhancing each decoded frame."
+    ],
+    "Method": [
+      "A causal 3D VAE from Wan2.1 maps video to spatiotemporal latents. The contextual latent codec entropy-codes an anchor latent and predicts later latents using reconstructed temporal context. Flow matching starts from partially noised decoded latents; learned adapters inject codec features into a frozen VideoDiT to correct quantization-induced mismatch. The 3D VAE decoder produces the video. Training first aligns latent coding and flow refinement, then adds pixel-level rate–distortion and perceptual objectives."
+    ],
+    "Experiments": [
+      "Experiments cover HEVC Class B, UVG and MCL-JCV, using the first 96 frames and RGB evaluation in a low-delay prediction setup. The supplementary protocol splits GNVC-VD into GOPs of 25, 25, 25 and 21 frames; DCVC-FM/RT use a GOP of 96. Models are trained on Vimeo clips and use five refinement steps.",
+      "Table 3 reports BD-rate relative to VVC, integrating rate–quality curves rather than comparing one operating point. On HEVC-B, GNVC-VD scores −89.4% for LPIPS-VGG and −94.5% for DISTS, versus −79.1% and −94.8% for GLC-Video. On UVG, it scores −86.5% and −96.1%, versus −60.0% and −10.3% for GLC-Video. Negative values mean less bitrate at equal measured perceptual quality; these are not PSNR gains or direct pairwise savings over GLC-Video.",
+      "Temporal evaluations include CLIP-F, warp error and FVD. GNVC-VD improves the reported temporal measures over GLC-Video, but does not beat every traditional or neural codec on warp error. Supplementary operating points have different bitrates, so the headline temporal table is not a strictly matched-rate comparison."
+    ],
+    "What is new": [
+      "The contribution is the coupling of a contextual spatiotemporal latent codec with sequence-level flow-matching refinement and codec-conditioned adapters inside a video diffusion prior. The prior is adapted to compression degradation rather than used as an independent frame enhancer."
+    ],
+    "Limitations": [
+      "Perceptual metrics do not establish exact texture recovery or downstream task fidelity. Supplementary Table 3 reports 153 ms/frame encoding and 1557 ms/frame decoding at 1920×1080 on one A800; a 25-frame 1080p clip peaks at 71.41 GB memory in Table 4. Current models use fixed rates: preliminary unified variable-rate training was unstable. Long videos use chunks, and practical streaming would need causal attention and a rolling buffer. These constraints matter when comparing with real-time codecs."
+    ]
+  }
+},
+{
+  "slug": "ssr-merge-subspace-signal-routing",
+  "date": "2026-09-30",
+  "publishedDate": "2026-06-09",
+  "topic": "LoRA merging",
+  "title": "SSR-Merge: Subspace Signal Routing for Training-Free LoRA Merging in Diffusion Models",
+  "authors": "Zhengxuan Wei, Yi Dong, Zonghui Li, Xianhui Lin, Xing Liu, Hong Gu, Shaofeng Zhang, Wenbin Li, Qi Fan",
+  "venue": "ICML 2026 · first public 9 Jun 2026",
+  "sourceUrl": "https://icml.cc/virtual/2026/poster/62664",
+  "pdfUrl": "https://arxiv.org/pdf/2606.10617v1",
+  "summary": "SSR-Merge computes a linear router from calibration activations to reduce interference between diffusion LoRAs, then absorbs it into the merged weights.",
+  "care": "For diffusion adaptation in latent video research, compare routing against summed adapters at fixed bitrate and compute. This is my proposed test, not an author result.",
+  "readMinutes": 4,
+  "visuals": {
+    "hero": {
+      "src": "./images/ssr-merge-figure-2.png",
+      "alt": "Original Figure 2 shows task inputs entering stacked LoRA down-projections, an inverse-correlation decorrelation stage and directional steering matrix, then concatenated up-projections.",
+      "caption": "Figure 2 — Subspace Signal Routing: concatenated LoRA projections with decorrelation and directional steering. Original figure by Wei et al. (ICML 2026), cropped from the authors’ arXiv manuscript.",
+      "creditUrl": "https://arxiv.org/pdf/2606.10617v1#page=3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "SSR-Merge combines already trained LoRAs by routing their internal low-rank signals. It computes a closed-form linear router from calibration activations and folds that router into the weights, avoiding gradient-based merge training and a dynamic inference gate."
+    ],
+    "Why I might care": [
+      "The queue’s diffusion and latent video themes raise a practical adaptation question: can several specialized adapters coexist without one erasing another? My proposed experiment is to merge adapters trained for different content domains or compression settings, comparing SSR with a summed-adapter baseline at fixed bitrate and compute. Evaluate each domain separately and test mixed content for temporal consistency and detection accuracy. This extends the idea to video compression; the authors’ diffusion experiments concern image generation and editing."
+    ],
+    "Why it matters": [
+      "Adding task-specific weight updates can dilute a subject’s identity or activate unrelated concepts. A merged model must preserve individual capabilities as well as compose several in one output; those are separate tests."
+    ],
+    "Main idea": [
+      "Keep the candidate LoRA subspaces together, but replace blind signal addition with a statistics-derived linear map that decorrelates mixed activations and directs them toward the appropriate up-projections."
+    ],
+    "Method": [
+      "Stack the down-projections A and concatenate the up-projections B, expanding rank from r to Kr for K adapters. For each task, obtain calibration features from a representative prompt and one diffusion timestep. Accumulate the projected correlation matrix G and directional cross-covariance Q, then form R = QG⁻¹. Statistics are streamed rather than caching all features. Absorb R into B for a standard linear LoRA or merge the update into backbone weights. “Training-free” refers to constructing the merge, not training the input adapters or eliminating calibration."
+    ],
+    "Experiments": [
+      "Table 1 evaluates FLUX.1-dev with rank-32 LoRAs trained on ten selected DreamBooth subjects. At K = 9, each target adapter is merged with eight randomly selected distractors. Mean reference-image DINOv2 similarity is 0.6713 for SSR versus 0.6240 for IterIS; CLIP similarity is 0.7850 versus 0.7520. The standalone adapter scores 0.7443 and 0.8452. Higher is better, references are averaged, and methods share initial noise seeds.",
+      "The composition test uses 100 prompts requesting two, three or four subjects from that pool. Table 3 gives SSR a 91% success rate versus 62% for DARE and 76% for Task Arithmetic. Success means Grounding DINO detects every requested subject; missing subjects receive zero similarity. This detector-based criterion is not a human assessment of exact identity.",
+      "The paper also tests simultaneous facial edits on FFHQ and reports additional Qwen-Image and GLUE results in its appendices. These extend the tested settings without establishing performance on video models or arbitrary adapter collections."
+    ],
+    "What is new": [
+      "SSR makes the merge a closed-form routing problem in the concatenated LoRA subspace, with streaming sufficient statistics and linear reparameterization. The authors connect the router to a local least-squares reconstruction objective."
+    ],
+    "Limitations": [
+      "The local linear optimality claim does not guarantee optimal outputs through the full nonlinear diffusion process. The authors identify severe domain conflicts and overlapping concepts as difficult cases. Covariance inversion relies on adequate, well-conditioned calibration statistics; the finite-sample bound assumes this explicitly. The merged adapter has rank Kr unless absorbed into dense weights, so it does not retain one adapter’s original rank budget. The main subject benchmark contains a curated pool of ten concepts."
+    ]
+  }
+},
   {
     "slug": "transform-to-transfer-vlp-attacks",
     "date": "2026-09-29",

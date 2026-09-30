@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20260929-verified-1';
+import { papers, topics } from './papers.js?v=20260930-verified-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
@@ -18,7 +18,7 @@ const isSaved = slug => getQueue().includes(slug);
 function card(paper) {
   return `<article class="paper-card">
     <div class="card-meta"><span class="topic-pill">${escape(paper.topic)}</span><span>${escape(paper.venue)} · ${paper.readMinutes} min read</span></div>
-    ${paper.visuals?.hero ? `<a class="card-visual" href="${paperUrl(paper.slug)}" aria-label="Read ${escape(paper.title)}"><img src="${escape(paper.visuals.hero.src)}" alt="${escape(paper.visuals.hero.alt)}" loading="eager"></a><p class="card-image-credit"><a href="${escape(paper.visuals.hero.creditUrl)}" target="_blank" rel="noopener noreferrer">Figure 1 from the paper ↗</a></p>` : ''}
+    ${paper.visuals?.hero ? `<a class="card-visual" href="${paperUrl(paper.slug)}" aria-label="Read ${escape(paper.title)}"><img src="${escape(paper.visuals.hero.src)}" alt="${escape(paper.visuals.hero.alt)}" loading="eager"></a><p class="card-image-credit"><a href="${escape(paper.visuals.hero.creditUrl)}" target="_blank" rel="noopener noreferrer">Original figure from the paper ↗</a></p>` : ''}
     <h3><a href="${paperUrl(paper.slug)}">${escape(paper.title)}</a></h3>
     <p class="card-summary">${escape(paper.summary)}</p>
     <div class="care-preview"><strong>Why I might care</strong><p>${escape(paper.care)}</p></div>
