@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 9 verified summaries published (28–30 September); 21 selected slots remain.  
+**Status:** 12 verified summaries published (28 September–1 October); 18 selected slots remain.  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -36,9 +36,9 @@
 
 ### Thursday 1 October · VLM and occasional ecology
 
-1. [GroundingME: Exposing the Visual Grounding Gap in MLLMs through Multi-Dimensional Evaluation](https://openaccess.thecvf.com/content/CVPR2026/html/Li_GroundingME_Exposing_the_Visual_Grounding_Gap_in_MLLMs_through_Multi-Dimensional_CVPR_2026_paper.html) — **CVPR 2026** · Evaluates visual grounding and rejection behavior in MLLMs.
-2. [VisRes Bench: On Evaluating the Visual Reasoning Capabilities of VLMs](https://openaccess.thecvf.com/content/CVPR2026/html/Tortei_VisRes_Bench_On_Evaluating_the_Visual_Reasoning_Capabilities_of_VLMs_CVPR_2026_paper.html) — **CVPR 2026** · Benchmark for visual reasoning in natural scenes.
-3. [Real-Wild-VLM: Prompting Large Vision-Language Models for Wildlife Recognition in Camera-Trap Videos](https://openaccess.thecvf.com/content/CVPR2026W/DataCV/html/Deng_Real-Wild-VLM_Prompting_Large_Vision-Language_Models_for_Wildlife_Recognition_in_Camera-Trap_CVPRW_2026_paper.html) — **CVPR 2026 workshop** · VLMs on camera-trap video, directly relevant to wildlife monitoring.
+1. [GroundingME: Exposing the Visual Grounding Gap in MLLMs through Multi-Dimensional Evaluation](https://openaccess.thecvf.com/content/CVPR2026/html/Li_GroundingME_Exposing_the_Visual_Grounding_Gap_in_MLLMs_through_Multi-Dimensional_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=groundingme-visual-grounding-gap
+2. [VisRes Bench: On Evaluating the Visual Reasoning Capabilities of VLMs](https://openaccess.thecvf.com/content/CVPR2026/html/Tortei_VisRes_Bench_On_Evaluating_the_Visual_Reasoning_Capabilities_of_VLMs_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=visres-bench-visual-reasoning
+3. [Real-Wild-VLM: Prompting Large Vision-Language Models for Wildlife Recognition in Camera-Trap Videos](https://openaccess.thecvf.com/content/CVPR2026W/DataCV/html/Deng_Real-Wild-VLM_Prompting_Large_Vision-Language_Models_for_Wildlife_Recognition_in_Camera-Trap_CVPRW_2026_paper.html) — **CVPR 2026 workshop** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=real-wild-vlm-camera-trap-videos
 
 ### Friday 2 October · surprises
 
