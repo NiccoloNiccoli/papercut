@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20260930-verified-1';
+import { papers, topics } from './papers.js?v=20261001-verified-1';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
@@ -85,4 +85,3 @@ document.addEventListener('click', event => {
 search.addEventListener('input', () => { state.query = search.value.trim().toLowerCase(); if (currentPaper()) history.replaceState(null, '', './'); home(); });
 window.addEventListener('popstate', render);
 render();
-

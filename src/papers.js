@@ -1,6 +1,155 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "groundingme-visual-grounding-gap",
+  "date": "2026-10-01",
+  "publishedDate": "2025-12-19",
+  "topic": "Visual grounding",
+  "title": "GroundingME: Exposing the Visual Grounding Gap in MLLMs through Multi-Dimensional Evaluation",
+  "authors": "Rang Li, Lei Li, Shuhuai Ren, Hao Tian, Shuhao Gu, Shicheng Li, Zihao Yue, Yudong Wang, Wenhan Ma, Zhe Yang, Jingyuan Ma, Zhifang Sui, Fuli Luo",
+  "venue": "CVPR 2026 · first public 19 Dec 2025",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_GroundingME_Exposing_the_Visual_Grounding_Gap_in_MLLMs_through_Multi-Dimensional_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_GroundingME_Exposing_the_Visual_Grounding_Gap_in_MLLMs_through_Multi-Dimensional_CVPR_2026_paper.pdf",
+  "summary": "GroundingME tests whether MLLMs can localize fine-grained targets, resolve spatial references, handle limited visibility and reject descriptions that match nothing.",
+  "care": "For geolocation and bias auditing, add region-level rejection tests so a model must show what evidence it used—or say that the evidence is absent.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./images/groundingme-figure1.jpg",
+      "alt": "Original Figure 1 contrasts simple prior grounding benchmarks with GroundingME examples for discriminative, spatial, limited-visibility and rejection challenges; green boxes are ground truth and red boxes are Qwen3-VL-30B predictions.",
+      "caption": "Figure 1 — Prior grounding examples and GroundingME’s four challenge dimensions. Original figure by Li et al. (CVPR 2026); green is ground truth and red is the Qwen3-VL-30B-A3B-Instruct prediction.",
+      "creditUrl": "https://arxiv.org/html/2512.17495v2#S1.F1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "GroundingME is a 1,005-example diagnostic benchmark for visual grounding in cluttered, high-resolution scenes. It separates fine-grained discrimination, spatial reasoning, limited visibility and rejection of an ungroundable description; the strongest no-thinking result is 45.1% Accuracy@0.5, and rejection is the dominant failure mode."
+    ],
+    "Why I might care": [
+      "The queue’s geolocation, foreground-bias and wildlife themes all depend on whether a model attends to the right region rather than a convenient correlate. My proposed test: turn GeoBiaset-style people/background interventions into grounding-and-rejection queries, then measure whether demographic foreground cues move the selected region or suppress a correct null answer. This is a PaperCut proposal; the authors do not test geolocation or fairness."
+    ],
+    "Why it matters": [
+      "High scores on short referring expressions can hide keyword shortcuts. Real use requires separating similar instances, following multi-object relations, finding tiny or occluded targets and refusing a subtly false description instead of returning a plausible box."
+    ],
+    "Main idea": [
+      "Replace one aggregate grounding score with a two-level taxonomy: four broad capabilities and twelve fine-grained subcategories. The same output format—one bounding box or null—makes localization and calibrated rejection part of one evaluation."
+    ],
+    "Method": [
+      "Images come from raw SA-1B and HR-Bench data. For SA-1B, RAM++ proposes class names and GroundingDINO produces boxes; HR-Bench boxes are annotated manually. Gemini-2.5-Flash drafts descriptions, then humans filter and edit boxes and expressions for uniqueness, factual accuracy and task specificity. Classes with fewer than three instances and boxes covering more than half the image are removed. The final set has 204 Discriminative, 300 Spatial, 300 Limited and 201 Rejection samples; pairwise Cohen’s kappa on 50 audited samples is 0.64–0.73 (mean 0.69)."
+    ],
+    "Experiments": [
+      "Twenty-five commercial and open MLLMs are evaluated with greedy decoding and Accuracy@0.5, meaning the predicted box must exceed 0.5 IoU with ground truth. In the no-thinking table, Qwen3-VL-235B-A22B reaches 45.1% overall; most models score 0% on Rejection. The paper demonstrates a large gap on this benchmark, not a universal ordering of all grounding systems.",
+      "With thinking enabled, Qwen3-VL-A22B reaches 49.8% overall and 5.5% on Rejection. The authors’ best-of-N test-time scaling uses a judge to select among reasoning traces and improves overall accuracy by up to 4.5 points.",
+      "For training-time rejection, Qwen3-VL-8B is fine-tuned on RefCOCOg positives mixed with generated negatives. At a 2:1 negative-to-positive ratio, Rejection reaches 27.9%, but total accuracy is 26.0% (40.2 Discriminative, 24.0 Spatial, 17.0 Limited), showing a real trade-off rather than a free improvement."
+    ],
+    "What is new": [
+      "The benchmark unifies compositional descriptions, multiple failure dimensions and explicit rejection in realistic high-resolution imagery. It also reports both inference-time selection and data-mixture training as targeted interventions rather than treating scale alone as the solution."
+    ],
+    "Limitations": [
+      "The set is small (1,005 examples) and draws images from only SA-1B and HR-Bench. Descriptions start from a model-generated draft before human refinement, and the 50-sample agreement audit is limited. Coordinate-format sensitivity affects comparability: Gemini uses a different coordinate order, while GPT-5, Claude-Sonnet-4.5 and Grok-4 are omitted because their coordinates were unusable. The benchmark diagnoses localization and rejection; it does not establish downstream safety or fairness."
+    ]
+  }
+},
+{
+  "slug": "visres-bench-visual-reasoning",
+  "date": "2026-10-01",
+  "publishedDate": "2025-12-24",
+  "topic": "Visual reasoning",
+  "title": "VisRes Bench: On Evaluating the Visual Reasoning Capabilities of VLMs",
+  "authors": "Brigitta Malagurski Törtei, Yasser Dahou, Ngoc Dung Huynh, Wamiq Reyaz Para, Phúc H. Lê Khac, Ankit Singh, Sofian Chaybouti, Sanath Narayan",
+  "venue": "CVPR 2026 · first public 24 Dec 2025",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Tortei_VisRes_Bench_On_Evaluating_the_Visual_Reasoning_Capabilities_of_VLMs_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Tortei_VisRes_Bench_On_Evaluating_the_Visual_Reasoning_Capabilities_of_VLMs_CVPR_2026_paper.pdf",
+  "summary": "VisRes Bench separates low-level completion, single-attribute rule inference and multi-attribute composition using 19,000 image-only four-choice tasks.",
+  "care": "It offers a clean way to test whether geolocation and grounding models reason over visual relations or merely exploit textual and dataset priors.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./images/visres-bench-figure1.jpg",
+      "alt": "Original Figure 1 shows real VisRes samples: local visual completion at Level 1 and Raven-style single- and multi-attribute reasoning grids at Levels 2 and 3.",
+      "caption": "Figure 1 — Real samples from VisRes Levels 1–3, moving from perceptual completion to single- and multi-attribute rules. Original figure by Törtei et al. (CVPR 2026).",
+      "creditUrl": "https://arxiv.org/html/2512.21194v1#S1.F1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "VisRes Bench asks VLMs to solve image-only, four-choice tasks across a perceptual-to-compositional hierarchy. Models can be strong on visually obvious color rules yet remain near the 25% chance level on fine-grained completion, orientation and coupled attributes."
+    ],
+    "Why I might care": [
+      "The queue repeatedly asks whether VLMs use genuine visual evidence in geolocation, grounding and camera-trap recognition. My proposed test: build matched visual-only relation puzzles from landmark or camera-trap frames, then compare a VLM’s raw visual answer with a version where the relevant attributes are verbalized. A large gap would isolate perception from symbolic rule use. This is my proposal, not an experiment in the paper."
+    ],
+    "Why it matters": [
+      "A model can answer a reasoning question from textual scaffolding without reliably extracting the underlying orientation, count or spatial continuation. VisRes makes that dependency visible by controlling what changes and withholding contextual language."
+    ],
+    "Main idea": [
+      "Organize visual reasoning as three dependent levels: Level 1 completes local patches or globally occluded scenes; Level 2 infers a rule over one attribute; Level 3 composes coupled, independent or spiral rules over several attributes. Errors can then be traced to perception, abstraction or composition."
+    ],
+    "Method": [
+      "The 19,000 tasks use real images and four visual choices. Level 1 uses 80×80 masked patches in 512×512 composites, DINOv2-similar distractors, blur, brightness, rotation, edges and 50%/80% global occlusion. Level 2 contains 5,956 Raven-style 3×3 grids across 12 color, count and orientation rules; Level 3 contains 2,522 grids across six multi-attribute rules. Count labels combine crawl metadata with Molmo verification, color uses GPT-5 verification, and 10,000 orientation labels are manual."
+    ],
+    "Experiments": [
+      "The main table uses guided prompts, thinking mode where available and accuracy on four-choice tasks (25% chance). GPT-5 averages 31.10% on Level 1, 49.79% on Level 2 and 34.39% on Level 3. Within Level 2 it scores 96.00% on Uniform Color but 22.22% on Uniform Orientation, showing that one aggregate score would hide a large attribute gap.",
+      "A Level-1 human study with five participants and 200 tasks per person reports 90.4% average accuracy. Under the same Level-1 subtask aggregation, Qwen2.5-VL-3B moves from 24.5% to 43.7% after fine-tuning on 100,000 examples per subtask, still far below the reported human baseline.",
+      "Reasoning effort mainly helps structured tasks: GPT-5 moves from 47.01% to 49.79% on Level 2 and from 32.89% to 34.39% on Level 3, while Level 1 changes from 31.43% to 31.11%. The paper interprets this pattern as evidence that extra reasoning does not repair weak visual extraction."
+    ],
+    "What is new": [
+      "VisRes connects natural-image perceptual completion and Raven-style rule inference in one level-structured benchmark, with controlled single- versus multi-attribute tasks and explicit tests of prompts, reasoning effort, resolution and fine-tuning."
+    ],
+    "Limitations": [
+      "The benchmark is fixed-choice, so it does not measure open-ended reasoning or action. Levels 2–3 rely on crawled imagery and semi-automated labels; only orientation is manually labeled at scale, while the count audit covers 100 images. Distractors and repeated source images can introduce benchmark-specific regularities. The human baseline is small and limited to Level 1, and results vary materially with prompt, resolution and reasoning settings."
+    ]
+  }
+},
+{
+  "slug": "real-wild-vlm-camera-trap-videos",
+  "date": "2026-10-01",
+  "publishedDate": "2026-06-01",
+  "topic": "Wildlife monitoring",
+  "title": "Real-Wild-VLM: Prompting Large Vision-Language Models for Wildlife Recognition in Camera-Trap Videos",
+  "authors": "Yutong Deng, Qi Song, Lei Bao, Jianping Ge",
+  "venue": "CVPR 2026 DataCV Workshop · first public in 2026 proceedings",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026W/DataCV/html/Deng_Real-Wild-VLM_Prompting_Large_Vision-Language_Models_for_Wildlife_Recognition_in_Camera-Trap_CVPRW_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026W/DataCV/papers/Deng_Real-Wild-VLM_Prompting_Large_Vision-Language_Models_for_Wildlife_Recognition_in_Camera-Trap_CVPRW_2026_paper.pdf",
+  "summary": "Real-Wild-VLM evaluates zero-shot wildlife recognition in empty-heavy infrared camera-trap videos and shows that explicit rejection instructions sharply reduce false positives.",
+  "care": "This is a direct operational test for wildlife monitoring: prompt design changes empty-scene rejection enough to alter the review burden and ecological counts.",
+  "readMinutes": 4,
+  "visuals": {
+    "hero": {
+      "src": "./images/real-wild-vlm-figure1.jpg",
+      "alt": "Original Figure 1 shows high-visibility daytime wildlife, an animal partly outside the frame, and low-contrast infrared camera-trap examples.",
+      "caption": "Figure 1 — Typical real-world camera-trap challenges: high visibility, out-of-frame animals and infrared modality. Original figure by Deng et al. (CVPR 2026 DataCV Workshop), cropped from the official paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026W/DataCV/papers/Deng_Real-Wild-VLM_Prompting_Large_Vision-Language_Models_for_Wildlife_Recognition_in_Camera-Trap_CVPRW_2026_paper.pdf#page=2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "On 2,457 camera-trap clips, standard closed-set prompts make open VLMs predict an animal even when the clip is empty. Adding an explicit EMPTY decision improves six of eight model variants; morphology-guided prompts help some larger models but can hurt medium-scale ones."
+    ],
+    "Why I might care": [
+      "This directly matches the queue’s camera-trap and long-term wildlife-monitoring themes. False positives on empty clips inflate manual review and can distort occupancy estimates. My proposed test: calibrate the EMPTY rule by habitat, infrared/daylight condition and target prevalence, then compare both clip accuracy and downstream occupancy estimates. The authors report recognition metrics, not ecological population estimates."
+    ],
+    "Why it matters": [
+      "Real deployments are dominated by empty or near-empty clips, with brief, occluded and low-contrast animals. A model that looks competent on visible species but rarely abstains can be unusable at field scale."
+    ],
+    "Main idea": [
+      "Treat empty-scene rejection as part of the recognition task, not an afterthought. Prompt the model with an explicit decision rule, then add morphology and silhouette cues for species that are easily confused in infrared footage."
+    ],
+    "Method": [
+      "Wild-VLM contains 2,457 video clips from Northeast China Tiger and Leopard National Park, covering 20 species and nine capture conditions. Each clip is sampled uniformly to 10 frames and resized so the shorter side is 768 pixels. Eight variants from InternVL2.5, LLaVA-OneVision and Qwen2.5-VL are tested zero-shot with a fixed label set under three prompts: a conventional closed-set baseline, an explicit EMPTY-rejection prompt and a morphology-guided prompt with species cues. Outputs are parsed into one label plus confidence."
+    ],
+    "Experiments": [
+      "Under the baseline prompt, every tested variant has EMPTY accuracy at or below 4.27%, despite the benchmark’s heavy empty-class imbalance. Adding the explicit EMPTY rule improves overall accuracy for six of eight variants; the largest gain is InternVL2.5-8B, from 54.14% to 67.52% overall (+13.38 points), while its EMPTY accuracy rises from 0.93% to 59.55%.",
+      "Morphology guidance is capacity-sensitive. Qwen2.5-VL-72B moves from 62.84% to 72.56% overall (+9.72 points), with non-empty accuracy 71.86%, high-confidence accuracy 75.28% and EMPTY accuracy 28.79%. In contrast, the same prompt lowers InternVL2.5-26B by 6.38 points and Qwen2.5-VL-32B by 2.69 points. These are prompt effects on this fixed benchmark, not evidence that morphology instructions always help."
+    ],
+    "What is new": [
+      "The paper centers empty-heavy, infrared video conditions and compares rejection-aware prompting across several open VLM families. It shows a practical interaction between abstention rules, domain cues and model capacity without retraining."
+    ],
+    "Limitations": [
+      "The benchmark comes from one protected area and a fixed 20-species label set, so ecological and geographic transfer is untested. The study uses only open models, fixed ten-frame sampling and prompt-engineered zero-shot classification; it does not compare trained camera-trap specialists, probability calibration or temporal localization. Prompt gains are inconsistent across model sizes, and clip-level accuracy does not by itself validate abundance or occupancy estimates."
+    ]
+  }
+},
+{
   "slug": "internal-guidance-diffusion-transformers",
   "date": "2026-09-30",
   "publishedDate": "2025-12-30",
@@ -478,4 +627,3 @@ export const papers = [
 ];
 
 export const topics = ['All topics', ...new Set(papers.map(paper => paper.topic))];
-
