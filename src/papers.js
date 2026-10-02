@@ -1,6 +1,156 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "sonoworld-image-to-audio-visual-scene",
+  "date": "2026-10-02",
+  "publishedDate": "2026-03-30",
+  "topic": "3D audio-visual generation",
+  "title": "SonoWorld: From One Image to a 3D Audio-Visual Scene",
+  "authors": "Derong Jin, Xiyi Chen, Ming C. Lin, Ruohan Gao",
+  "venue": "CVPR 2026 · first public 30 Mar 2026",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Jin_SonoWorld_From_One_Image_to_a_3D_Audio-Visual_Scene_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Jin_SonoWorld_From_One_Image_to_a_3D_Audio-Visual_Scene_CVPR_2026_paper.pdf",
+  "summary": "SonoWorld turns one image into a navigable 3D scene with visually grounded, position-dependent spatial audio.",
+  "care": "It connects single-image world generation to an often omitted modality: sound that changes with viewpoint and listener position.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/sonoworld-pipeline.jpg",
+      "alt": "Original SonoWorld pipeline: panorama calibration and outpainting, 3D Gaussian scene generation, VLM-guided panoramic sound-source grounding, ambisonics encoding and pose-dependent rendering.",
+      "caption": "Figure 3 — SonoWorld's full pipeline from one image to a 3D visual scene and spatial audio field. Original figure by Jin et al. (CVPR 2026).",
+      "creditUrl": "https://arxiv.org/html/2603.28757v1#S4.F3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "SonoWorld is a training-free pipeline for Image2AVScene: from one RGB image it builds a navigable 3D visual scene, grounds likely sound sources in 3D and renders pose-dependent ambisonic audio for point, extended and ambient sources."
+    ],
+    "Why I might care": [
+      "The queue's work on generative video and multimodal evidence asks what a generated world preserves beyond appearance. SonoWorld makes spatial sound an explicit, testable layer. My proposed test: hold the reconstructed geometry fixed, perturb or remove visually inferred sound anchors, and measure whether users can detect semantic errors separately from direction errors. This is my proposal; the authors do not report this intervention."
+    ],
+    "Why it matters": [
+      "Single-image 3D generators can produce scenes that look explorable but remain silent. Spatial audio needs both plausible content and geometry-aware direction, extent and attenuation as the listener moves."
+    ],
+    "Main idea": [
+      "Use one panoramic coordinate system to couple scene generation and sound. A language model proposes sound-producing categories and acoustic attributes; open-vocabulary and class-agnostic masks locate them over the full panorama; their 3D lifts drive an analytic ambisonics renderer."
+    ],
+    "Method": [
+      "The input is calibrated for gravity and field of view, warped into an equirectangular view, outpainted to 360 degrees and lifted with HunyuanWorld-1.0 or Marble into Gaussian splats or a mesh. GPT-5 or LLaVA-Next-34B proposes sounding categories, source types, prompts and relative levels. X-Decoder masks perspective tiles; SAM2 supplies panorama-wide proposals; voting merges them before depth-based unprojection. MMAudio generates source and ambient waveforms, which are equalized and encoded as ambisonics with distance and air attenuation, then decoded to binaural audio with an HRTF at the listener pose."
+    ],
+    "Experiments": [
+      "SonoScene360 contains 68 synchronized 360-degree-video/first-order-ambisonics clips from six real scenes. Against MMAudio, SEE-2-SOUND, ViSAGe and OmniAudio, the proprietary SonoWorld configuration reports geodesic direction error 0.728, spherical-energy CC 0.658 and AUC 0.838; OmniAudio reports 1.449, 0.148 and 0.588. Lower direction error and higher CC/AUC are better. The open-source configuration reports 0.975, 0.491 and 0.753, so the strongest numbers depend on proprietary Marble and GPT-5 components.",
+      "For semantic alignment on the same dataset, the proprietary configuration reaches 67.6% directional CLAP R-Precision, D-CLAP audio similarity 0.480 and text similarity 0.457; MMAudio reaches 33.8%, 0.345 and 0.322 but has no spatial scores. A 50-participant, 12-scene pairwise study also prefers SonoWorld over MMAudio and OmniAudio; the visuals are identical and only audio changes.",
+      "The renderer's audio callback is under 1 ms on an Apple M3 Pro for the Fountain scene, below the 5.3 ms duration of a 256-sample buffer at 48 kHz. This demonstrates real-time rendering for that setup, not end-to-end real-time scene construction."
+    ],
+    "What is new": [
+      "The paper defines Image2AVScene, introduces a paired real-world evaluation set and unifies 360-degree visual generation, open-vocabulary 3D sound grounding and differentiable ambisonics. It also demonstrates one-shot room-acoustic fitting and spatial source separation as extensions."
+    ],
+    "Limitations": [
+      "The method infers sound from appearance, so content, loudness and source type can be wrong even when the rendering math is correct. SonoScene360 is small—68 clips from six scenes—and most experiments use first-order ambisonics. The propagation model targets mostly dry outdoor scenes and does not model full reverberation; moving sources are a documented failure case because the input is static. The best configuration also depends on proprietary reconstruction and language models."
+    ]
+  }
+},
+{
+  "slug": "pixel2phys-governing-laws-visual-dynamics",
+  "date": "2026-10-02",
+  "publishedDate": "2026-02-23",
+  "topic": "AI for science",
+  "title": "Pixel2Phys: Distilling Governing Laws from Visual Dynamics",
+  "authors": "Ruikun Li, Jun Yao, Yingfan Hua, Shixiang Tang, Biqing Qi, Bin Liu, Wanli Ouyang, Yan Lu",
+  "venue": "CVPR 2026 · first public 23 Feb 2026",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_Pixel2Phys_Distilling_Governing_Laws_from_Visual_Dynamics_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_Pixel2Phys_Distilling_Governing_Laws_from_Visual_Dynamics_CVPR_2026_paper.pdf",
+  "summary": "Pixel2Phys coordinates four agents to extract physical variables, fit symbolic laws, simulate them and iteratively repair failures.",
+  "care": "It is a useful stress test for whether multimodal agents can turn pixels into falsifiable equations rather than just descriptions.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/pixel2phys-framework.jpg",
+      "alt": "Original Pixel2Phys framework showing the Plan, Variable, Equation and Experiment agents, their iterative feedback loop, multi-granularity visual tools and symbolic-regression stage.",
+      "caption": "Figure 2 — Pixel2Phys's four-agent collaboration and visual-to-equation workflow. Original figure by Li et al. (CVPR 2026).",
+      "creditUrl": "https://arxiv.org/html/2602.19516v1#S4.F2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Pixel2Phys wraps an MLLM in an iterative scientific workflow: extract variables from video, discover a sparse symbolic equation, simulate it, diagnose errors and refine either the variables or the equation. It handles object trajectories, pixel-level fields and low-dimensional dynamics in noisy scientific videos."
+    ],
+    "Why I might care": [
+      "The queue's VLM and visual-reasoning papers repeatedly separate perception from reasoning. Pixel2Phys makes that separation executable: a wrong equation can send feedback to the visual representation. My proposed test: corrupt tracking, illumination and frame rate independently, then audit whether the planner revises the variable extractor or merely changes the symbolic library. This is my proposal, not a reported experiment."
+    ],
+    "Why it matters": [
+      "Video prediction can look plausible while drifting away from the underlying dynamics. Compact equations are inspectable and can be integrated far beyond the observed window, but only if the system extracts the right physical variables first."
+    ],
+    "Main idea": [
+      "Break the circular dependency between representation learning and law discovery with feedback. Preliminary laws constrain representation learning, while simulation and equation diagnostics tell the planner whether to change the variables, candidate operators or sparsity threshold."
+    ],
+    "Method": [
+      "A Plan Agent coordinates Variable, Equation and Experiment agents. The Variable Agent uses SAM-based centroid tracking for objects, fixed derivative kernels for pixel fields, or a reconstruction-plus-physics-consistency autoencoder for complex phenomena. The Equation Agent builds polynomial and transcendental operator libraries and fits sparse coefficients with sequential thresholded least squares. The Experiment Agent checks derivative fit, term count, phase portraits and long-horizon numerical rollouts; GPT-4o is the default MLLM backbone."
+    ],
+    "Experiments": [
+      "For five simulated object-motion systems, models train or fit on 200 steps and are evaluated on 1,000-step coordinate extrapolation over five seeds. Pixel2Phys reports R-squared 0.9913 on Linear, 0.9886 on Cubic, 1.0000 on Circular, 0.9954 on Van der Pol and 0.9995 on Glider. Coord-Equ reaches 0.8647, 0.2632, 0.9903, 0.4920 and 0.9129; Pixel2Phys does not recover an exact Glider term set despite its high rollout score.",
+      "On four numerically generated reaction-diffusion systems, Table 2 evaluates 1,000-step rollouts—200 for Swift-Hohenberg—with RMSE and valid prediction steps at error threshold 0.5. Pixel2Phys reports RMSE/VPS of 0.03/1000 for Lambda-Omega, 0.12/1000 for Brusselator, 0.16/1000 for FitzHugh-Nagumo and 0.18/200 for Swift-Hohenberg. PDE-Find reports 0.67/492, 1.56/40, 0.63/54 and 0.19/200; several SGA-PDE and LLM-PDE runs are NaN.",
+      "For four Karman-vortex and two Belousov-Zhabotinsky videos shorter than 300 frames, the models reconstruct the training sequence from its first frame. Pixel2Phys is compared with FNO, Latent-ODE and frozen Wan2.2 using RMSE and vorticity error. The paper reports the lowest errors in its plots, while noting that the output is less textured because the learned representation filters lighting and other visually irrelevant variation."
+    ],
+    "What is new": [
+      "Instead of a fixed video-to-equation pipeline, Pixel2Phys makes equation quality part of the feedback that reshapes visual variables. One agent protocol spans discrete objects, continuous fields and latent dynamics while returning explicit symbolic laws."
+    ],
+    "Limitations": [
+      "Most quantitative equation-recovery benchmarks are synthetic and use known families of compact dynamics. The real-video set has only six short sequences and is evaluated by reconstruction rather than held-out future data. Results depend on handcrafted tool choices, numerical derivatives, operator libraries and a strong proprietary MLLM. High rollout fidelity need not mean exact law recovery, as the Glider case shows, and the paper does not establish robustness to arbitrary camera motion, occlusion or stochastic dynamics."
+    ]
+  }
+},
+{
+  "slug": "event-structural-valley-autofocus",
+  "date": "2026-10-02",
+  "publishedDate": "2026-06-01",
+  "topic": "Event-camera autofocus",
+  "title": "Event Structural Valley: A Unified Theoretical and Practical Framework for Event Camera Autofocus",
+  "authors": "Xijie Xiang, Lin Zhu, Wei Zhang, Yonghong Tian",
+  "venue": "CVPR 2026 · first public in 2026 proceedings",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.pdf",
+  "summary": "ESVA models event autofocus as finding the valley between two event-rate peaks, not maximizing event count.",
+  "care": "It is a clean example of sensor physics overturning a widely used proxy objective and producing a simpler, faster estimator.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/event-structural-valley-figure2.jpg",
+      "alt": "Original Figure 2 shows an event stream during a one-way focus sweep, the resulting M-shaped event-rate curve with two peaks around a valley at true focus, and representative event maps across blur levels.",
+      "caption": "Figure 2 — Structural characterization of the dual-peak event-rate curve and its valley at best focus. Original figure by Xiang et al. (CVPR 2026), cropped from the official paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.pdf#page=3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "During a one-way focal sweep, event activity rises as slight blur spreads contrast changes across more pixels, then falls under severe blur. The resulting two peaks surround a local minimum at best focus. ESVA regularizes the event-rate curve and localizes that physically constrained valley without reconstructing frames or training a model."
+    ],
+    "Why I might care": [
+      "The queue includes event-based place recognition and geolocation, where focus quality can determine whether sparse edges remain usable under motion and low light. My proposed test: run ESVA before an event-VPR pipeline and stratify retrieval by illumination, sweep speed and depth layering. This downstream retrieval test is my proposal; the authors evaluate autofocus error."
+    ],
+    "Why it matters": [
+      "Maximum-event-rate autofocus can stop on a slightly defocused peak. A physics-based valley criterion is especially useful where frames fail—fast motion, low light and high dynamic range—and avoids the cost and artifacts of image reconstruction."
+    ],
+    "Main idea": [
+      "Model how defocus changes the number of pixels whose log-intensity variation crosses the event threshold. For an isolated structure the activation measure rises and then falls with blur; crossing focus in one direction therefore produces a dual-peak curve whose inter-peak minimum is the focal position."
+    ],
+    "Method": [
+      "ESVA counts events in fixed temporal windows over a focus sweep, applies Gaussian structural smoothing, suppresses inconsistent local jumps, detects two dominant peaks with separation and prominence constraints, and minimizes the regularized rate only inside their interval. A confidence score compares the two peak heights with the valley. The operations are one-dimensional and scale linearly with focus samples."
+    ],
+    "Experiments": [
+      "On the physics-based SYN benchmark with Static, Small Shake and Huge Shake motions, average focus-timestamp error is 6.62 ms for ESVA, versus 36.10 for ER+EGS, 27.24 for OLE'23, 17.74 for PBF and 8.68 for ELP. Lower is better; all methods use the same simulated focal sweeps and annotated focus timestamps.",
+      "On real DAVIS sequences spanning bright/dark and static/motion conditions, ESVA averages 1.30 ms, versus 26.20, 7.51, 4.94 and 2.04 ms for the same baselines. On the higher-resolution EVK4 set, ESVA averages 4.22 ms, versus 17.26, 9.90, 9.74 and 5.33 ms. These are temporal errors during motorized sweeps, not image-sharpness scores.",
+      "On the EAD extreme-illumination/motion benchmark, the paper reports mean focusing-distance error 65.38 micrometers and a 30% improvement over the next method. CPU runtime per DAVIS sequence is 1.43 ms and per EVK4 sequence 1.68 ms on an Intel i9 at 3.8 GHz; ER+EGS takes 62.00 and 417.22 ms. Ablations show that removing smoothing, consistency filtering or the dual-peak constraint produces large errors or false valleys."
+    ],
+    "What is new": [
+      "The paper replaces the maximum-event-rate assumption with a derived rise-peak-fall model and a valley-localization algorithm. The same structure provides an interpretable confidence signal and works across synthetic and two event-camera resolutions without supervision."
+    ],
+    "Limitations": [
+      "The formulation assumes one dominant depth layer governs the focus objective during a one-way sweep. With multiple competing depths, the rate curve can have more structure than one clean dual-peak valley. The authors also note that complementary polarity, intensity or spatial priors and additional task-specific constraints may be needed in more complex scenes. Reported accuracy depends on a controlled motorized focus sweep and does not establish closed-loop behavior on every lens or downstream vision task."
+    ]
+  }
+},
+{
   "slug": "groundingme-visual-grounding-gap",
   "date": "2026-10-01",
   "publishedDate": "2025-12-19",
