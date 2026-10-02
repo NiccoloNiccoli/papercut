@@ -15,7 +15,7 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/sonoworld-pipeline.jpg?v=20261002",
+      "src": "./assets/images/sonoworld-pipeline-small.jpg?v=20261002-2",
       "alt": "Original SonoWorld pipeline: panorama calibration and outpainting, 3D Gaussian scene generation, VLM-guided panoramic sound-source grounding, ambisonics encoding and pose-dependent rendering.",
       "caption": "Figure 3 — SonoWorld's full pipeline from one image to a 3D visual scene and spatial audio field. Original figure by Jin et al. (CVPR 2026).",
       "creditUrl": "https://arxiv.org/html/2603.28757v1#S4.F3"
@@ -65,7 +65,7 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/pixel2phys-framework.jpg?v=20261002",
+      "src": "./assets/images/pixel2phys-framework-small.jpg?v=20261002-2",
       "alt": "Original Pixel2Phys framework showing the Plan, Variable, Equation and Experiment agents, their iterative feedback loop, multi-granularity visual tools and symbolic-regression stage.",
       "caption": "Figure 2 — Pixel2Phys's four-agent collaboration and visual-to-equation workflow. Original figure by Li et al. (CVPR 2026).",
       "creditUrl": "https://arxiv.org/html/2602.19516v1#S4.F2"
