@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 12 verified summaries published (28 September–1 October); 18 selected slots remain.  
+**Status:** 15 verified summaries published (28 September–2 October); 15 selected slots remain.  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -42,9 +42,9 @@
 
 ### Friday 2 October · surprises
 
-1. [SonoWorld: From One Image to a 3D Audio-Visual Scene](https://openaccess.thecvf.com/content/CVPR2026/html/Jin_SonoWorld_From_One_Image_to_a_3D_Audio-Visual_Scene_CVPR_2026_paper.html) — **CVPR 2026** · A single-image starting point for a spatial audio-visual scene.
-2. [Pixel2Phys: Distilling Governing Laws from Visual Dynamics](https://openaccess.thecvf.com/content/CVPR2026/papers/Li_Pixel2Phys_Distilling_Governing_Laws_from_Visual_Dynamics_CVPR_2026_paper.pdf) — **CVPR 2026** · Recovering interpretable physical laws from visual dynamics.
-3. [Event Structural Valley: A Unified Theoretical and Practical Framework for Event Camera Autofocus](https://openaccess.thecvf.com/content/CVPR2026/html/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.html) — **CVPR 2026** · A distinct event-camera and computational-photography problem.
+1. [SonoWorld: From One Image to a 3D Audio-Visual Scene](https://openaccess.thecvf.com/content/CVPR2026/html/Jin_SonoWorld_From_One_Image_to_a_3D_Audio-Visual_Scene_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=sonoworld-image-to-audio-visual-scene
+2. [Pixel2Phys: Distilling Governing Laws from Visual Dynamics](https://openaccess.thecvf.com/content/CVPR2026/papers/Li_Pixel2Phys_Distilling_Governing_Laws_from_Visual_Dynamics_CVPR_2026_paper.pdf) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=pixel2phys-governing-laws-visual-dynamics
+3. [Event Structural Valley: A Unified Theoretical and Practical Framework for Event Camera Autofocus](https://openaccess.thecvf.com/content/CVPR2026/html/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.html) — **CVPR 2026** · **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=event-structural-valley-autofocus
 
 ## Week 2 · 5–9 October
 
@@ -79,6 +79,8 @@
 3. [Cinematic Audio Source Separation Using Visual Cues](https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.html) — **CVPR 2026** · Visual information for separating sounds in cinematic audio.
 
 **30 September verification:** All three detail pages, eight sections per summary, original figures, captions and source links verified live. No substitutions. Existing responsive CSS checked; visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
+
+**2 October verification:** All three detail pages, eight sections per summary, original figures, captions, source/PDF links and homepage cards verified live. No substitutions. Responsive rules at 1190, 760 and 410 pixels were checked; the layout preserves fluid images and collapses the three-column grid to a single-column mobile view.
 
 ## Production checklist
 
