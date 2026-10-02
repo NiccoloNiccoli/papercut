@@ -15,7 +15,7 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/sonoworld-pipeline.jpg",
+      "src": "./assets/images/sonoworld-pipeline.jpg?v=20261002",
       "alt": "Original SonoWorld pipeline: panorama calibration and outpainting, 3D Gaussian scene generation, VLM-guided panoramic sound-source grounding, ambisonics encoding and pose-dependent rendering.",
       "caption": "Figure 3 — SonoWorld's full pipeline from one image to a 3D visual scene and spatial audio field. Original figure by Jin et al. (CVPR 2026).",
       "creditUrl": "https://arxiv.org/html/2603.28757v1#S4.F3"
@@ -65,7 +65,7 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/pixel2phys-framework.jpg",
+      "src": "./assets/images/pixel2phys-framework.jpg?v=20261002",
       "alt": "Original Pixel2Phys framework showing the Plan, Variable, Equation and Experiment agents, their iterative feedback loop, multi-granularity visual tools and symbolic-regression stage.",
       "caption": "Figure 2 — Pixel2Phys's four-agent collaboration and visual-to-equation workflow. Original figure by Li et al. (CVPR 2026).",
       "creditUrl": "https://arxiv.org/html/2602.19516v1#S4.F2"
@@ -115,7 +115,7 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/event-structural-valley-figure2.jpg",
+      "src": "./assets/images/event-structural-valley-figure2.jpg?v=20261002",
       "alt": "Original Figure 2 shows an event stream during a one-way focus sweep, the resulting M-shaped event-rate curve with two peaks around a valley at true focus, and representative event maps across blur levels.",
       "caption": "Figure 2 — Structural characterization of the dual-peak event-rate curve and its valley at best focus. Original figure by Xiang et al. (CVPR 2026), cropped from the official paper.",
       "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xiang_Event_Structural_Valley_A_Unified_Theoretical_and_Practical_Framework_for_CVPR_2026_paper.pdf#page=3"
