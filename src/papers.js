@@ -1,6 +1,398 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "lost-in-the-tail-dapr",
+  "date": "2026-10-05",
+  "publishedDate": "2026-06-30",
+  "topic": "Visual place recognition",
+  "title": "Lost in the Tail: Addressing Geographic Imbalance in Urban Visual Place Recognition",
+  "authors": "Zhiyao Shu, Jiacheng Yang, Yang Lu, Waishan Qiu, Chuan Li, Da Chen",
+  "venue": "ECCV 2026 · official conference paper · first public 30 Jun 2026",
+  "sourceUrl": "https://eccv.ecva.net/virtual/2026/poster/3660",
+  "pdfUrl": "https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/2437.pdf",
+  "summary": "DAPR addresses uneven photographic coverage in urban VPR with a frequency-aware training loss and a distribution-aware retrieval metric. The loss can also be added to retrieval-only models.",
+  "care": "The geographic sampling bias is directly relevant to GeoBiaset: sparse coverage and misleading foreground content are different sources of geolocation error that could interact.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/dapr-20261005.jpg",
+      "alt": "DAPR framework: geographic class counts inform Low-visit Bias training losses; a classifier filters reference classes and characteristic-function distances rank the remaining matches.",
+      "caption": "Figure 3 — DAPR training and classifier-filtered retrieval. Original figure by Shu et al.; verified against the official ECCV 2026 paper.",
+      "creditUrl": "https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/2437.pdf#page=5"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "DAPR addresses uneven photographic coverage in urban VPR with a frequency-aware training loss and a distribution-aware retrieval metric. The loss can also be added to retrieval-only models."
+    ],
+    "Why I might care": [
+      "The geographic sampling bias is directly relevant to GeoBiaset: sparse coverage and misleading foreground content are different sources of geolocation error that could interact. My proposed test: stratify GeoBiaset queries by training-region frequency and measure the effect of foreground insertions before and after Low-visit Bias training. This interaction was not tested by the authors."
+    ],
+    "Why it matters": [
+      "Frequently photographed streets receive more supervision than rarely visited areas. Overall retrieval recall can hide this imbalance; the paper examines performance separately for head, middle and tail geographic classes."
+    ],
+    "Main idea": [
+      "Rebalance the learning signal using geographic class frequencies. In a classification-retrieval pipeline, compare candidate feature distributions rather than applying the same pointwise distance everywhere."
+    ],
+    "Method": [
+      "Low-visit Bias (LB) loss combines inverse-frequency sample weighting with prior-based logit adjustment, using classification or multi-similarity retrieval formulations. The mixed pipeline first filters geographic classes with a classifier, then uses Characteristic Function Distance (CFD): empirical characteristic functions describe candidate-class feature sets, and amplitude and wrapped-phase differences contribute to ranking. CFD is an inference component of the mixed pipeline; retrieval-only integrations use the LB loss."
+    ],
+    "Experiments": [
+      "On SF-XL, Table 1 reports Recall@1 at a 25 m correctness radius: DAPR-M with DINOv2 scores 89.7% on test v1 and 94.3% on v2, versus 71.4% and 87.6% for D&C + CosPlace with EfficientNet. That comparison changes the backbone as well as the method. The controlled DINOv2 ablation in Table 5 moves from 75.8% to 88.0% on v1 when replacing cross-entropy with LB loss while keeping L2 retrieval, then to 89.7% with CFD.",
+      "For retrieval-only BoQ trained on GSV-Cities, Table 3 reports MSLS Recall@1 rising from 91.2% to 93.7% with LB loss. These are benchmark improvements, not evidence that foreground attacks or every form of geographic bias have been solved."
+    ],
+    "What is new": [
+      "The contribution is a VPR-specific combination of geographic long-tail analysis, loss rebalancing across classification and retrieval models, and characteristic-function ranking in a filtered search space."
+    ],
+    "Limitations": [
+      "Frequency defines the paper’s tail classes; visually incoherent classes can be difficult even when well sampled. The authors show failures with foliage occlusion and extreme appearance changes. The large headline improvement partly compares different backbones, so the controlled ablations are more informative about the loss itself."
+    ]
+  }
+},
+{
+  "slug": "megaevent-multi-viewpoint-event-geolocalization",
+  "date": "2026-10-05",
+  "publishedDate": "2026-09-18",
+  "topic": "Visual place recognition",
+  "title": "Multi-viewpoint Geo-localization with Event Cameras",
+  "authors": "Adam D. Hines, Michael Milford, Tobias Fischer",
+  "venue": "arXiv preprint v1 · under review · first public 18 Sep 2026",
+  "sourceUrl": "https://arxiv.org/abs/2609.21219v1",
+  "pdfUrl": "https://arxiv.org/pdf/2609.21219v1",
+  "summary": "MegaEvent trains an event-camera place recognizer on synthetic events generated from existing geotagged RGB datasets. It tests transfer to real event streams, including queries captured from different headings.",
+  "care": "This extends the queue’s EventGeM discussion from geometric reranking to large-scale descriptor training.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/megaevent-20261005.jpg",
+      "alt": "An RGB church photograph next to its synthetic Image-to-Event stream, illustrating the conversion of existing geotagged photographs into event training data.",
+      "caption": "Figure 2 — RGB image and raw synthetic I2E stream from MegaScenes. Original figure by Hines, Milford and Fischer. This is not the three-channel event-frame input consumed by MegaEvent.",
+      "creditUrl": "https://arxiv.org/html/2609.21219v1#S3.F2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "MegaEvent trains an event-camera place recognizer on synthetic events generated from existing geotagged RGB datasets. It tests transfer to real event streams, including queries captured from different headings."
+    ],
+    "Why I might care": [
+      "This extends the queue’s EventGeM discussion from geometric reranking to large-scale descriptor training. My proposed test: compare both methods on the same geographically disjoint routes, 50 ms windows and 25 m tolerance, then separate viewpoint change from illumination change. The reported studies do not establish that full comparison across held-out regions."
+    ],
+    "Why it matters": [
+      "Real event-camera VPR training data are scarce. Converting large RGB collections provides diverse place and viewpoint supervision without requiring millions of new event recordings."
+    ],
+    "Main idea": [
+      "Keep the place labels and varied views of RGB VPR datasets, convert the images into synthetic event streams, and fine-tune an event-pretrained transformer for retrieval on real events."
+    ],
+    "Method": [
+      "Image-to-Event conversion supplies training streams from SF-XL, GSV-Cities, MSLS, MegaScenes and ScanNet. An event-pretrained DINOv2-based ViT and SALAD aggregator learn from independently mined multi-similarity losses across dataset streams. Gain, dropout and spurious-event perturbations approximate sensor non-idealities. Real streams become polarity-coloured event frames; inference retrieves using an 8,448-dimensional descriptor without a geometric reranking stage."
+    ],
+    "Experiments": [
+      "Table II evaluates Springfield-Event-VPR at a 25 m correctness tolerance with 50 ms event windows. MegaEvent ViT/B reaches Recall@1 0.50, versus 0.39 for MegaLoc on event frames, 0.41 for MegaLoc on E2VID reconstructions and 0.12 for EventGeM. The dataset contains a 3.7 km reference route captured in three camera orientations, with separate morning/daytime queries at revisited areas.",
+      "Across the six reference-query pairs in Table I, Table IV reports average Recall@1 of 0.82 for ViT/B and 0.62 for EventGeM under the shared evaluation protocol. The new viewpoint test is materially harder than the standard traversals."
+    ],
+    "What is new": [
+      "Large-scale RGB-to-event place supervision, a fine-tuned event descriptor, and the Springfield benchmark jointly target heading and viewpoint changes rather than only repeat traversals."
+    ],
+    "Limitations": [
+      "Training uses synthetic events only. Illumination invariance remains unresolved, and severe lighting shifts with camera bias adjustment are outside the evaluated setup. Real2Sim evidence comes from a specific Brisbane reference-query pair; it does not prove the absence of every synthetic-to-real domain gap. Springfield remains a single-route study."
+    ]
+  }
+},
+{
+  "slug": "geobridge-semantic-anchored-multi-view",
+  "date": "2026-10-05",
+  "publishedDate": "2025-12-02",
+  "topic": "Cross-view geolocation",
+  "title": "GeoBridge: A Semantic-Anchored Multi-View Foundation Model Bridging Images and Text for Geo-Localization",
+  "authors": "Zixuan Song, Jing Zhang, Di Wang, Zidie Zhou, Wenbin Liu, Haonan Guo, En Wang, Bo Du",
+  "venue": "CVPR 2026 · official accepted version · first public 2 Dec 2025",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Song_GeoBridge_A_Semantic-Anchored_Multi-View_Foundation_Model_Bridging_Images_and_Text_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Song_GeoBridge_A_Semantic-Anchored_Multi-View_Foundation_Model_Bridging_Images_and_Text_CVPR_2026_paper.pdf",
+  "summary": "GeoBridge aligns drone, street-panorama and satellite images through shared textual semantic anchors. Its GeoLoc dataset enables retrieval across all three views, including drone-to-street matching.",
+  "care": "For the queue’s cross-view retrieval and VLM grounding topics, language is supervision for stable scene structure rather than an inference-time coordinate generator.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/geobridge-20261005.jpg",
+      "alt": "GeoBridge schematic aligns drone, satellite and street-panorama images through one shared semantic description and supports image-to-image and text-to-image retrieval.",
+      "caption": "Figure 1 — Semantic anchors bridging views and modalities. Original figure by Song et al., reproduced from the official CVPR 2026 paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Song_GeoBridge_A_Semantic-Anchored_Multi-View_Foundation_Model_Bridging_Images_and_Text_CVPR_2026_paper.pdf#page=1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "GeoBridge aligns drone, street-panorama and satellite images through shared textual semantic anchors. Its GeoLoc dataset enables retrieval across all three views, including drone-to-street matching."
+    ],
+    "Why I might care": [
+      "For the queue’s cross-view retrieval and VLM grounding topics, language is supervision for stable scene structure rather than an inference-time coordinate generator. My proposed test: alter one geographic cue in an anchor description during training and measure which view pairs lose retrieval accuracy. That controlled sensitivity study is not reported by the authors."
+    ],
+    "Why it matters": [
+      "A satellite-centred pipeline limits possible matching routes. Co-located views and shared descriptions make street-to-drone retrieval possible even when the query and reference look substantially different."
+    ],
+    "Main idea": [
+      "Describe stable features visible across a location’s views, then align both image-image and text-image embeddings in a common retrieval space."
+    ],
+    "Method": [
+      "Three view-specific CLIP visual encoders and a shared text encoder learn from geographically aligned drone-panorama-satellite triplets. ChatGPT-4o produces descriptions emphasizing stable structures and relations. The loss combines contrastive image-image alignment across the three view pairs with text-image alignment. Image retrieval needs no text at inference. GeoLoc contains 52,679 aligned triplets from 36 countries, including a held-out set from non-overlapping cities. This summary covers the official CVPR version; the later arXiv GeoBridge++ journal extension is a separate expanded version."
+    ],
+    "Experiments": [
+      "On University-1652, official-paper Table 2 reports drone-to-satellite Recall@1 of 95.82% and AP of 97.77%, versus 94.67% and 95.50% for DAC. Models are evaluated in the benchmark retrieval setting; Recall@1 checks the top-ranked reference, not a worldwide kilometre-radius prediction.",
+      "The GeoLoc alignment ablation in Table 8 reports drone-to-street Recall@1 of 41.23% with joint alignment, versus 7.16% with image-only and 39.00% with text-only alignment. Text-to-image retrieval remains harder: street descriptions retrieve drone images at 6.10% Recall@1 in Table 7."
+    ],
+    "What is new": [
+      "Unified semantic-anchor supervision across three visual perspectives, together with a co-located multi-view dataset supporting both image and language retrieval."
+    ],
+    "Limitations": [
+      "GeoLoc’s quality filters favour structurally rich scenes and discard weakly textured content, limiting what its evaluation says about featureless environments. Generated descriptions can carry perception errors. Retrieval still needs an appropriate reference gallery. Gains vary across metrics and settings; the official results do not establish adversarial robustness or fully unrestricted worldwide geolocation."
+    ]
+  }
+},
+{
+  "slug": "georouter-dynamic-paradigm-routing",
+  "date": "2026-10-05",
+  "publishedDate": "2026-03-25",
+  "topic": "Image geolocation",
+  "title": "GeoRouter: Dynamic Paradigm Routing for Worldwide Image Geolocalization",
+  "authors": "Pengyue Jia, Derong Xu, Yingyi Zhang, Xiaopeng Li, Wenlin Zhang, Yi Wen, Yuanshao Zhu, Xiangyu Zhao",
+  "venue": "arXiv preprint v1 · first public 25 Mar 2026",
+  "sourceUrl": "https://arxiv.org/abs/2603.24376v1",
+  "pdfUrl": "https://arxiv.org/pdf/2603.24376v1",
+  "summary": "GeoRouter learns when to trust image retrieval and when to trust a generative geolocalizer. It selects one of their coordinates using image content, both predictions and retrieval context.",
+  "care": "For geolocation attacks, routing introduces an additional decision boundary beyond either underlying model.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/georouter-20261005.jpg",
+      "alt": "GeoRouter overview: independent retrieval and generation predictions create routing supervision; a LoRA-adapted VLM and distance-aware loss learn which prediction to select.",
+      "caption": "Figure 2 — GeoRouter dataset construction, training and inference. Original figure by Jia et al., arXiv:2603.24376v1.",
+      "creditUrl": "https://arxiv.org/html/2603.24376v1#S3.F2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "GeoRouter learns when to trust image retrieval and when to trust a generative geolocalizer. It selects one of their coordinates using image content, both predictions and retrieval context."
+    ],
+    "Why I might care": [
+      "For geolocation attacks, routing introduces an additional decision boundary beyond either underlying model. My proposed test: transfer RoadTrip perturbations to the retrieval branch and measure both final error and how often the router switches to generation. The paper evaluates ordinary benchmark images, not adversarial routing behaviour."
+    ],
+    "Why it matters": [
+      "The two paradigms make different errors. Improving one model alone leaves complementary evidence unused; a learned selector can exploit that disagreement."
+    ],
+    "Main idea": [
+      "Train a selector on the relative geographic errors of two existing systems. A large distance advantage should provide stronger supervision than a nearly tied pair."
+    ],
+    "Method": [
+      "GeoRouting contains 100K MP16-Pro queries with independent GeoRanker retrieval and Gemini-2.5-Flash generation predictions. Qwen2-VL-7B-Instruct is adapted with LoRA and a scalar routing head. Distance-Aware Preference Optimization (DisPO) transforms the difference between log geographic errors into a soft target for binary cross-entropy. At inference both systems run, and the router selects one existing prediction rather than producing a new coordinate."
+    ],
+    "Experiments": [
+      "On IM2GPS3K, Table 1 reports 50.48% accuracy within 25 km for GeoRouter versus 45.05% for the published GeoRanker baseline. Table 3 separately compares the actual component configurations: pure retrieval gives 43.14%, pure generation 47.91%, and routing 50.48% at that threshold.",
+      "On YFCC4K, Table 1 reports 46.01% within 25 km versus GeoRanker’s 43.54%. The ideal ground-truth-aware selector in Table 3 reaches 49.78%; that oracle is an upper bound, not a deployable method."
+    ],
+    "What is new": [
+      "The geolocation-specific routing task, performance-paired GeoRouting supervision and a soft preference target that accounts for geographic error magnitude."
+    ],
+    "Limitations": [
+      "Both component predictions are computed before routing, so this is an accuracy-oriented selector rather than a demonstrated way to avoid generation cost. It cannot recover a correct location if neither branch supplies it. Evaluation centres on two photo benchmarks and particular component models, although the appendix tests generation-model transfer. Reported router-only overhead omits the cost of running both branches."
+    ]
+  }
+},
+{
+  "slug": "pinpoint-cross-source-geolocation",
+  "date": "2026-10-05",
+  "publishedDate": "2026-06-02",
+  "topic": "Image geolocation",
+  "title": "Pinpoint: Grounded Worldwide Image Geolocation via Cross-Source Retrieval and Reranking",
+  "authors": "Nika Chuzhoy, Brian Hu, Amit A. Arora, Jae Ro, Sarthak S. Sahu",
+  "venue": "arXiv preprint v1 · first public 2 Jun 2026",
+  "sourceUrl": "https://arxiv.org/abs/2606.04133v1",
+  "pdfUrl": "https://arxiv.org/pdf/2606.04133v1",
+  "summary": "Pinpoint combines Flickr and street-view supervision, then reranks a location shortlist with nearby evidence from the complementary source. It uses no generative multimodal LLM at inference.",
+  "care": "For the queue’s geolocation and geographic-bias work, this separates gallery coverage from world knowledge in a VLM.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/pinpoint-20261005.jpg",
+      "alt": "Pinpoint inference pipeline: contrastive image embedding, a location shortlist, attention-based candidate reranking and selection of one indexed coordinate.",
+      "caption": "Figure 1 — Pinpoint retrieve-and-rerank pipeline. Original figure by Chuzhoy et al., arXiv:2606.04133v1.",
+      "creditUrl": "https://arxiv.org/html/2606.04133v1#S3.F1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Pinpoint combines Flickr and street-view supervision, then reranks a location shortlist with nearby evidence from the complementary source. It uses no generative multimodal LLM at inference."
+    ],
+    "Why I might care": [
+      "For the queue’s geolocation and geographic-bias work, this separates gallery coverage from world knowledge in a VLM. My proposed test: stratify queries by nearby street-view support density and compare clean versus GeoBiaset foreground-manipulated images with and without the support token. The authors do not test that robustness interaction."
+    ],
+    "Why it matters": [
+      "Internet photographs are diverse, while street-view imagery supplies more regular geographic coverage. Combining these sources can improve an image-location embedding and help verify a candidate against its surroundings."
+    ],
+    "Main idea": [
+      "Retrieve plausible coordinates cheaply, then check each candidate using its own visual features, geographic embedding and nearby cross-source imagery."
+    ],
+    "Method": [
+      "A frozen SigLIP 2 backbone feeds source-specific adapters and a shared image trunk. A learned multi-scale Fourier location tower maps unit-sphere coordinates into the shared space. Source-specific SigLIP losses train the embedder. Learned-image, GPS and raw-SigLIP retrieval channels form a shortlist; a Transformer scores each candidate independently using a query token, candidate tokens and a pooled support token from the other source. Pairwise margin training favours the shortlist candidate nearest the ground truth. Separate task instances target internet photos and street views."
+    ],
+    "Experiments": [
+      "Table 1 reports IM2GPS3k accuracy within 25 km of 47.4%, versus 45.0% for GeoRanker; on YFCC4k the values are 44.4% and 43.5%. In the YFCC4k ablation, removing the OSV-5M support token changes 25 km accuracy from 44.4% to 43.3%.",
+      "On the geographically separated OSV-5M test split, Table 3 reports mean Haversine error of 743 km versus 861 km for HierLoc with DINOv3, and reverse-geocoded city accuracy of 26.0% versus 23.3%. Administrative accuracy is distinct from distance-threshold accuracy."
+    ],
+    "What is new": [
+      "Cross-source embedding supervision and local complementary-source evidence in a compact candidate reranker, without prompting a generative MLLM."
+    ],
+    "Limitations": [
+      "Predictions are constrained to indexed coordinates; the static gallery must be updated to reflect visual changes. Cached embeddings require persistent storage. Flickr benchmarks may overlap internet-scale backbone pretraining, and geographic biases remain. The latency comparison uses different batch sizes and only GeoRanker’s final reranking stage, so its speedup should not be treated as a matched end-to-end comparison. The authors release code but withhold trained weights."
+    ]
+  }
+},
+{
+  "slug": "reverse-agentic-geolocation",
+  "date": "2026-10-05",
+  "publishedDate": "2026-05-26",
+  "topic": "Image geolocation",
+  "title": "REVERSE: Reinforcing Evidence Verification and Search for Agentic Image geo-localization",
+  "authors": "Yong Li, Furong Jia, Dacheng Yin, Kang Rong, Fengyun Rao, Jing Lyu, Fan Zhang",
+  "venue": "arXiv preprint v1 · first public 26 May 2026",
+  "sourceUrl": "https://arxiv.org/abs/2605.26861v1",
+  "pdfUrl": "https://arxiv.org/pdf/2605.26861v1",
+  "summary": "REVERSE trains a geolocation agent to choose informative crops, search for evidence and identify useful search results. Process rewards supervise these decisions alongside the final coordinate.",
+  "care": "This is a concrete link between the queue’s VLM grounding and geolocation themes: a plausible scene interpretation must survive external evidence.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/reverse-20261005.jpg",
+      "alt": "REVERSE training stages: coordinate SFT, agentic cold start, and agentic reinforcement learning with geographic, format and tool-process rewards.",
+      "caption": "Figure 3 — REVERSE training pipeline and reward components. Original figure by Li et al., arXiv:2605.26861v1.",
+      "creditUrl": "https://arxiv.org/html/2605.26861v1#S3.F3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "REVERSE trains a geolocation agent to choose informative crops, search for evidence and identify useful search results. Process rewards supervise these decisions alongside the final coordinate."
+    ],
+    "Why I might care": [
+      "This is a concrete link between the queue’s VLM grounding and geolocation themes: a plausible scene interpretation must survive external evidence. My proposed test: insert GeoBiaset distractors and trace whether the crop, search query or evidence-selection step fails first, while holding search observations fixed. That adversarial diagnosis is not reported by the authors."
+    ],
+    "Why it matters": [
+      "Giving a VLM search tools does not ensure it uses relevant evidence. The paper makes intermediate decisions observable and trains the agent to reject misleading retrieved results."
+    ],
+    "Main idea": [
+      "Supervise the search-and-verification loop, not only the final location. Explicit useful-result tags let training distinguish successful evidence filtering from indiscriminate trust."
+    ],
+    "Method": [
+      "Qwen3-VL-4B-Instruct first learns coordinate prediction from MP16-Pro, then tool use from curated Kimi-K2.6 trajectories, and finally undergoes GRPO with an easy-to-full curriculum. Tools provide zoom, cropped reverse image search and text search. Rewards cover geographic accuracy, valid output format, crop overlap, search execution and evidence discrimination using Matthews Correlation Coefficient. Cached annotated search observations support training; live search infrastructure is used for evaluation."
+    ],
+    "Experiments": [
+      "On Im2GPS3k, Table 1 reports 48.3% accuracy within 25 km and 22.5% within 1 km, versus 41.5% and 18.1% for Geo-R. The training-stage ablation reaches 42.5% within 25 km after coordinate-only SFT and 48.3% after the full agentic pipeline; unparsed predictions count as incorrect.",
+      "On YFCC4k, REVERSE reaches 27.5% within 25 km, above untuned Qwen3-VL-4B’s 12.4% but below G3’s 35.9%. In the easy-curriculum reward ablation, removing MCC evidence discrimination changes 25 km accuracy from 45.4% to 43.6%; these are not the full-curriculum headline scores."
+    ],
+    "What is new": [
+      "Tool-grounded trajectory labels and process-level rewards connect region selection, search actions and explicit evidence filtering in one geolocation training pipeline."
+    ],
+    "Limitations": [
+      "Everyday scenes without distinctive searchable clues remain difficult, as the YFCC4k result shows. Search APIs and their returned evidence are part of the inference system. The paper’s cache descriptions differ between appendices: one describes live fallback for misses, another fully offline matching. The core process-supervision result is clearer than the exact cache-miss policy. Coarse-distance accuracy does not uniformly exceed retrieval baselines."
+    ]
+  }
+},
+{
+  "slug": "skypart-weather-robust-cross-view",
+  "date": "2026-10-05",
+  "publishedDate": "2026-05-12",
+  "topic": "Cross-view geolocation",
+  "title": "Weather-Robust Cross-View Geo-Localization via Prototype-Based Semantic Part Discovery",
+  "authors": "Chi-Nguyen Tran, Dao Sy Duy Minh, Huynh Trung Kiet, Nguyen Lam Phu Quy, Phu-Hoa Pham, Long Tran-Thanh",
+  "venue": "arXiv preprint v2 · revised 18 May 2026 · first public 12 May 2026",
+  "sourceUrl": "https://arxiv.org/abs/2605.11654v2",
+  "pdfUrl": "https://arxiv.org/pdf/2605.11654v2",
+  "summary": "SkyPart adds learned part grouping and a graph readout to a small ViT for drone-to-satellite retrieval. It evaluates clean matching and weather-corrupted drone queries with a single-pass descriptor.",
+  "care": "The queue’s robustness theme can be tested at the level of local evidence: does a model rely on layout or transient texture?",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/skypart-20261005.jpg",
+      "alt": "SkyPart combines a global CLS branch, learned prototype part pooling and graph attention; altitude-conditioned training and uncertainty-weighted auxiliary losses are removed or fixed at inference.",
+      "caption": "Figure 1 — SkyPart architecture and training-only GeoPartLoss groups. Original figure by Tran et al., arXiv:2605.11654v2.",
+      "creditUrl": "https://arxiv.org/html/2605.11654v2#S3.F1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "SkyPart adds learned part grouping and a graph readout to a small ViT for drone-to-satellite retrieval. It evaluates clean matching and weather-corrupted drone queries with a single-pass descriptor."
+    ],
+    "Why I might care": [
+      "The queue’s robustness theme can be tested at the level of local evidence: does a model rely on layout or transient texture? My proposed test: compare weather corruptions with targeted foreground insertions and inspect prototype assignments under both. Weather robustness in this paper does not establish adversarial or GeoBiaset robustness."
+    ],
+    "Why it matters": [
+      "Altitude, viewpoint and visibility alter appearance across drone and satellite images. Explicitly grouping recurring regions offers another route to a shared location representation."
+    ],
+    "Main idea": [
+      "Let a small bank of prototypes compete for patch tokens, retain salient groups and their relationships, and fuse those features with the global image descriptor."
+    ],
+    "Method": [
+      "DINOv2 ViT-S/14 supplies patch and CLS tokens. A salience gate selects active prototypes; a two-layer graph-attention readout uses part features and spatial centroids. Three branches fuse into a 768-dimensional descriptor. Altitude-conditioned FiLM is used in training; fixed mean-FiLM parameters remove the need for altitude metadata at inference. GeoPartLoss learns uncertainty weights over alignment, part quality, distillation and altitude objectives. Cosine retrieval uses no reranking or test-time augmentation."
+    ],
+    "Experiments": [
+      "On SUES-200 at 150 m, Table 1 reports drone-to-satellite Recall@1 of 97.25% for SkyPart versus 96.80% for DAC. SkyPart uses a single 448×448 input and the full 200-satellite confusion gallery; baseline values come from their original publications and are not a fully matched rerun.",
+      "For University-1652 under WeatherPrompt, Table 3 reports mean drone-to-satellite Recall@1 of 90.36% versus 77.14% for WeatherPrompt. Drone queries are corrupted and satellite galleries stay clean. SkyPart is retrained at 392×392, while the published WeatherPrompt baseline uses 384×384; training and resolution differences limit causal attribution."
+    ],
+    "What is new": [
+      "A lightweight combination of prototype competition, part relationships, training-time altitude modulation and learned multi-task weighting for cross-view retrieval. The constituent theoretical tools are established; the paper applies them to this setting."
+    ],
+    "Limitations": [
+      "Prototype indices do not have stable human-readable semantic names, and the bank has fixed capacity. Geographic generalization is tested only in the University-1652-to-SUES-200 transfer beyond the usual splits; satellite-to-drone results are mixed. Synthetic weather tests do not guarantee field-weather performance. Mean-FiLM equals an expected affine modulation, not an exact marginalization of the final nonlinear embedding. Pareto stationarity is not Pareto optimality."
+    ]
+  }
+},
+{
+  "slug": "geox-self-play-geospatial-reasoning",
+  "date": "2026-10-05",
+  "publishedDate": "2026-05-19",
+  "topic": "Geospatial reasoning",
+  "title": "GeoX: Mastering Geospatial Reasoning Through Self-Play and Verifiable Rewards",
+  "authors": "Kyeongjin Ahn, Seungeon Lee, Krishna P. Gummadi, Meeyoung Cha",
+  "venue": "arXiv preprint v1 · first public 19 May 2026",
+  "sourceUrl": "https://arxiv.org/abs/2605.20006v1",
+  "pdfUrl": "https://arxiv.org/pdf/2605.20006v1",
+  "summary": "GeoX trains spatial reasoning on overhead imagery through self-play: one VLM proposes executable questions and solves them, while a segmentation-based executor supplies verifiable rewards. It studies scene reasoning, not worldwide coordinate prediction.",
+  "care": "This connects the queue’s VLM grounding benchmarks to a way of generating spatial supervision.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/geox-20261005.jpg",
+      "alt": "GeoX self-play loop: one policy proposes programs over segmentation and spatial primitives, solves masked program-argument-output tasks, and receives execution-based rewards.",
+      "caption": "Figure 2 — GeoX proposer, solver and program-verification loop. Original figure by Ahn, Lee, Gummadi and Cha, arXiv:2605.20006v1.",
+      "creditUrl": "https://arxiv.org/html/2605.20006v1#S2.F2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "GeoX trains spatial reasoning on overhead imagery through self-play: one VLM proposes executable questions and solves them, while a segmentation-based executor supplies verifiable rewards. It studies scene reasoning, not worldwide coordinate prediction."
+    ],
+    "Why I might care": [
+      "This connects the queue’s VLM grounding benchmarks to a way of generating spatial supervision. My proposed test: compare GeoX and its base model on held-out SpatiaLQA-style relations while independently auditing the segmentation masks used by the verifier. This would separate improved reasoning from learning a perceptual tool’s mistakes; the paper does not report that test."
+    ],
+    "Why it matters": [
+      "The number of possible spatial questions grows rapidly with objects and relations. Executable programs can generate compositional supervision without manually writing every question-answer pair."
+    ],
+    "Main idea": [
+      "A shared proposer-solver policy builds questions near its current capability frontier. Mask the program, input argument or output to train induction, abduction and deduction."
+    ],
+    "Method": [
+      "Programs compose geometric, topological and aggregation primitives with SegEarth-OV3 open-vocabulary segmentation. Intermediate masks and execution values remain hidden from the solver. Invalid or nondeterministic programs are discarded. Execution consistency and type-aware answer checking reward the solver; partially solvable problems reward the proposer. Task-Relative REINFORCE++ updates both roles from unannotated SAMRS-FAST and Globe230k images, with an optional executor-generated format warm-up."
+    ],
+    "Experiments": [
+      "Table 1 evaluates VQA accuracy using 32 generated responses per question and majority voting, with exact match for closed answers and an LLM judge for open answers. GeoX initialized from Qwen-2.5-VL-7B raises EarthVQA average accuracy from 50.0% to 51.2%; on the 17 selected spatial-understanding GEOBench-VLM tasks, the average rises from 42.1% to 43.3%.",
+      "Benefits are not uniform: EarthVQA reasoning-based judging falls from 73.0% to 68.6%, while basic counting rises from 62.4% to 69.4%. The study supports improvements in some spatial tasks, not a general mastery of physical laws."
+    ],
+    "What is new": [
+      "Image-grounded program generation, three complementary masked reasoning modes and execution rewards form an adaptive spatial-question curriculum with no manually curated remote-sensing QA training pairs."
+    ],
+    "Limitations": [
+      "Verification depends on segmentation quality: errors become training labels, especially for rare categories. Only one perception tool is tested, so depth, road-network reachability and external geospatial metadata are outside scope. Evaluation uses majority voting rather than single-response accuracy. Human curation is reduced at the task-data level; the pretrained VLM and segmenter still carry prior supervision."
+    ]
+  }
+},
+{
   "slug": "sonoworld-image-to-audio-visual-scene",
   "date": "2026-10-02",
   "publishedDate": "2026-03-30",
@@ -777,3 +1169,4 @@ export const papers = [
 ];
 
 export const topics = ['All topics', ...new Set(papers.map(paper => paper.topic))];
+
