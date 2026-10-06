@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 23 verified summaries published (28 September–5 October); 12 selected slots remain (6–9 October).  
+**Status:** 26 verified summaries published (28 September–6 October); 9 selected slots remain (7–9 October).  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -66,9 +66,11 @@
 
 ### Tuesday 6 October · attacks, robustness, bias
 
-1. [Omni-Attack: Adversarial Attacks on Open-Ended VQA in Black-Box Multimodal LLMs](https://openaccess.thecvf.com/content/CVPR2026/html/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.html) — **CVPR 2026** · Black-box transfer attacks on open-ended multimodal answers.
-2. [A Closed-Form Solution for Debiasing Vision-Language Models with Utility Guarantees Across Modalities and Tasks](https://openaccess.thecvf.com/content/CVPR2026/html/Lian_A_Closed-Form_Solution_for_Debiasing_Vision-Language_Models_with_Utility_Guarantees_CVPR_2026_paper.html) — **CVPR 2026** · Bias mitigation and retention of downstream utility.
-3. [TTP: Test-Time Padding for Adversarial Detection and Robust Adaptation on Vision-Language Models](https://openaccess.thecvf.com/content/CVPR2026/html/Li_TTP_Test-Time_Padding_for_Adversarial_Detection_and_Robust_Adaptation_on_CVPR_2026_paper.html) — **CVPR 2026** · Adversarial detection and adaptation at test time.
+1. [Omni-Attack: Adversarial Attacks on Open-Ended VQA in Black-Box Multimodal LLMs](https://openaccess.thecvf.com/content/CVPR2026/html/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.html) — **CVPR 2026** · Black-box transfer attacks on open-ended multimodal answers. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=omni-attack-open-ended-vqa
+2. [A Closed-Form Solution for Debiasing Vision-Language Models with Utility Guarantees Across Modalities and Tasks](https://openaccess.thecvf.com/content/CVPR2026/html/Lian_A_Closed-Form_Solution_for_Debiasing_Vision-Language_Models_with_Utility_Guarantees_CVPR_2026_paper.html) — **CVPR 2026** · Bias mitigation and retention of downstream utility. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=closed-form-debiasing-vlm-utility
+3. [TTP: Test-Time Padding for Adversarial Detection and Robust Adaptation on Vision-Language Models](https://openaccess.thecvf.com/content/CVPR2026/html/Li_TTP_Test-Time_Padding_for_Adversarial_Detection_and_Robust_Adaptation_on_CVPR_2026_paper.html) — **CVPR 2026** · Adversarial detection and adaptation at test time. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=ttp-test-time-padding-vlm-defense
+
+**6 October verification:** All three complete summaries, eight sections per entry, original paper figures or explicitly labelled original-figure excerpts, captions, attribution, alt text, source/PDF links and homepage cards verified live. No substitutions. Existing layout and responsive CSS preserved. Visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
 
 ### Wednesday 7 October · generative vision
 
