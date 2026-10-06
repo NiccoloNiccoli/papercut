@@ -1,6 +1,153 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "omni-attack-open-ended-vqa",
+  "date": "2026-10-06",
+  "publishedDate": "2026-06-07",
+  "topic": "Adversarial attacks",
+  "title": "Omni-Attack: Adversarial Attacks on Open-Ended VQA in Black-Box Multimodal LLMs",
+  "authors": "Kai Hu, Weichen Yu, Li Zhang, Alexander Robey, Andy Zou, Haoqi Hu, Chengming Xu, Matt Fredrikson",
+  "venue": "CVPR 2026 · official proceedings version · public by Jun 2026",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.pdf",
+  "summary": "Omni-Attack turns open-ended VQA and OCR into reproducible targeted attacks. It builds question-conditioned text and image targets, then transfers norm-bounded perturbations from public surrogate encoders to black-box MLLMs.",
+  "care": "This gives the queue’s transfer-attack theme a harder output space than classification: the attacker must induce a specified natural-language answer.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/omni-attack-20261006.jpg",
+      "alt": "Six Omni-Attack examples spanning map recognition, landmark geolocation, crowd reasoning, receipt reading and object direction, with the correct and targeted model answers shown.",
+      "caption": "Figure 1 — Targeted adversarial examples across VQA and OCR tasks. Original figure by Hu et al., reproduced from the official CVPR 2026 paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.pdf#page=2"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Omni-Attack turns open-ended VQA and OCR into reproducible targeted attacks. It builds question-conditioned text and image targets, then transfers norm-bounded perturbations from public surrogate encoders to black-box MLLMs."
+    ],
+    "Why I might care": [
+      "This gives the queue’s transfer-attack theme a harder output space than classification: the attacker must induce a specified natural-language answer. My proposed test: replace Omni-Attack’s generic target construction with the geographic targets used by FoundationRTA and compare transfer to Img2Loc, PIGEON and closed MLLMs at matched perturbation budgets. That geolocation study is not part of this paper."
+    ],
+    "Why it matters": [
+      "Open-ended answers make attack evaluation ambiguous. AdvRobustBench fixes a target answer and conditions attack success on questions the victim originally answers correctly, separating successful steering from pre-existing model error."
+    ],
+    "Main idea": [
+      "Ask LLMs to imagine an image consistent with a chosen wrong answer, verify the resulting captions, generate matching visual targets, and optimize one perturbation toward those targets across several surrogate encoders. For OCR, restrict optimization to the text region that actually determines the answer."
+    ],
+    "Method": [
+      "AdvRobustBench contains 1,000 examples: 400 from MMBench, 300 from MMStar and 300 from OCRBench-v2. VQA success is exact targeted-option selection; OCR uses GPT-4.1 as judge, validated on 200 responses at 99% precision and 97.5% recall. Omni-Attack combines five verified textual and visual targets with three large CLIP-family surrogates. DropPath, PatchDrop, perturbation averaging and differentiable JPEG augmentation reduce surrogate overfitting. OCR boxes come from PaddleOCR and are tested for question relevance before localized optimization."
+    ],
+    "Experiments": [
+      "Under targeted black-box transfer with an L-infinity budget of 8/255, Table 1 reports scaled ASR on the MMBench split of 71.8% for GPT-4.1, 69.8% for GPT-4o, 67.1% for Qwen3-VL 30B, 65.8% for Gemini 2.0 and 15.5% for Claude 3.7. On OCRBench-v2, the corresponding values are 25.2%, 24.6%, 25.3%, 22.8% and 4.6%. Each adversarial input is queried three times and results are averaged; clean failures are excluded by the scaled-ASR denominator.",
+      "On the same MMBench split and 8/255 budget, Table 2 gives GPT-4.1 ASR of 71.8% for Omni-Attack versus 9.5% for AnyAttack, 6.9% for SSA-CWA, 3.4% for AttackVLM and 2.8% for M-Attack after adapting those methods to the paper’s target construction. This demonstrates transfer under the stated protocol, not universal failure of every MLLM deployment."
+    ],
+    "What is new": [
+      "A standardized targeted benchmark for open-ended VQA/OCR, question-conditioned multi-target construction, and an OCR-specific location-aware attack are evaluated together against proprietary and open MLLMs."
+    ],
+    "Limitations": [
+      "The benchmark has 1,000 digital examples from three source benchmarks and uses only L-infinity budgets of 8/255 and 16/255; physical capture and other threat models are not tested. Scaled ASR excludes items the victim misses cleanly. OCR success depends on an LLM judge, although the authors validate it on a 200-response subset. The best-practice attack also uses five target-generating LLMs, a text-to-image model and three large surrogates, so it is computationally heavier than a single-surrogate attack."
+    ]
+  }
+},
+{
+  "slug": "closed-form-debiasing-vlm-utility",
+  "date": "2026-10-06",
+  "publishedDate": "2026-03-13",
+  "topic": "Vision-language bias",
+  "title": "A Closed-Form Solution for Debiasing Vision-Language Models with Utility Guarantees Across Modalities and Tasks",
+  "authors": "Tangzheng Lian, Guanyu Hu, Yijing Ren, Dimitrios Kollias, Oya Celiktutan",
+  "venue": "CVPR 2026 · first public 13 Mar 2026",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Lian_A_Closed-Form_Solution_for_Debiasing_Vision-Language_Models_with_Utility_Guarantees_CVPR_2026_paper.html",
+  "pdfUrl": "https://arxiv.org/pdf/2603.12998",
+  "summary": "This paper debiases image and text embeddings with a closed-form point on the fairness–utility Pareto front. It needs no downstream labels or mapping-network training and supports group and intersectional attributes.",
+  "care": "For GeoBiaset, this is a concrete representation-level intervention to test against foreground-induced demographic shifts, rather than only measuring them.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/closed-form-debiasing-20261006.jpg",
+      "alt": "Comparison between projecting embeddings away from a full group-prototype span, which removes semantic content, and projecting only from the attribute-direction subspace.",
+      "caption": "Figure 1 — Full prototype-subspace projection versus attribute-subspace debiasing. Original figure by Lian et al., from the CVPR 2026 paper.",
+      "creditUrl": "https://arxiv.org/pdf/2603.12998#page=3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "This paper debiases image and text embeddings with a closed-form point on the fairness–utility Pareto front. It needs no downstream labels or mapping-network training and supports group and intersectional attributes."
+    ],
+    "Why I might care": [
+      "For GeoBiaset, this is a concrete representation-level intervention to test against foreground-induced demographic shifts, rather than only measuring them. My proposed test: apply the closed-form image and text corrections before geolocation and measure both POPI and kilometre-threshold accuracy across original, occlusion-control and edited images. The authors evaluate classification, retrieval and generation, not image geolocation."
+    ],
+    "Why it matters": [
+      "Projecting away an entire group-prototype subspace can erase task semantics along with sensitive attributes. The paper isolates directions between group prototypes, then explicitly chooses a compromise between attribute leakage and similarity to the original embedding."
+    ],
+    "Main idea": [
+      "Construct context-specific group prototypes, span an attribute subspace using their differences, decompose each embedding into parallel and orthogonal components, and solve analytically for a debiased unit vector that minimizes the worst weighted fairness–utility objective."
+    ],
+    "Method": [
+      "An LLM inserts each group specification into the input prompt and creates grammatical variants. Their normalized text embeddings form a spherical-mean prototype per group. Differences between prototypes define the attribute subspace. A Chebyshev scalarization yields a closed-form coefficient on the two-dimensional plane containing the original embedding’s parallel and orthogonal components. The same operation can modify image and text embeddings; the paper proves a bound on cross-modal alignment loss from the two self-utility losses."
+    ],
+    "Experiments": [
+      "For CLIP ViT-L/14 zero-shot classification, Table 2 reports CelebA F1 of 56.5% with the method versus 54.0% for unmodified CLIP, while average equal-opportunity violation over perceived gender × age falls from 25.1 to 23.6 (all values scaled by 100). On FACET, macro F1 is 70.7% versus 70.8%, and maximum gender EO violation falls from 49.8 to 47.5. RoboShot reaches 47.3 on the latter fairness metric but with lower macro F1 of 69.3, illustrating the trade-off.",
+      "For text-to-image retrieval in Table 3, COCO2017 R@5/R@10 are 81.1/89.0 versus 83.8/90.1 for baseline CLIP, while intersectional MaxSkew@1000 falls from 13.4 to 10.1. On Flickr30K, R@5/R@10 are 90.4/94.9 versus 91.0/95.4, and gender MaxSkew@1000 falls from 20.3 to 11.8. These are dataset-specific fairness and utility measurements, not a guarantee on every downstream task metric."
+    ],
+    "What is new": [
+      "The contribution is a training-free closed-form solution that debiases both modalities, handles intersectional groups, characterizes the Pareto-optimal region and gives a representation-space utility bound."
+    ],
+    "Limitations": [
+      "The authors’ guarantee preserves geometry in the VLM embedding space; it does not directly guarantee F1, Recall@K or another task metric. Decoder-side debiasing for generative models remains future work. Evaluated attributes are constrained by available fairness datasets and do not span all identities or contexts. Group prototypes also depend on LLM-generated linguistic variants, even though the reported sensitivity test finds similar results with two LLMs."
+    ]
+  }
+},
+{
+  "slug": "ttp-test-time-padding-vlm-defense",
+  "date": "2026-10-06",
+  "publishedDate": "2025-12-18",
+  "topic": "Adversarial robustness",
+  "title": "TTP: Test-Time Padding for Adversarial Detection and Robust Adaptation on Vision-Language Models",
+  "authors": "Zhiwei Li, Yitian Pang, Weining Wang, Zhenan Sun, Qi Li",
+  "venue": "CVPR 2026 · first public 18 Dec 2025 · revised 23 Mar 2026",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Li_TTP_Test-Time_Padding_for_Adversarial_Detection_and_Robust_Adaptation_on_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_TTP_Test-Time_Padding_for_Adversarial_Detection_and_Robust_Adaptation_on_CVPR_2026_paper.pdf",
+  "summary": "TTP detects adversarial CLIP inputs from the feature shift caused by fixed spatial padding. Only detected attacks receive per-image trainable padding and a similarity-weighted ensemble at inference.",
+  "care": "The detect-then-adapt split is relevant to targeted geolocation attacks because a defense can preserve clean behavior instead of adapting every query.",
+  "readMinutes": 5,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/ttp-20261006.jpg",
+      "alt": "TTP pipeline showing padding-based adversarial detection, augmented low-entropy view selection, trainable border padding and a similarity-aware prediction ensemble.",
+      "caption": "Figure 3 — Test-Time Padding detection and adaptation pipeline. Original figure by Li et al., reproduced from the official CVPR 2026 paper.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Li_TTP_Test-Time_Padding_for_Adversarial_Detection_and_Robust_Adaptation_on_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "TTP detects adversarial CLIP inputs from the feature shift caused by fixed spatial padding. Only detected attacks receive per-image trainable padding and a similarity-weighted ensemble at inference."
+    ],
+    "Why I might care": [
+      "The detect-then-adapt split is relevant to targeted geolocation attacks because a defense can preserve clean behavior instead of adapting every query. My proposed test: measure the pre/post-padding similarity of clean, GeoShield and RTA images in GeoCLIP or a frozen geolocation encoder, stratified by region and perturbation budget. The paper studies zero-shot CLIP classification, not geolocation."
+    ],
+    "Why it matters": [
+      "Uniform test-time adaptation can damage clean inputs. TTP first estimates whether adaptation is needed, then changes only border pixels for the flagged sample while keeping the CLIP encoder and text prompts frozen."
+    ],
+    "Main idea": [
+      "Adversarial perturbations make CLIP features unusually sensitive to padding. Use that shift as a detector; for flagged samples, optimize a padding border with one entropy-minimization step and aggregate confident augmented views according to how their padded features move away from the original adversarial representation."
+    ],
+    "Method": [
+      "A fixed 32-pixel border produces a second CLIP embedding. Cosine similarity above the threshold 0.8 is treated as clean; lower similarity triggers adaptation. TTP generates 64 AugMix views, selects low-entropy views, updates only instance-specific padding once, and forms a similarity-aware weighted ensemble. Experiments use frozen CLIP ViT-B/32, ViT-B/16 and ViT-L/14 encoders; no external foundation model or task labels are used."
+    ],
+    "Experiments": [
+      "Across Caltech101, Oxford Pets, Cars, Flowers102, Aircraft, DTD, EuroSAT and UCF101 under 100-step PGD at 4/255, Table 1 reports ViT-B/32 mean adversarial accuracy of 39.7% for TTP, versus 35.3% for R-TPT, 35.0% for MTA, 34.3% for view ensembling, 6.8% for TTC and 0% for vanilla CLIP. Mean clean accuracy is 57.1% for TTP versus 57.4% for vanilla CLIP. For ViT-L/14, Table 3 gives 51.6% adversarial and 68.9% clean accuracy versus 49.6% and 68.4% for R-TPT.",
+      "With the same ViT-B/32 datasets and threshold, Table 4 reports average clean/adversarial detection accuracy of 98.5% for black padding, 95.8% for random padding and 98.7% for white padding. The component ablation in Table 7 moves mean adversarial accuracy from 37.5% with padding alone to 39.0% with entropy minimization and 39.7% with the full similarity-aware ensemble."
+    ],
+    "What is new": [
+      "TTP couples a padding-induced embedding-shift detector with per-sample optimization entirely in border pixels, avoiding prompt or model-parameter updates."
+    ],
+    "Limitations": [
+      "The evidence is limited to zero-shot CLIP classification on eight datasets and three backbones. The fixed 0.8 threshold generalizes across those experiments but is an empirical choice, not a universal guarantee. The paper does not evaluate an adaptive attacker that differentiates through the complete detector-and-padding pipeline. Each flagged image requires 64 augmented views and an optimization step, so the method is lightweight in trainable parameters but not free in inference cost."
+    ]
+  }
+},
+{
   "slug": "lost-in-the-tail-dapr",
   "date": "2026-10-05",
   "publishedDate": "2026-06-30",
