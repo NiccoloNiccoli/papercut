@@ -15,9 +15,9 @@ export const papers = [
   "readMinutes": 5,
   "visuals": {
     "hero": {
-      "src": "./assets/images/omni-attack-20261006.jpg",
-      "alt": "Six Omni-Attack examples spanning map recognition, landmark geolocation, crowd reasoning, receipt reading and object direction, with the correct and targeted model answers shown.",
-      "caption": "Figure 1 — Targeted adversarial examples across VQA and OCR tasks. Original figure by Hu et al., reproduced from the official CVPR 2026 paper.",
+      "src": "./assets/images/omni-attack-figure1-excerpt-20261006.jpg",
+      "alt": "Two targeted Omni-Attack examples: a map question is steered from Virginia to Michigan and a Shanghai landmark question is steered to Paris.",
+      "caption": "Figure 1 (top-row excerpt) — Targeted attacks on map recognition and landmark geolocation. Original figure by Hu et al., reproduced from the official CVPR 2026 paper.",
       "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Hu_Omni-Attack_Adversarial_Attacks_on_Open-Ended_VQA_in_Black-Box_Multimodal_LLMs_CVPR_2026_paper.pdf#page=2"
     }
   },
@@ -1316,4 +1316,3 @@ export const papers = [
 ];
 
 export const topics = ['All topics', ...new Set(papers.map(paper => paper.topic))];
-
