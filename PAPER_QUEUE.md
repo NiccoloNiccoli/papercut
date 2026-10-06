@@ -21,7 +21,9 @@
 - In What is new, identify the specific difference from earlier approaches rather than repeating a list of modules.
 - In Why it matters, focus on significance within the paper's field: the existing limitation, what the contribution changes, and when it is useful. In Why I might care, give a concrete reason for a reader in that field to read or use the work.
 - Do not routinely tie relevance to the user's personal projects or require a proposed experiment in every summary. Optional editorial ideas may briefly suggest another perspective on the problem or an application in a different context; label them as proposals and distinguish them from author results.
-- Keep all eight existing sections. Explain what verified experimental results support, report genuine limitations, and avoid promotion, generic claims and repetition.
+- Keep all nine sections: TL;DR, Why I might care, Why it matters, Main idea, Method, Experiments, What is new, Limitations, Creative use. Explain what verified experimental results support, report genuine limitations, and avoid promotion, generic claims and repetition.
+
+- End every summary with Creative use, after Limitations: one specific, reasoned proposal for using the method in a different task or context. Explain the transferable component or principle, why it could fit, essential adaptations, and an assumption or limitation to verify. Label it as an editorial proposal not tested in the paper. Avoid generic domain pairings or merely changing datasets; if no plausible transfer can be justified, explain why rather than inventing one. Aim for one proportionate paragraph (roughly 80–150 words).
 
 ## Week 1 · 28 September–2 October
 
