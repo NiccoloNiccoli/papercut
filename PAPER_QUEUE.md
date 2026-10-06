@@ -14,6 +14,15 @@
 - Keep one paper in one slot only; check the site and previous queues for duplicates. Replace inaccessible, retracted, out-of-scope or insufficiently verified candidates before publication.
 - For each finished site entry, provide TL;DR, Why it matters, Main idea, Method, Experiments, What is new, Limitations and Why I might care; include at least one pertinent original figure from the paper for every published entry, with descriptive alt text, caption, author attribution and a link to the figure or paper. Do not reinterpret or generate figures; leave a slot open if its figure cannot be verified or obtained.
 
+## Writing guidelines
+
+- Start with a very brief introduction to the problem and proposed solution. Write a substantive, readable explanation (roughly 600–900 words as a flexible guide), with the method as the main focus.
+- In Main idea, explain the intuition. In Method, walk through inputs, essential components, their interactions and outputs; separate training from inference when relevant. Define necessary technical terms and explain why the design addresses the problem. For theory, explain assumptions and the scope of guarantees; for datasets or benchmarks, explain construction and evaluation.
+- In What is new, identify the specific difference from earlier approaches rather than repeating a list of modules.
+- In Why it matters, focus on significance within the paper's field: the existing limitation, what the contribution changes, and when it is useful. In Why I might care, give a concrete reason for a reader in that field to read or use the work.
+- Do not routinely tie relevance to the user's personal projects or require a proposed experiment in every summary. Optional editorial ideas may briefly suggest another perspective on the problem or an application in a different context; label them as proposals and distinguish them from author results.
+- Keep all eight existing sections. Explain what verified experimental results support, report genuine limitations, and avoid promotion, generic claims and repetition.
+
 ## Week 1 · 28 September–2 October
 
 ### Monday 28 September · geolocation, VPR, image retrieval
