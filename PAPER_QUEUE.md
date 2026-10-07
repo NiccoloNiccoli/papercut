@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 26 verified summaries published (28 September–6 October); 9 selected slots remain (7–9 October).  
+**Status:** 29 verified summaries published (28 September–7 October); 6 selected slots remain (8–9 October).  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -12,7 +12,7 @@
 - Prefer a strong venue when candidates are comparably relevant. Relevance, a clear contribution, and variety within each day's three papers determine the final choice. There is no numeric score or fixed quota per venue.
 - Confirm title, authors, venue, publication status, dates, methods and results from the actual paper before writing a summary. If a candidate has a preprint and a proceedings version, use the latest authoritative version and identify it correctly. Never infer quantitative results from the title or abstract alone.
 - Keep one paper in one slot only; check the site and previous queues for duplicates. Replace inaccessible, retracted, out-of-scope or insufficiently verified candidates before publication.
-- For each finished site entry, provide TL;DR, Why it matters, Main idea, Method, Experiments, What is new, Limitations and Why I might care; include at least one pertinent original figure from the paper for every published entry, with descriptive alt text, caption, author attribution and a link to the figure or paper. Do not reinterpret or generate figures; leave a slot open if its figure cannot be verified or obtained.
+- For each finished site entry, provide TL;DR, Why I might care, Why it matters, Main idea, Method, Experiments, What is new, Limitations and Creative use; include at least one pertinent original figure from the paper for every published entry, with descriptive alt text, caption, author attribution and a link to the figure or paper. Do not reinterpret or generate figures; leave a slot open if its figure cannot be verified or obtained.
 
 ## Writing guidelines
 
@@ -85,9 +85,11 @@
 
 ### Wednesday 7 October · generative vision
 
-1. [CADC: Content Adaptive Diffusion-Based Generative Image Compression](https://openaccess.thecvf.com/content/CVPR2026/html/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.html) — **CVPR 2026** · Generative image coding with diffusion.
-2. [LinVideo: A Post-Training Framework towards O(n) Attention in Efficient Video Generation](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_LinVideo_A_Post-Training_Framework_towards_On_Attention_in_Efficient_Video_CVPR_2026_paper.html) — **CVPR 2026** · Efficiency of video generation after training.
-3. [SpaceTimePilot: Generative Rendering of Dynamic Scenes Across Space and Time](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_SpaceTimePilot_Generative_Rendering_of_Dynamic_Scenes_Across_Space_and_Time_CVPR_2026_paper.html) — **CVPR 2026** · Controllable rendering of dynamic scenes.
+1. [CADC: Content Adaptive Diffusion-Based Generative Image Compression](https://openaccess.thecvf.com/content/CVPR2026/html/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.html) — **CVPR 2026** · Generative image coding with diffusion. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=cadc-content-adaptive-diffusion-compression
+2. [LinVideo: A Post-Training Framework towards O(n) Attention in Efficient Video Generation](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_LinVideo_A_Post-Training_Framework_towards_On_Attention_in_Efficient_Video_CVPR_2026_paper.html) — **CVPR 2026** · Efficiency of video generation after training. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=linvideo-selective-linear-attention
+3. [SpaceTimePilot: Generative Rendering of Dynamic Scenes Across Space and Time](https://openaccess.thecvf.com/content/CVPR2026/html/Huang_SpaceTimePilot_Generative_Rendering_of_Dynamic_Scenes_Across_Space_and_Time_CVPR_2026_paper.html) — **CVPR 2026** · Controllable rendering of dynamic scenes. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=spacetimepilot-camera-time-control
+
+**7 October verification:** All three summaries, nine sections per entry (including Creative use last), original figures, descriptive alt text, captions, author attribution, paper/PDF links and homepage cards verified live. Full official CVPR papers and supplements checked; first-public dates verified from arXiv histories. No substitutions. Existing layout and responsive CSS preserved; mobile breakpoints and fluid image rules checked. Visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
 
 ### Thursday 8 October · VLM and occasional ecology
 
