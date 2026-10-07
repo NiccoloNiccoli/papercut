@@ -1,6 +1,176 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "cadc-content-adaptive-diffusion-compression",
+  "date": "2026-10-07",
+  "publishedDate": "2026-02-25",
+  "topic": "Generative image compression",
+  "title": "CADC: Content Adaptive Diffusion-Based Generative Image Compression",
+  "authors": "Xihua Sheng, Lingyu Zhu, Tianyu Zhang, Dong Liu, Shiqi Wang, Jing Wang",
+  "venue": "CVPR 2026 · first public 2026-02-25",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.pdf",
+  "summary": "CADC adapts latent quantization to image content, supervises the channels used by the diffusion decoder, and captions a coarse reconstruction to guide decoding without transmitting text.",
+  "care": "A useful design reference when realistic image reconstruction matters more than exact pixel recovery under a very small bit budget.",
+  "readMinutes": 7,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/cadc-original-figure-20261007.jpg",
+      "alt": "CADC pipeline: adaptive latent quantization and entropy coding feed a synthesis transform; an auxiliary image provides a BLIP caption for one-step Stable Diffusion reconstruction.",
+      "caption": "Figure 2 from Sheng et al., “CADC” (CVPR 2026). The original diagram shows the compression path, auxiliary reconstruction and decoder-side caption conditioning. Reproduced from the official paper without changing the figure.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Sheng_CADC_Content_Adaptive_Diffusion-Based_Generative_Image_Compression_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "At very low bitrates, an image codec cannot preserve every detail. CADC uses a diffusion prior to reconstruct plausible detail, while adapting the compressed representation and the decoder’s guidance to the image’s content."
+    ],
+    "Why I might care": [
+      "Read this if you build perceptual codecs and want to understand how the bitstream and a pretrained generator can cooperate. The practical distinction is that content-specific text is produced at the receiver from already decoded information, rather than spending part of a tiny transmission budget on a caption."
+    ],
+    "Why it matters": [
+      "Diffusion codecs face a mismatch between what compression preserves and what generation needs. Uniform quantization treats smooth regions and complex textures alike; a generic prompt cannot identify the scene. CADC addresses both interfaces, alongside a latent-channel bottleneck, making it relevant to compression where perceptual realism is the objective."
+    ],
+    "Main idea": [
+      "Allocate generative intervention according to local uncertainty, but keep a compact representation of the image’s essential content. A coarse reconstruction serves two purposes: during training it checks whether that content survives in the right latent channels; during decoding it supplies a content-aware caption."
+    ],
+    "Method": [
+      "The encoder transforms the input image into a compact latent tensor y. A hyperprior, a smaller representation used to predict coding probabilities, is quantized and upsampled. The residual between y and this upsampled representation feeds a lightweight network that estimates a spatial uncertainty map m, constrained to be at least one. Larger values correspond to content that the hyperprior explains less well.",
+      "Uncertainty-Guided Adaptive Quantization divides y by m before rounding with a fixed quantization step. Crucially, the decoder does not undo this scaling. Larger m reduces the local signal-to-noise ratio, encouraging the diffusion prior to synthesize texture; smaller m preserves more structural signal. This is different from simply spending more precision on difficult regions. Arithmetic coding compresses the quantized main latent using hyperprior and spatial-context probabilities.",
+      "After decoding the bitstream, a synthesis transform expands the latent to the resolution used by Stable Diffusion. Its channel count exceeds the four channels accepted by the pretrained VAE image decoder. The diffusion U-Net uses the entire expanded tensor as context, predicts four-channel noise, and denoises only its first four channels. Auxiliary Decoder-Guided Information Concentration attaches a lightweight image decoder to those four channels. An auxiliary reconstruction loss makes them directly responsible for retaining useful image content.",
+      "At inference, frozen BLIP captions that auxiliary image. Bitrate-Free Adaptive Textual Conditioning concatenates this caption with a fixed quality prompt and conditions a distilled, one-step Stable Diffusion 2.1 decoder. No caption is transmitted, though generating it still costs computation. Training uses DF2K and CLIC 2020 Professional images, first optimizing bitrate and reconstruction objectives, then adapting to ultra-low rates with auxiliary and adversarial losses added alongside pixel, perceptual and CLIP losses."
+    ],
+    "Experiments": [
+      "Evaluation uses native-resolution Kodak, DIV2K validation and CLIC 2020 Professional test images. Figure 3 compares bitrate–perception curves using LPIPS, DISTS, FID and KID against codecs including DiffEIC, ResULIC, MKIC, OSCAR and a redesigned StableCodec. FID and KID are omitted on Kodak because its image set is small.",
+      "On Kodak, Table 1 reports average BD-rate reductions of 6.8% with LPIPS and 5.5% with DISTS for the complete method versus baseline M0. BD-rate measures bitrate savings at matched metric values across curves. M0 is the authors’ controlled StableCodec variant with their transforms and entropy model; these percentages are not comparisons against untouched original StableCodec. Adaptive quantization alone gives 3.7% and 2.7% reductions, respectively.",
+      "The supplement’s user study asks 25 participants to choose the reconstruction most consistent with the original across 24 Kodak images. CADC receives 58.5% of preferences, versus 29.0% for StableCodec and 12.5% for DLF, at respective average rates of 0.0076, 0.0072 and 0.0079 bits per pixel. The rates are close but unequal."
+    ],
+    "What is new": [
+      "The contribution joins content-dependent signal scaling, direct supervision of the four channels used for final decoding, and receiver-generated semantic guidance. Diffusion priors, learned entropy coding and one-step decoding already exist; the new work concerns aligning these parts with the individual image."
+    ],
+    "Limitations": [
+      "Perceptual quality is not exact recovery: generated textures can differ from the original, and the experiments do not establish suitability for tasks requiring faithful small details. The caption depends on an already degraded auxiliary image. The supplement also reports slower decoding than the compared StableCodec variant and DLF; eliminating textual bitrate does not eliminate captioning or diffusion compute."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: adapt the auxiliary reconstruction–caption loop to restoration of damaged photographs without manually written prompts. First produce a conservative coarse restoration, derive its scene description with BLIP, and use that description to guide a diffusion restorer. The transferable principle is obtaining semantic guidance from an intermediate image already available in the pipeline. This would require training on paired clean and degraded photographs, replacing the quantization uncertainty with a degradation-aware signal, and retaining a fidelity constraint around surviving content. The key assumption to test is whether the coarse image preserves enough semantics to avoid a mistaken caption reinforcing an incorrect restoration."
+    ]
+  }
+},
+{
+  "slug": "linvideo-selective-linear-attention",
+  "date": "2026-10-07",
+  "publishedDate": "2025-10-09",
+  "topic": "Efficient video generation",
+  "title": "LinVideo: A Post-Training Framework towards O(n) Attention in Efficient Video Generation",
+  "authors": "Yushi Huang, Xingtong Ge, Ruihao Gong, Chengtao Lv, Jun Zhang",
+  "venue": "CVPR 2026 · first public 2025-10-09",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Huang_LinVideo_A_Post-Training_Framework_towards_On_Attention_in_Efficient_Video_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Huang_LinVideo_A_Post-Training_Framework_towards_On_Attention_in_Efficient_Video_CVPR_2026_paper.pdf",
+  "summary": "LinVideo learns which pretrained video attention layers can become linear, then matches intermediate sampling distributions to recover quality without using the original video training set.",
+  "care": "Useful if you want to accelerate an existing video generator while preserving layers that need expressive dense attention.",
+  "readMinutes": 7,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/linvideo-original-figure-20261007.jpg",
+      "alt": "LinVideo overview: learnable gates mix quadratic and linear attention during selective transfer; anytime distribution matching compares the modified model with the original at intermediate diffusion times.",
+      "caption": "Figure 1 from Huang et al., “LinVideo” (CVPR 2026). Original diagram of selective transfer and anytime distribution matching, reproduced from the official paper without changing the figure.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Huang_LinVideo_A_Post-Training_Framework_towards_On_Attention_in_Efficient_Video_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Video generators spend substantial computation on attention between many space–time tokens. LinVideo converts selected layers of an existing diffusion model to cheaper linear attention, learning the selection and recovering generation quality through post-training."
+    ],
+    "Why I might care": [
+      "This is a practical option when you already have a strong checkpoint but cannot access its original training videos. It exposes a useful deployment trade-off: choose how many layers to replace, then evaluate speed against temporal coherence and visual quality. The largest advertised speedups additionally require few-step distillation."
+    ],
+    "Why it matters": [
+      "Dense self-attention compares every token with every other token, so its attention cost grows quadratically with sequence length. Linear attention is cheaper but less expressive, and replacing every layer can damage a pretrained video model. LinVideo treats efficient conversion as a learning problem, offering an alternative to retraining a linear-attention generator from scratch."
+    ],
+    "Main idea": [
+      "Not every layer needs the same attention mechanism. Preserve dense attention where replacement is harmful and gradually convert the others, while teaching the modified model to behave like the original throughout its sampling trajectory. Matching only individual predictions or final outputs is insufficient in the reported setting."
+    ],
+    "Method": [
+      "Preparation begins with text prompts and random noise. The original generator runs its normal sampling process, and its intermediate latent inputs and velocity predictions are collected as synthetic training pairs. “Data-free” means no original video training set is required; prompts and model-generated trajectories are still used.",
+      "Each candidate layer receives a linear-attention branch alongside its original softmax branch. Linear attention uses learned Hedgehog feature maps for queries and keys. It reorganizes computation so that key–value information is aggregated before applying each query, avoiding the full pairwise token matrix. The kernel is inherited from prior work, rather than invented here.",
+      "Selective transfer assigns each layer a trainable scalar r between zero and one. During training, its output is r times quadratic attention plus one minus r times linear attention, initialized at the original quadratic model. A count constraint steers selection toward the requested conversion budget. A regularizer increasingly encourages nearly binary gates, preventing ambiguous mixtures from failing when one branch is removed. At inference the gates are rounded and only the selected branch runs, so the training mixture does not create permanent double computation.",
+      "Anytime Distribution Matching, or ADM, trains the conversion across intermediate noise levels. From a saved original-model latent at a neighboring timestep, the modified model takes a sampling step. The objective compares the resulting distribution with the original model’s distribution at that timestep. Its gradient uses the difference between estimated score functions: directions indicating how probability density changes in latent space. Under the paper’s rectified-flow setting, the original and currently trained models supply those estimates themselves, avoiding a separate trainable score model.",
+      "The main implementation replaces selected self-attention layers in Wan models and retains the usual iterative generation and VAE decoding. After this conversion, an optional second stage applies DMD2 to produce a four-step generator. The supplement shows that combining conversion and few-step distillation immediately in one stage performs much worse, motivating the staged workflow."
+    ],
+    "Experiments": [
+      "Table 1 evaluates five-second, 16-fps videos with batch size one on a single H100 GPU, comparing 50-step Wan generation at classifier-free guidance 5.0. For Wan 1.3B at 480p, latency falls from 97.32 seconds with FlashAttention2 to 68.26 seconds with LinVideo, a 1.43× speedup. For Wan 14B at 720p it falls from 1,931 to 1,127 seconds, or 1.71×. The conversions replace 16 of 30 and 22 of 40 attention layers, respectively.",
+      "The paper reports multiple VBench dimensions rather than uniform improvement: for 1.3B, imaging quality changes from 66.25 to 66.07, while overall consistency changes from 26.18 to 26.52. VBench-2.0 total scores are 56.74 for both the 1.3B baseline and LinVideo. These results support approximate quality preservation on these evaluations, not identical outputs.",
+      "With additional four-step DMD2 distillation, Table 1 reports 6.110 seconds for 1.3B and 92.56 seconds for 14B, versus the same 50-step baselines. This gives the reported 15.9× and 20.9× speedups, with lower scores on several quality dimensions. Those gains combine attention conversion and a reduction in denoising steps."
+    ],
+    "What is new": [
+      "The distinctive contribution is inter-layer learned selection with a gradual transition, coupled to distribution matching at intermediate diffusion times. It shares linear-attention kernels and distillation tools with existing work, but changes how a pretrained video model is converted and supervised."
+    ],
+    "Limitations": [
+      "Retained quadratic layers mean the complete generator is not an entirely O(n) architecture. More aggressive conversion lowers quality in the ablation. Post-training still needs generated trajectories and substantial GPU resources. Measured speedups depend on hardware, resolution, implementation and sampling steps; matching benchmark scores is not a guarantee of unchanged behavior on every prompt."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: apply selective transfer to a rectified-flow music generator that attends over long audio-token sequences. Some layers may need sharp interactions to preserve note attacks or rhythm, while others could use cheaper aggregated context. Learn the conversion gates from the pretrained audio model’s own noisy trajectories, then adapt ADM to match its intermediate audio-latent distributions. This would require an audio-compatible attention kernel and evaluation of timbre, beat alignment and long-range musical structure, rather than VBench. The main assumption is that enough audio layers tolerate linearization without smearing transients; the video results do not establish that."
+    ]
+  }
+},
+{
+  "slug": "spacetimepilot-camera-time-control",
+  "date": "2026-10-07",
+  "publishedDate": "2025-12-31",
+  "topic": "Controllable video rendering",
+  "title": "SpaceTimePilot: Generative Rendering of Dynamic Scenes Across Space and Time",
+  "authors": "Zhening Huang, Hyeonho Jeong, Xuelin Chen, Yulia Gryaditskaya, Tuanfeng Y. Wang, Joan Lasenby, Chun-Hao Huang",
+  "venue": "CVPR 2026 · first public 2025-12-31",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Huang_SpaceTimePilot_Generative_Rendering_of_Dynamic_Scenes_Across_Space_and_Time_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Huang_SpaceTimePilot_Generative_Rendering_of_Dynamic_Scenes_Across_Space_and_Time_CVPR_2026_paper.pdf",
+  "summary": "SpaceTimePilot separates camera trajectory from scene animation time, allowing a source video to be re-rendered with new viewpoints and independently slowed, reversed or frozen motion.",
+  "care": "Useful when re-framing a dynamic video must remain independent of retiming the action, including a moving camera around a frozen moment.",
+  "readMinutes": 7,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/spacetime-original-figure-20261007.jpg",
+      "alt": "Original SpaceTimePilot examples pair source and generated frames: slowed ballet, reversed dancing, and a camera moving around a swing-dance moment frozen at source time 60.",
+      "caption": "Figure 1 from Huang et al., “SpaceTimePilot” (CVPR 2026). Original examples of independent camera and animation-time control, reproduced from the official paper without changing the figure.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Huang_SpaceTimePilot_Generative_Rendering_of_Dynamic_Scenes_Across_Space_and_Time_CVPR_2026_paper.pdf#page=1"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Changing a video’s viewpoint and changing when its action occurs are different controls. SpaceTimePilot conditions a video diffusion model on both independently, producing new views with slowed, reversed or frozen scene motion from a monocular source video."
+    ],
+    "Why I might care": [
+      "Read this when you need more than ordinary playback editing: for example, a camera orbit around one frozen instant, followed by resumed action. The useful design lesson is how to supervise independent controls when ordinary multi-view videos show all cameras observing the same timeline."
+    ],
+    "Why it matters": [
+      "Camera-controlled video models often preserve the original motion sequence, while explicit dynamic 3D reconstruction can introduce artifacts in unseen views. Simply reversing an input video also reverses its camera motion. This work expands generative re-rendering to separately specified viewpoints and scene times, with training data and evaluation designed to test that separation."
+    ],
+    "Main idea": [
+      "Give each output frame two instructions: where the camera should be and which moment of the source action it should depict. Train on pairs where those variables change independently, so the model cannot rely on output frame order as a proxy for both."
+    ],
+    "Method": [
+      "Inputs are a source video, a target camera trajectory and an animation-time sequence. Camera poses describe rotation and translation relative to the source’s first frame. Animation time identifies the desired moment in the source action; it is separate from diffusion noise time. Repeated values freeze the action, reversed values reverse it, and slowly advancing values create slow motion. A moving target camera combined with a constant animation time produces bullet-time.",
+      "A Wan-2.1 text-to-video backbone uses a 3D VAE to compress the video and a diffusion transformer to process latent tokens. Source and target tokens receive their own camera and animation-time embeddings, then are concatenated along the frame dimension. The camera encoder projects pose matrices into token features. For time, sinusoidal embeddings are computed at the original frame resolution and compressed with two one-dimensional convolutions to match the VAE’s coarser latent timeline. This retains finer temporal information than uniformly selecting timestamps only at latent-frame positions.",
+      "Both source and target camera poses are included. Earlier conditioning can apply the target trajectory to source features too, obscuring the geometry of the observation. Source-aware conditioning gives the model a reference for what it saw and what it must generate, including an output whose first viewpoint differs from the source’s first frame.",
+      "Training first makes existing multi-view dynamic datasets more informative through temporal warping. The source stays in forward order; target frames and their corresponding controls are resampled to represent reversal, slowing, freezing or zigzag motion. The authors also construct Cam×Time in Blender, rendering combinations of camera positions and animation states on a full grid. Source–target sequences can then traverse that grid differently. Training uses warped ReCamMaster and SynCamMaster data together with this synthetic coverage; selected attention, projection and conditioning layers are trained.",
+      "Inference denoises target video latents under the source context and requested controls, then decodes RGB frames. A generation window contains 81 frames. For longer outputs, the authors chain segments while conditioning on the original source and the most recent generated segment. This is an autoregressive extension, not evidence that the source contains unlimited unseen action."
+    ],
+    "Experiments": [
+      "The retiming test uses a held-out Cam×Time split with 32 scenes and ground-truth frames. Target and source camera trajectories are kept identical to isolate temporal control. Table 2 averages direction, speed and bullet-time tests: SpaceTimePilot reaches 21.29 dB PSNR, 0.7459 SSIM and 0.2308 LPIPS, versus 17.86, 0.7250 and 0.3073 for ReCamMaster trained jointly with static-scene data. Higher PSNR/SSIM and lower LPIPS indicate closer agreement with the target frames.",
+      "For camera control, 90 real-world OpenVideoHD videos receive 20 trajectories each, including changed initial viewpoints. Poses recovered with SpatialTracker-v2 are compared with requested poses after scale alignment. Table 4 gives relative rotation error 2.71 for SpaceTimePilot versus 4.26 for ReCamMaster, and absolute rotation error 5.63 versus 10.08. Relative translation error is 0.33 versus 0.32, so improvement is not universal.",
+      "VBench evaluates the resulting 1,800 generated videos on six visual-quality dimensions. Table 3 shows competitive quality, with different methods leading different metrics. This supports controlled rendering under the tested conditions; it does not show physical correctness of every unseen view."
+    ],
+    "What is new": [
+      "The advance is continuous video re-rendering with a dedicated animation-time signal, source-aware camera conditioning, and supervision that varies space and time independently. Existing diffusion backbones and camera embeddings remain central; temporal warping and full-grid Cam×Time coverage supply the missing training signal."
+    ],
+    "Limitations": [
+      "Precise retiming is measured against synthetic ground truth; the real-video test checks camera behavior using estimated poses rather than a captured target video. Pose errors and scale ambiguity affect interpretation. Generated hidden surfaces and motions are not guaranteed to match reality. Long sequences depend on repeated generated context, and the paper does not establish an unlimited-horizon consistency guarantee."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: generate controlled augmentation for action-recognition models, changing viewing angle independently from action speed. Start with a labeled action clip, choose several camera paths and monotonic slow/fast time mappings, and retain the original label only when the action remains intact. The transferable mechanism is separate conditioning for observation geometry and motion phase, which could help a classifier stop using camera motion as a shortcut. This would need human or keypoint-based checks that poses and object interactions survive generation, plus evaluation on real held-out videos. Reversal should be excluded when it changes the action’s meaning. The assumption to test is label preservation, not just convincing appearance."
+    ]
+  }
+},
+{
   "slug": "omni-attack-open-ended-vqa",
   "date": "2026-10-06",
   "publishedDate": "2026-06-07",
@@ -1316,3 +1486,4 @@ export const papers = [
 ];
 
 export const topics = ['All topics', ...new Set(papers.map(paper => paper.topic))];
+

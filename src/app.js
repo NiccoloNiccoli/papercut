@@ -1,4 +1,4 @@
-import { papers, topics } from './papers.js?v=20261006-verified-3b';
+import { papers, topics } from './papers.js?v=20261007-verified-3';
 
 const app = document.querySelector('#app');
 const search = document.querySelector('#search');
@@ -64,10 +64,10 @@ function detail(paper) {
   document.title = `${paper.title} — PaperCut`;
   document.querySelector('.nav-today').removeAttribute('aria-current');
   const content = paper.sections;
-  const order = ['TL;DR', 'Why I might care', 'Why it matters', 'Main idea', 'Method', 'Experiments', 'What is new', 'Limitations'];
+  const order = ['TL;DR', 'Why I might care', 'Why it matters', 'Main idea', 'Method', 'Experiments', 'What is new', 'Limitations', 'Creative use'].filter(key => Array.isArray(content[key]) && content[key].length);
   app.innerHTML = `<div class="content-grid detail-grid"><aside class="detail-nav"><a class="back-link" href="./">← Back to today</a><div class="on-this-page"><strong>ON THIS PAGE</strong><nav aria-label="On this page">${order.map(key => `<a href="#${key.toLowerCase().replace(/[^a-z0-9]+/g, '-')}">${escape(key)}</a>`).join('')}</nav></div></aside>
   <article class="detail-main"><div class="detail-intro"><span class="topic-pill">${escape(paper.topic)}</span><h1>${escape(paper.title)}</h1><p class="detail-meta">${escape(paper.authors)} · ${escape(paper.venue)} · Published ${escape(longDate(paper.publishedDate))} · ${paper.readMinutes} min read</p><div class="detail-actions"><a class="button button-dark" href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">Read paper ↗</a><a class="button button-light" href="${escape(paper.pdfUrl)}" target="_blank" rel="noopener noreferrer">PDF ↗</a><button class="button button-light queue-button" data-save="${escape(paper.slug)}" aria-pressed="${isSaved(paper.slug)}">${isSaved(paper.slug) ? '✓ Saved' : '+ Reading queue'}</button></div></div>
-  ${paper.visuals?.hero ? visualFigure(paper.visuals.hero, 'hero-figure') : ''}<div class="summary-panel">${order.map(key => section(key, content[key])).join('')}</div><p class="source-note">Summary based on the <a href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">original paper ↗</a>. “Why I might care” includes a suggested follow-up.</p></article>
+  ${paper.visuals?.hero ? visualFigure(paper.visuals.hero, 'hero-figure') : ''}<div class="summary-panel">${order.map(key => section(key, content[key])).join('')}</div><p class="source-note">Summary based on the <a href="${escape(paper.sourceUrl)}" target="_blank" rel="noopener noreferrer">original paper ↗</a>. ${content['Creative use'] ? '“Creative use” is an editorial proposal not tested in the paper.' : '“Why I might care” includes a suggested follow-up.'}</p></article>
   <aside class="right-sidebar">${glancePanel(paper)}${papers.length > 1 ? listPanel('Related summaries', papers.filter(p => p.slug !== paper.slug).slice(0, 2), 'No related summaries yet.') : ''}<div class="green-note"><strong>Read with a question.</strong><p>What would I test differently in my own setup?</p></div></aside></div>`;
 }
 
