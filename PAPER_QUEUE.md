@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 29 verified summaries published (28 September–7 October); 6 selected slots remain (8–9 October).  
+**Status:** 32 verified summaries published (28 September–8 October); 3 selected slots remain (9 October).  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -93,10 +93,12 @@
 
 ### Thursday 8 October · VLM and occasional ecology
 
-1. [SpatiaLQA: A Benchmark for Evaluating Spatial Logical Reasoning in Vision-Language Models](https://openaccess.thecvf.com/content/CVPR2026/html/Xie_SpatiaLQA_A_Benchmark_for_Evaluating_Spatial_Logical_Reasoning_in_Vision-Language_CVPR_2026_paper.html) — **CVPR 2026** · Spatial reasoning evaluation for VLMs.
-2. [Improving Vision-language Models with Perception-centric Process Reward Models](https://openaccess.thecvf.com/content/CVPR2026/html/Min_Improving_Vision-language_Models_with_Perception-centric_Process_Reward_Models_CVPR_2026_paper.html) — **CVPR 2026** · Checks perceptual claims against image evidence.
-3. [CHIRP dataset: towards long-term, individual-level, behavioral monitoring of bird populations in the wild](https://openaccess.thecvf.com/content/CVPR2026/html/Chan_CHIRP_dataset_towards_long-term_individual-level_behavioral_monitoring_of_bird_populations_CVPR_2026_paper.html) — **CVPR 2026** · Longitudinal wildlife monitoring at the individual level.
+1. [SpatiaLQA: A Benchmark for Evaluating Spatial Logical Reasoning in Vision-Language Models](https://openaccess.thecvf.com/content/CVPR2026/html/Xie_SpatiaLQA_A_Benchmark_for_Evaluating_Spatial_Logical_Reasoning_in_Vision-Language_CVPR_2026_paper.html) — **CVPR 2026** · Spatial reasoning evaluation for VLMs. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=spatialqa-spatial-logical-reasoning
+2. [Improving Vision-language Models with Perception-centric Process Reward Models](https://openaccess.thecvf.com/content/CVPR2026/html/Min_Improving_Vision-language_Models_with_Perception-centric_Process_Reward_Models_CVPR_2026_paper.html) — **CVPR 2026** · Checks perceptual claims against image evidence. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=perceval-perception-process-reward-model
+3. [CHIRP dataset: towards long-term, individual-level, behavioral monitoring of bird populations in the wild](https://openaccess.thecvf.com/content/CVPR2026/html/Chan_CHIRP_dataset_towards_long-term_individual-level_behavioral_monitoring_of_bird_populations_CVPR_2026_paper.html) — **CVPR 2026** · Longitudinal wildlife monitoring at the individual level. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=chirp-wild-bird-behavior-monitoring
 
+
+**8 October verification:** All three summaries, nine sections per entry (including Creative use last), original figures, descriptive alt text, captions, author attribution, paper/PDF links and homepage cards verified live. No substitutions. SpatiaLQA was checked from the full arXiv paper and the official CVPR supplement because the proceedings main-PDF endpoint returned 404 during verification. Existing layout preserved; responsive breakpoints and fluid image rules checked. Visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
 ### Friday 9 October · surprises
 
 1. [Rethinking Camera Choice: An Empirical Study on Fisheye Camera Properties in Robotic Manipulation](https://openaccess.thecvf.com/content/CVPR2026/html/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.html) — **CVPR 2026** · How camera geometry affects robot manipulation.
