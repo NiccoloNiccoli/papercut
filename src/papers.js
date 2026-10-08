@@ -1,6 +1,174 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+    "slug": "spatialqa-spatial-logical-reasoning",
+    "date": "2026-10-08",
+    "publishedDate": "2026-02-24",
+    "topic": "Spatial reasoning",
+    "title": "SpatiaLQA: A Benchmark for Evaluating Spatial Logical Reasoning in Vision-Language Models",
+    "authors": "Yuechen Xie, Xiaoyan Zhang, Yicheng Shan, Hao Zhu, Rui Tang, Rong Wei, Mingli Song, Yuanyu Wan, Jie Song",
+    "venue": "CVPR 2026 · first public 2026-02-24",
+    "sourceUrl": "https://arxiv.org/abs/2602.20901",
+    "pdfUrl": "https://arxiv.org/pdf/2602.20901",
+    "summary": "SpatiaLQA tests whether a vision-language model can turn an indoor image and a goal into an ordered action plan with explicit dependencies; RSGAR improves reasoning by recursively building a task-specific scene graph.",
+    "care": "A diagnostic benchmark for the gap between recognizing objects and producing a complete, dependency-aware plan from their spatial arrangement.",
+    "readMinutes": 7,
+    "visuals": {
+      "hero": {
+        "src": "./assets/images/spatialqa-original-figure-20261008.jpg",
+        "alt": "SpatiaLQA collection pipeline showing a photographed indoor scene, manual action-dependency annotation, subgraph extraction, and graph expansion into new question-answer pairs.",
+        "caption": "Figure 4 from Xie et al., “SpatiaLQA” (CVPR 2026). The original figure shows manual annotation and the two graph-based augmentation stages. Reproduced from the paper without reinterpretation.",
+        "creditUrl": "https://arxiv.org/pdf/2602.20901#page=5"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "Recognizing the objects in a room is not enough to execute a task safely: a model must infer which obstructions must be removed and which actions depend on earlier ones. SpatiaLQA provides 9,605 open-ended image–task pairs with explicit action dependencies, evaluates 41 VLMs, and introduces Recursive Scene Graph Assisted Reasoning (RSGAR) to expose the relevant spatial structure before answering."
+      ],
+      "Why I might care": [
+        "This paper is useful if you evaluate multimodal reasoning, planning, or embodied agents. Its answer format separates two failure modes that ordinary visual QA mixes together: generating the right actions and connecting them with the right prerequisites. That makes the benchmark more diagnostic than asking only whether a final goal is possible."
+      ],
+      "Why it matters": [
+        "Many vision benchmarks reward a short fact, while embodied benchmarks often constrain answers to a fixed action vocabulary and simulator. SpatiaLQA occupies the space between them: it asks for open-vocabulary, multi-step plans grounded in real indoor images, but does not require a robot controller. The results show that strong VLMs can name plausible steps yet still miss their causal structure, which is exactly where an apparently sensible plan can become unsafe or impossible."
+      ],
+      "Main idea": [
+        "Represent a plan as both language and a dependency graph. For example, to pick up a box with a bag and a hairpin on top, removing either obstruction can happen independently, but lifting the box must wait for both. SpatiaLQA asks the model to emit each action plus its direct preconditions; RSGAR helps by recursively tracing which objects touch or block the task target."
+      ],
+      "Method": [
+        "The dataset starts from 2,401 photographs at 241 real indoor locations across 13 scene categories. Annotators write one task and a 2–8-step solution per image, followed by two review rounds. Only direct dependencies are labeled. Each annotation becomes a graph whose nodes are actions and whose edges are prerequisites.",
+        "Two augmentations expand the data without changing the image. Subgraph extraction selects connected portions of an annotated dependency graph and turns the final node into a new task, producing 2,251 pairs. Graph expansion rewrites suitable remove/pick-up plans into placement tasks and adds terminal actions, producing 4,953 more. Together they yield 9,605 pairs with answers from 2 to 10 steps.",
+        "GPT-4o judges pairwise equivalence between free-form predicted and reference actions in the image, creating a binary matching matrix. The Hungarian algorithm selects a maximum one-to-one assignment. The authors compute separate precision, recall and F1 for action content and prerequisite links; a human study on 300 samples checks evaluator alignment.",
+        "RSGAR is an inference-time aid rather than a trained planner. Depth Anything V2 and SAM produce depth and segmentation maps. Starting from the task’s target object, the answering VLM identifies objects in direct contact and their spatial relations, adds them to a scene graph, then treats them as the next recursion frontier. After a fixed number of rounds, the graph, image and task produce the plan."
+      ],
+      "Experiments": [
+        "Across 41 VLMs, the human participant reaches 97.6 content F1 and 92.5 prerequisite F1. The best reported model, GPT-5, reaches 76.0 and 47.0 respectively under the paper’s GPT-4o-plus-Hungarian evaluator. Its answers average 3.1 steps versus 4.2 in the annotations, supporting the authors’ observation that missing steps, not only wrong steps, are a major failure mode.",
+        "Evaluator validation on 300 randomly sampled items compares four scoring VLMs with human judgments. GPT-4o has Pearson correlations of 0.99 for content F1 and 0.96 for prerequisite F1, with a three-point mean absolute error; this supports its use here but does not make it a ground-truth metric.",
+        "With GPT-4o as the answering model and five recursion rounds, RSGAR raises content F1 from 67.4 to 69.8 and prerequisite F1 from 25.1 to 28.1. Chain-of-thought reaches 67.6 and 27.0. Gains concentrate on longer plans: for four-step answers RSGAR adds 4.5 content-F1 points, while two-step answers decline by 1.3 points. Increasing recursion from one to seven rounds improves the aggregate scores from 68.5/27.4 to 70.6/28.7, with extra computation."
+      ],
+      "What is new": [
+        "The benchmark’s distinctive unit is not a single spatial relation or a closed motor command, but an open-vocabulary action graph whose prerequisite edges are scored separately. RSGAR shares familiar components—foundation-model segmentation, monocular depth and scene graphs—with prior spatial reasoning systems; the new element is recursively expanding a task-specific graph outward from the goal object and using it as explicit context for plan generation."
+      ],
+      "Limitations": [
+        "The scenes are deliberately arranged indoor photographs, not interactive environments, so the benchmark does not test execution, state changes, reachability or recovery after an action. Two augmentation stages reuse images and transform annotated graphs, which may introduce regularities not found in naturally requested tasks. Automatic scoring depends on a proprietary VLM, and RSGAR also relies on segmentation, depth and repeated VLM calls. Its aggregate improvement is modest and it can hurt short plans."
+      ],
+      "Creative use": [
+        "Editorial proposal, not tested in the paper: transfer recursive task-centered graph expansion to troubleshooting industrial equipment from a photograph. The target component—say, a blocked valve—would seed a graph of physically connected parts, access constraints and safety interlocks; a language model could then draft an inspection order whose steps name their prerequisites. The method would need relation types beyond contact, calibrated uncertainty, and a verified equipment schema rather than unrestricted visual guesses. The critical assumption is that the relevant constraints are visible: hidden wiring, pressure or machine state would otherwise make a visually coherent graph dangerously incomplete."
+      ]
+    }
+  },
+  {
+    "slug": "perceval-perception-process-reward-model",
+    "date": "2026-10-08",
+    "publishedDate": "2026-04-27",
+    "topic": "Multimodal reinforcement learning",
+    "title": "Improving Vision-language Models with Perception-centric Process Reward Models",
+    "authors": "Yingqian Min, Kun Zhou, Yifan Li, Yuhuan Wu, Han Peng, Yifan Du, Wayne Xin Zhao, Min Yang, Ji-Rong Wen",
+    "venue": "CVPR 2026 · first public 2026-04-27",
+    "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Min_Improving_Vision-language_Models_with_Perception-centric_Process_Reward_Models_CVPR_2026_paper.html",
+    "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Min_Improving_Vision-language_Models_with_Perception-centric_Process_Reward_Models_CVPR_2026_paper.pdf",
+    "summary": "Perceval is a vision-language critic that finds visually unsupported spans inside a reasoning trace, applies token-level penalties during GRPO training, and can repair errors by truncating and regenerating at inference.",
+    "care": "A concrete answer to the credit-assignment problem in multimodal RL: identify the localized perceptual mistake instead of assigning one reward to every token in a response.",
+    "readMinutes": 8,
+    "visuals": {
+      "hero": {
+        "src": "./assets/images/perceval-original-figure-20261008.jpg",
+        "alt": "Perceval framework: a policy generates response groups, Perceval highlights hallucinated text spans, and sequence-level advantages are rescaled into token-level advantages.",
+        "caption": "Figure 1 from Min et al., “Improving Vision-language Models with Perception-centric Process Reward Models” (CVPR 2026). The original diagram shows how Perceval turns detected hallucination spans into token-level advantage adjustments. Reproduced without reinterpretation.",
+        "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Min_Improving_Vision-language_Models_with_Perception-centric_Process_Reward_Models_CVPR_2026_paper.pdf#page=3"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "Reinforcement learning with verifiable rewards can tell a VLM that its final answer failed, but not which visual claim caused the failure. Perceval is an external process reward model that checks claims against the image, identifies the exact erroneous substrings, and uses them for localized training penalties or iterative repair at inference."
+      ],
+      "Why I might care": [
+        "This is a practical design for anyone training reasoning VLMs with GRPO. It preserves the simple, verifiable final reward while adding a separate critic only where vision can directly arbitrate the claim, avoiding the need to label every logical step in a chain of thought."
+      ],
+      "Why it matters": [
+        "Multimodal reasoning often fails before the logic begins: a model invents an object, color or spatial relation and then reasons consistently from a false premise. A single sequence reward gives identical credit to grounded and hallucinated tokens. Perceval makes that credit assignment finer, and the paper shows the same critic can be reused at inference instead of being discarded after training."
+      ],
+      "Main idea": [
+        "Treat visually checkable claims as local intervention points. If a response correctly reasons about several facts but calls a light desk dark brown, the training signal should be weakened specifically on that span. At test time, generation can be rolled back to just before the first bad span, keeping the verified prefix rather than sampling a wholly new answer."
+      ],
+      "Method": [
+        "Perceval receives an image, query and generated response. It first extracts image-related claims, checks each one against visual evidence, and emits a structured verdict: either the response is correct or a list containing the exact offending strings. This exact-string output matters because the training pipeline must map each reported error back to token indices.",
+        "Its supervision corpus is built in four stages. Queries come mainly from visual-search datasets, with smaller mathematical and general-understanding subsets. Qwen2.5-VL rollouts supply realistic negative examples; a stronger model such as Gemini 2.5 Pro produces and verifies step-by-step hallucination annotations. Qwen2.5-VL backbones of 3B and 7B parameters are then supervised-fine-tuned to imitate the verification format.",
+        "Standard GRPO samples a group of responses and gives every token in a response the same normalized sequence advantage. Perceval locates each hallucinated substring by exact matching and forms a binary token mask. For a flagged token, the method subtracts alpha times the absolute sequence advantage. Positive advantages therefore shrink and negative ones become more negative, while unflagged tokens retain the original signal. The paper uses this process adjustment only on perception-related RL data; other examples use ordinary GRPO.",
+        "At inference, Perceval supports two loops. Truncate–then–Regenerate cuts the rationale immediately before the first detected error and asks the policy to continue from the verified prefix. Truncate–Thinking–then–Regenerate additionally inserts a brief correction prompt describing the mismatch. Either loop stops when Perceval finds no error or after k iterations, bounding extra latency."
+      ],
+      "Experiments": [
+        "The policy and critic use Qwen2.5-VL backbones and are evaluated with greedy decoding on V-Star, BLINK, MMStar, MME-RealWorld-Lite, RealWorldQA, MathVista, MATH-Vision and ChartQA. Exact matching is followed by GPT-4o-mini judging for formatting variations; ChartQA uses its relaxed accuracy.",
+        "Against the same 3B Qwen2.5-VL trained with ordinary GRPO, process supervision raises V-Star overall accuracy from 80.10 to 83.25, RealWorldQA from 62.1 to 64.9, MATH-Vision from 23.36 to 26.32, and ChartQA from 83.32 to 86.48. At 7B, it raises V-Star overall from 84.29 to 86.39 and BLINK from 53.55 to 54.49, although ChartQA falls from 85.16 to 84.44; the improvement is not universal.",
+        "For the 3B policy at test time with 16 samples, truncate–regenerate reaches 89.53 on V-Star overall and 49.45 on BLINK, versus 85.86 and 48.41 for majority voting. The penalty ablation is non-monotonic: alpha 0.1 gives 83.25 on V-Star, while alpha 0.3 drops to 78.53, below the 80.10 GRPO baseline. This supports careful rather than maximal span penalization."
+      ],
+      "What is new": [
+        "Process reward models and GRPO are established ideas, as are reflection and resampling at test time. The specific contribution is a perception-centric critic whose output is not collapsed to one score: exact hallucinated spans become a token mask that reallocates GRPO advantages. The same localization enables prefix-preserving repair, linking training-time credit assignment and inference-time correction through one representation of error."
+      ],
+      "Limitations": [
+        "Perceval inherits mistakes and biases from its automatically generated annotations and from the critic at deployment. Exact substring matching requires the critic to quote errors correctly; penalizing an entire span also affects harmless function words, which the authors observe at high alpha. The method targets visually checkable hallucinations, not logical errors that cannot be resolved from the image. Training and iterative inference add another VLM call, and several reported evaluations rely on a model-based fallback judge."
+      ],
+      "Creative use": [
+        "Editorial proposal, not tested in the paper: apply span-localized process feedback to data-to-text systems that narrate medical time series. A verifier could align each quantitative claim in a draft report with the underlying measurements, mark unsupported spans, and rescale token advantages during training or regenerate only the first faulty passage. The transferable idea is local credit assignment from externally checkable evidence, not the visual critic itself. This would require a deterministic parser for values, units and time windows plus clinician-reviewed annotations for non-numeric claims. The key assumption to test is that the verifier’s false-negative rate is low enough that preserving a supposedly verified prefix remains safe."
+      ]
+    }
+  },
+  {
+    "slug": "chirp-wild-bird-behavior-monitoring",
+    "date": "2026-10-08",
+    "publishedDate": "2026-03-26",
+    "topic": "Computational ecology",
+    "title": "CHIRP dataset: towards long-term, individual-level, behavioral monitoring of bird populations in the wild",
+    "authors": "Alex Hoi Hang Chan, Neha Singhal, Onur Kocahan, Andrea Meltzer, Saverio Lubrano, Miyako H. Warrington, Michael Griesser, Fumihiro Kano, Hemal Naik",
+    "venue": "CVPR 2026 · first public 2026-03-26",
+    "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Chan_CHIRP_Dataset_Towards_Long-Term_Individual-Level_Behavioral_Monitoring_of_Bird_Populations_CVPR_2026_paper.html",
+    "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Chan_CHIRP_Dataset_Towards_Long-Term_Individual-Level_Behavioral_Monitoring_of_Bird_Populations_CVPR_2026_paper.pdf",
+    "summary": "CHIRP packages nine years of wild Siberian-jay video into linked vision tasks and evaluates complete monitoring pipelines by the biological quantities they are meant to measure, not only isolated CV scores.",
+    "care": "A rare dataset where re-identification, behavior, pose and segmentation come from one long-running field study, with system-level tests that expose downstream error propagation.",
+    "readMinutes": 8,
+    "visuals": {
+      "hero": {
+        "src": "./assets/images/chirp-original-figure-20261008.jpg",
+        "alt": "CHIRP dataset overview with bird video re-identification, action recognition, 2D keypoints, ring and bird segmentation, and application-specific monitoring videos.",
+        "caption": "Figure 1 from Chan et al., “CHIRP dataset” (CVPR 2026). The original overview connects the who/what vision tasks, supporting annotations and the application-specific benchmark. Reproduced without reinterpretation.",
+        "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Chan_CHIRP_Dataset_Towards_Long-Term_Individual-Level_Behavioral_Monitoring_of_Bird_Populations_CVPR_2026_paper.pdf#page=2"
+      }
+    },
+    "sections": {
+      "TL;DR": [
+        "Long-term wildlife monitoring needs to know both which animal appears and what it is doing, yet computer-vision datasets usually optimize these tasks separately. CHIRP derives linked re-identification, action, pose, detection and segmentation datasets from nine years of wild Siberian-jay observations, then tests how a combined pipeline distorts feeding and social co-occurrence measurements."
+      ],
+      "Why I might care": [
+        "Read this if you build computer vision for real deployments or design benchmarks. CHIRP makes downstream scientific error a first-class metric, showing that a method can look acceptable on a component task yet be unsuitable once detection, tracking, identity and behavior predictions interact."
+      ],
+      "Why it matters": [
+        "Ecologists ultimately need measurements such as individual feeding rates and time spent together, not merely re-identification accuracy. Optimizing isolated modules gives no guarantee about those quantities because errors can cancel or compound. CHIRP offers a realistic bridge: all tasks come from an ethically approved, continuing population study, and the held-out system test reports biologically interpretable errors."
+      ],
+      "Main idea": [
+        "Build the benchmark backward from the question “who did what?” Identity, behavior and pose are learned from the same field system; auxiliary masks and boxes support those tasks; an independent video set then measures the assembled pipeline. Domain knowledge is also treated as input: territorial groups restrict which individually ringed birds are plausible in a recording."
+      ],
+      "Method": [
+        "The source data are 443 standardized 15–30-minute, 25-fps 1080p videos recorded in Swedish Lapland from 2014 through 2022. Every sample retains its acquisition date for time-aware splits, and clips from the same long video are separated to reduce background leakage. Birds carry one aluminium and two or three plastic rings chosen from 11 colors, producing stable individual codes.",
+        "The re-identification set contains 16,190 one-second clips of 183 birds. It supports closed, disjoint and open-set protocols, plus candidate galleries constrained to territory members or members plus neighbours. The behavior set contains 1,387 clips labeled eat, submissive or other. Pose data contain 1,176 bird instances across 879 images with 13 keypoints. Supporting labels include 1,669 bird instances with boxes and masks and 2,713 ring instances across 944 frames.",
+        "CORVID provides a domain-specific re-ID baseline. Mask2Former segments rings in each one-second clip; detections are cropped, converted to HSV and resized to 20×20. A random forest maps color histograms to probabilities over ring colors. Nearby detections are paired, color-pair probabilities are accumulated over 25 frames, and the resulting evidence is matched against the list of possible ring codes for that video. Unlike appearance embeddings, a known new bird can be added from its ring code without training examples, provided no new color is introduced.",
+        "The application benchmark uses 12 independent videos covering 35 individuals, with per-frame boxes, identities and feeding events. YOLOv8 detects birds, BoTSORT links detections, an identity method labels tracks, and C3D classifies one-second behavior windows. Metrics include correct frame assignments and feeding-event precision/recall/F1, then propagate outputs into feeding rate in pecks per minute and pairwise co-occurrence time."
+      ],
+      "Experiments": [
+        "For re-ID with the territory-only gallery, CORVID reaches top-1 accuracy of 0.66 on the closed split and 0.69 on the disjoint split. Pretrained MegaDescriptor reaches 0.28 and 0.31; CHIRP-fine-tuned MegaDescriptor reaches 0.27 and 0.41. With all 183 identities in the gallery, however, closed-set top-1 is 0.05 for CORVID versus 0.10 for both MegaDescriptor variants, showing its dependence on candidate constraints.",
+        "C3D is the strongest reported action baseline at 0.715 accuracy and 0.684 F1 across eat, submissive and other. ViTPose-Large is the strongest pose baseline, with 7.773-pixel mean error and PCK@5 of 0.915, where a keypoint is correct within 5% of the ground-truth box’s largest dimension.",
+        "In the full application pipeline, CORVID identity assignment gives 0.647 correct frames and feeding-event F1 of 0.537, versus 0.617 and 0.408 with fine-tuned MegaDescriptor. Yet final biological errors remain far from human coding: CORVID’s mean absolute feeding-rate error is 9.0 pecks/minute with correlation 0.582, while the human benchmark reports 1.88 and 0.910. Random identity assignment even achieves the highest co-occurrence correlation, 0.799, illustrating why component scores alone can mislead."
+      ],
+      "What is new": [
+        "CHIRP is not only another animal re-ID dataset. Its contribution is the combination of multi-task annotations from a long-term wild population, an independent end-to-end benchmark expressed in biological measures, and CORVID’s probabilistic use of colored leg-ring codes plus ecological candidate constraints. The individual CV architectures are standard; the novelty lies in the study-grounded dataset and evaluation design."
+      ],
+      "Limitations": [
+        "The data cover one species, one study system and a standardized feeder, so transfer to other habitats, cameras or unmarked animals is untested. Annotation subsets differ across tasks rather than labeling every sequence jointly. The behavior set is small, has only three classes and is skewed toward feeding. CORVID cannot reliably reject unknown individuals, scales poorly when the candidate list grows, and assumes known ring colors. The authors’ own system-level results remain substantially below human measurements."
+      ],
+      "Creative use": [
+        "Editorial proposal, not tested in the paper: use CHIRP’s application-specific benchmarking principle for automated retail inventory. Instead of ranking detector, tracker and product-recognition modules separately, assemble them and score the downstream quantities a store uses—stock changes, dwell time and shelf-level availability—on independently annotated videos. Domain constraints such as the planogram would play the role of territory membership, narrowing plausible identities without replacing visual evidence. The dataset would need synchronized transaction logs, explicit occlusion cases and shift-aware splits. The central assumption to verify is that the chosen business metrics expose harmful error propagation rather than allowing different mistakes to cancel and produce deceptively accurate totals."
+      ]
+    }
+  },
+{
   "slug": "cadc-content-adaptive-diffusion-compression",
   "date": "2026-10-07",
   "publishedDate": "2026-02-25",
