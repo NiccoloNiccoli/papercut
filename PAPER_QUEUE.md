@@ -1,7 +1,7 @@
 # PaperCut — editorial queue
 
 **Cycle:** 28 September–9 October 2026 (Europe/Rome)  
-**Status:** 32 verified summaries published (28 September–8 October); 3 selected slots remain (9 October).  
+**Status:** 35 verified summaries published in this cycle (28 September–9 October); no selected slots remain.  
 **Next refresh:** by 9 October 2026, for the following two weeks.
 
 ## Selection rules
@@ -101,9 +101,11 @@
 **8 October verification:** All three summaries, nine sections per entry (including Creative use last), original figures, descriptive alt text, captions, author attribution, paper/PDF links and homepage cards verified live. No substitutions. SpatiaLQA was checked from the full arXiv paper and the official CVPR supplement because the proceedings main-PDF endpoint returned 404 during verification. Existing layout preserved; responsive breakpoints and fluid image rules checked. Visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
 ### Friday 9 October · surprises
 
-1. [Rethinking Camera Choice: An Empirical Study on Fisheye Camera Properties in Robotic Manipulation](https://openaccess.thecvf.com/content/CVPR2026/html/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.html) — **CVPR 2026** · How camera geometry affects robot manipulation.
-2. [OmniFM: Toward Modality-Robust and Task-Agnostic Federated Learning for Heterogeneous Medical Imaging](https://openaccess.thecvf.com/content/CVPR2026/html/Liu_OmniFM_Toward_Modality-Robust_and_Task-Agnostic_Federated_Learning_for_Heterogeneous_Medical_CVPR_2026_paper.html) — **CVPR 2026** · Federated learning across heterogeneous medical images.
-3. [Cinematic Audio Source Separation Using Visual Cues](https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.html) — **CVPR 2026** · Visual information for separating sounds in cinematic audio.
+1. [Rethinking Camera Choice: An Empirical Study on Fisheye Camera Properties in Robotic Manipulation](https://openaccess.thecvf.com/content/CVPR2026/html/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.html) — **CVPR 2026** · First public 2 March 2026. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=fisheye-camera-choice-robot-manipulation
+2. [OmniFM: Toward Modality-Robust and Task-Agnostic Federated Learning for Heterogeneous Medical Imaging](https://openaccess.thecvf.com/content/CVPR2026/html/Liu_OmniFM_Toward_Modality-Robust_and_Task-Agnostic_Federated_Learning_for_Heterogeneous_Medical_CVPR_2026_paper.html) — **CVPR 2026** · First public 23 March 2026. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=omnifm-heterogeneous-medical-federated-learning
+3. [Cinematic Audio Source Separation Using Visual Cues](https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.html) — **CVPR 2026** · First public 27 March 2026. **Published and verified live:** https://niccoloniccoli.github.io/papercut/?paper=av-cass-visual-cinematic-audio-separation
+
+**9 October verification:** All three summaries, nine sections per entry (including Creative use last), original paper figures, descriptive alt text, captions, author attribution, official paper/PDF links and homepage cards verified live after a successful Pages deployment. Full official CVPR papers were checked, together with the AV-CASS supplement for implementation details, listener-study protocol and failure cases. No substitutions. Existing layout preserved; the published desktop view has no horizontal overflow, all images load at their expected intrinsic dimensions, and the responsive stylesheet retains its 1190, 760 and 410 pixel breakpoints with fluid images. Direct visual mobile emulation remains unavailable in the verification browser.
 
 **30 September verification:** All three detail pages, eight sections per summary, original figures, captions and source links verified live. No substitutions. Existing responsive CSS checked; visual mobile-browser verification remains open because this environment does not expose viewport/device controls.
 
