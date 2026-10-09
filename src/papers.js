@@ -1,6 +1,173 @@
 // Issue dates are when a summary appears on PaperCut; publishedDate is the paper's publication date.
 export const papers = [
 {
+  "slug": "fisheye-camera-choice-robot-manipulation",
+  "date": "2026-10-09",
+  "publishedDate": "2026-03-02",
+  "topic": "Robot learning",
+  "title": "Rethinking Camera Choice: An Empirical Study on Fisheye Camera Properties in Robotic Manipulation",
+  "authors": "Han Xue, Nan Min, Xiaotong Liu, Wendi Chen, Yuan Fang, Jun Lv, Cewu Lu, Chuan Wen",
+  "venue": "CVPR 2026 · first public 2026-03-02",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.pdf",
+  "summary": "A controlled simulation-and-robot study shows when wrist-mounted fisheye cameras help imitation policies: wide context improves localization and diverse-scene generalization, while random scale augmentation makes transfer across lens intrinsics less brittle.",
+  "care": "A rare controlled account of how camera optics, background texture, scene diversity and lens parameters separately affect a vision-only manipulation policy.",
+  "readMinutes": 8,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/fisheye-original-figure-20261009.jpg",
+      "alt": "Four-part study design comparing pinhole and fisheye cameras, feature-poor and feature-rich scenes, one versus many backgrounds, and multiple fisheye fields of view and distortion profiles.",
+      "caption": "Figure 1 from Xue et al., “Rethinking Camera Choice” (CVPR 2026). The original figure lays out the controlled factors for spatial localization, scene generalization and camera-hardware generalization. Reproduced from the paper without reinterpretation.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Xue_Rethinking_Camera_Choice_An_Empirical_Study_on_Fisheye_Camera_Properties_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Wrist cameras give manipulation policies a convenient first-person view, but a narrow pinhole lens can lose the target, gripper or surrounding context. This study isolates what a fisheye lens changes and finds three conditional benefits: stronger visual localization, better transfer to unseen scenes when training backgrounds are diverse, and better cross-lens transfer when training includes Random Scale Augmentation (RSA)."
+    ],
+    "Why I might care": [
+      "Camera choice is usually treated as a fixed hardware detail, while model architecture and data receive most of the attention. This paper makes optics an experimental variable. It is useful when deciding whether a wider wrist view is worth its distortion, how many environments to collect, or why a policy trained with one lens fails after a camera replacement."
+    ],
+    "Why it matters": [
+      "A wider field of view is not automatically a better observation. It changes visible context, object scale and distortion together, so a result from one laboratory setup does not reveal which property helped. By varying camera model, background texture, scene diversity and fisheye intrinsics separately, the paper turns a hardware intuition into operational guidance: rich backgrounds can provide spatial reference points, scene variety is necessary to avoid memorizing those backgrounds, and scale variation is central to transfer between fisheye lenses."
+    ],
+    "Main idea": [
+      "A wrist fisheye can keep robot, target and workspace in one frame, giving a vision-only policy more relative-position cues. Textured scenes add landmarks; multiple scenes discourage memorizing one texture; RSA prevents the pixel scale produced by one lens from becoming another shortcut."
+    ],
+    "Method": [
+      "The study asks three questions. RQ1 compares 90-degree pinhole and 235-degree fisheye views in feature-poor versus textured simulated backgrounds. RQ2 holds demonstration volume fixed but spreads it over 1, 8, 16 or 32 simulated scenes; the robot study uses 1, 2, 4, 6 or 8. RQ3 trains with one fisheye configuration and tests zero-shot on other fields of view and distortion profiles.",
+      "Because MuJoCo lacks native fisheye rendering, the simulator places six virtual cameras along the cardinal directions, assembles their images into a cube map, unwraps it into an equirectangular panorama, and applies a fisheye projection. This produces controllable lens intrinsics while retaining a common simulated scene. The policy is Diffusion Policy with a U-Net denoiser and DDIM sampling. It receives images but no proprioceptive state, so localization evidence must come from vision. Simulation uses an unpretrained ResNet-18 encoder; real-robot experiments use CLIP ViT features.",
+      "RSA addresses transfer between fisheye intrinsics. During training it samples a broad scale factor, for example from 0.7 to 1.3, center-crops and resizes the image, and pads the canvas for zoom-out factors above one. Unlike a nearly fixed random crop, this deliberately changes the apparent scale of the gripper and objects. The intended effect is to make the policy depend on relative geometry—such as target size relative to the end effector—rather than the absolute pixel scale tied to a particular lens."
+    ],
+    "Experiments": [
+      "Across six Robomimic/MimicGen tasks and 50 rollouts per condition, a single pinhole camera averages 0.31 success in feature-poor and 0.34 in feature-rich scenes; a single fisheye averages 0.57 and 0.66. With two wrist cameras, the averages are 0.38/0.45 for pinhole and 0.72/0.75 for fisheye. Texture helps both camera types.",
+      "On a Flexiv Rizon 4 robot, the tasks are Pick Cup, Fold Towel and Hang Chinese Knot, evaluated over 20 trials per condition with a normalized multi-stage score. Adding a feature-rich background raises the average fisheye score by 0.39 versus 0.18 for pinhole. A separate linear probe predicts end-effector pose from learned visual features: on Pick Cup, translation/rotation error falls from 12.309 cm/15.345 degrees for pinhole in the plain scene to 2.362 cm/3.394 degrees for fisheye in the textured scene. This probes encoded spatial information; it is not itself task success.",
+      "Keeping demonstration volume constant, the paper evaluates zero-shot in five unseen simulated scenes and four unseen real scenes. The fisheye policy initially overfits simple backgrounds but improves more strongly with diversity; with eight real training scenes its score exceeds 95%. RSA also improves success over standard augmentation across tested unseen fisheye configurations; not every plotted value is tabulated."
+    ],
+    "What is new": [
+      "The policy backbone and imitation objective are standard. The contribution is the factorized empirical design around camera optics, together with a controllable fisheye renderer and the diagnosis that cross-lens failure is largely scale overfitting. RSA itself is simple image augmentation; what is new here is using broad zoom-in and zoom-out variation as a targeted remedy for fisheye-intrinsic transfer and validating it in this manipulation setting."
+    ],
+    "Limitations": [
+      "The conclusions cover wrist cameras, six simulated tasks and three real tasks, not arbitrary placements or long-horizon behavior. Projective simulation omits some lens artifacts. Different visual encoders make simulation and robot results unlike-for-like. Real evaluations contain 20 trials per condition, and RSA does not guarantee transfer to every sensor, resolution, blur or calibration error."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: use the paper’s scale-randomization principle for camera-based warehouse inventory counting when handheld phones and fixed ceiling cameras observe the same shelves. Training would include aggressive, physically plausible zoom-in and zoom-out transforms so the detector cannot bind package size to one focal length, while relative cues such as box-to-shelf proportions remain stable. The adaptation would need camera-height and perspective augmentation in addition to RSA, plus calibration-aware tests across devices. The key assumption to verify is that product identity remains legible after scale changes; tiny text or barcodes may be destroyed, making invariance harmful rather than useful."
+    ]
+  }
+},
+{
+  "slug": "omnifm-heterogeneous-medical-federated-learning",
+  "date": "2026-10-09",
+  "publishedDate": "2026-03-23",
+  "topic": "Federated medical imaging",
+  "title": "OmniFM: Toward Modality-Robust and Task-Agnostic Federated Learning for Heterogeneous Medical Imaging",
+  "authors": "Meilin Liu, Jiaying Wang, Jing Shan",
+  "venue": "CVPR 2026 · first public 2026-03-23",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Liu_OmniFM_Toward_Modality-Robust_and_Task-Agnostic_Federated_Learning_for_Heterogeneous_Medical_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Liu_OmniFM_Toward_Modality-Robust_and_Task-Agnostic_Federated_Learning_for_Heterogeneous_Medical_CVPR_2026_paper.pdf",
+  "summary": "OmniFM shares low-frequency spectral prototypes across medical-imaging clients, retrieves the closest global priors, and fuses them into local features so one federated pipeline can support heterogeneous modalities, architectures and tasks.",
+  "care": "A concrete attempt to move medical federated learning from one task and one modality per federation toward reusable collaboration across very different client workloads.",
+  "readMinutes": 9,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/omnifm-original-figure-20261009.jpg",
+      "alt": "OmniFM architecture with a client-specific backbone and head, Fourier spectrum encoder, cross-attention fusion, prefix and suffix prompts, and a server-side global spectral knowledge bank updated over communication rounds.",
+      "caption": "Figure 3 from Liu et al., “OmniFM” (CVPR 2026). The original diagram shows local spectral encoding, server-side prototype retrieval and update, cross-attention fusion, and prefix–suffix prompting. Reproduced without reinterpretation.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Liu_OmniFM_Toward_Modality-Robust_and_Task-Agnostic_Federated_Learning_for_Heterogeneous_Medical_CVPR_2026_paper.pdf#page=4"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Hospitals may hold different image modalities and train different tasks, making a single conventional federated model a poor fit. OmniFM extracts low-frequency spectral tokens intended to capture anatomy shared across modalities, retrieves related global prototypes, and injects them into each client’s otherwise task-specific representation."
+    ],
+    "Why I might care": [
+      "The paper is useful if a federation cannot standardize all clients on one network, modality or output head. It offers a shared knowledge channel that is smaller and more generic than forcing CT classification, MRI segmentation and medical VQA into the same prediction space, while still allowing each participant to retain a local backbone and task head."
+    ],
+    "Why it matters": [
+      "Most federated-learning algorithms assume that clients solve the same task with compatible parameters. Medical consortia violate that assumption: modalities have different intensity statistics, institutions own uneven mixtures of data, and downstream objectives range from pixel reconstruction to language generation. OmniFM asks what can still be shared. Its answer—coarse frequency-domain anatomy plus retrieved prototypes—creates one optimization pattern that the paper applies to classification, super-resolution, segmentation, VQA and multimodal fusion."
+    ],
+    "Main idea": [
+      "High-frequency image content often reflects modality-specific texture and acquisition, whereas low frequencies preserve coarse spatial structure. OmniFM treats that lower-frequency structure as a common address space. A client summarizes an image into a spectral token, uses it to retrieve similar global tokens, and combines the retrieved knowledge with its normal representation; the prediction head remains specialized for the local task."
+    ],
+    "Method": [
+      "Each client keeps a backbone and task head. For an input image, the backbone produces ordinary representation tokens. In parallel, a fast Fourier transform converts the image into a magnitude spectrum; a low-pass projection suppresses high-frequency variation. A Spectral Tokenization Module mixes frequency channels, applies learned projections and global pooling, then normalizes the resulting spectral embedding.",
+      "The server maintains a Global Spectral Knowledge Bank rather than one universal output model. Global Spectral Knowledge Retrieval compares the local embedding with bank entries by cosine similarity and returns the top-k prototypes. Embedding-wise Cross-Attention uses the client representation as queries and the retrieved spectral prototypes as keys and values. This makes the imported information conditional on the current image instead of blindly averaging every client’s features.",
+      "Prefix–Suffix Spectral Prompting places the fused global representation before the client representation and appends learnable local CLS tokens after it. The task head reads this sequence, so a client can combine global anatomical priors, its image-specific features and task-specific prompts. Spectral-Proximal Alignment adds a squared-distance penalty between the local spectral token and the barycenter of its retrieved prototypes, reducing modality-induced drift without demanding identical raw distributions.",
+      "Clients optimize their task loss plus alignment, uploading spectral embeddings and model information rather than raw images. The server updates prototype groups, drops persistently unused entries, aggregates shared parameters and broadcasts the revised bank. Inference uses the same encoding, retrieval, fusion and prompted prediction path."
+    ],
+    "Experiments": [
+      "For classification, the paper combines three MedMNIST-v2 sources—colon pathology, dermatoscopy and blood-cell microscopy—into 24 classes and roughly 110,000 samples, using ResNet-18 for 100 rounds with five local epochs. In the hardest non-IID scenario with 20% client participation, OmniFM reports 96.85% accuracy and 0.589 macro-F1; FedPer reports 84.47% and 0.461, while FedRep reports 83.52% and 0.395. These numbers test robustness under both modality and participation heterogeneity.",
+      "On BreaKHis histopathology super-resolution, clients handle ×2, ×4 and ×8 scales. In scenario 1, OmniFM averages 35.79 dB PSNR and 0.8670 SSIM across scales; FedPer reaches 32.99 dB and 0.8562, and FedAvg 31.90 dB and 0.8358. On medical VQA with each client assigned a distinct modality—CT, ultrasound, OCT, fundus, microscopy, histopathology, dermatoscopy or chest X-ray—OmniFM averages 79.27, compared with 78.40 for FedPer.",
+      "The ablation spans classification, super-resolution, FeTS2022 segmentation and three VQA settings. Full OmniFM scores 97.82 classification accuracy, 35.79 dB PSNR, 75.04 segmentation score, and 0.800/79.27/44.21 on the three VQA tasks. Removing retrieval gives 95.82/34.88/73.42 and 0.775/78.91/42.62; removing cross-attention gives 96.51/35.04/74.03 and 0.783/79.15/43.01. The components contribute differently by task rather than producing a uniform gain."
+    ],
+    "What is new": [
+      "OmniFM retains familiar personalized-FL ingredients—local heads, shared knowledge and proximal regularization—but changes what is exchanged and how it is consumed. The distinctive element is a server memory indexed by low-frequency spectral anatomy, retrieved per example and fused as prompts into heterogeneous backbones and tasks. It is not one foundation model trained identically everywhere; it is a common spectral retrieval-and-alignment layer around specialized client models."
+    ],
+    "Limitations": [
+      "The central assumption is that low-frequency structure is informative and modality-invariant; tasks driven by tiny, high-frequency abnormalities may not satisfy it. Several experiments partition existing datasets rather than run a prospective hospital federation. Keeping raw images local is not a formal privacy guarantee: embeddings and model updates can still leak information. The bank and retrieval add state and hyperparameters, and the study does not establish clinical safety."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: adapt the global prototype bank to federated predictive maintenance across factories whose vibration sensors have different sampling rates and machine types. Each client could transform a time window into a low-frequency spectral token describing coarse operating cycles, retrieve globally similar regimes, and fuse those prototypes with a local high-resolution encoder for its own fault labels. The method would need one-dimensional frequency tokenization, normalization for rotational speed, and a bank that distinguishes machine families. The crucial assumption is that transferable operating structure lives at low frequencies; short impulsive faults may occupy high frequencies and could be erased by the very projection meant to remove sensor-specific variation."
+    ]
+  }
+},
+{
+  "slug": "av-cass-visual-cinematic-audio-separation",
+  "date": "2026-10-09",
+  "publishedDate": "2026-03-27",
+  "topic": "Audio-visual learning",
+  "title": "Cinematic Audio Source Separation Using Visual Cues",
+  "authors": "Kang Zhang, Suyeon Lee, Arda Senocak, Joon Son Chung",
+  "venue": "CVPR 2026 · first public 2026-03-27",
+  "sourceUrl": "https://openaccess.thecvf.com/content/CVPR2026/html/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.html",
+  "pdfUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.pdf",
+  "summary": "AV-CASS separates film audio into dialogue, effects and music by conditioning a flow-matching generator on both faces and scene events, trained with synthetic mixtures built from independently available audio-visual sources.",
+  "care": "It shows how visual evidence can resolve which cinematic stem should receive an ambiguous sound, even when real films do not provide aligned isolated tracks for training.",
+  "readMinutes": 9,
+  "visuals": {
+    "hero": {
+      "src": "./assets/images/av-cass-original-figure-20261009.jpg",
+      "alt": "AV-CASS pipeline showing synthesized dialogue, sound-effects and music mixtures; facial and scene video streams; frozen visual encoders and fusion; and a flow-matching estimator that generates three separated spectrograms.",
+      "caption": "Figure 2 from Zhang et al., “Cinematic Audio Source Separation Using Visual Cues” (CVPR 2026). The original architecture diagram connects data synthesis, dual visual streams and conditional flow generation. Reproduced without reinterpretation.",
+      "creditUrl": "https://openaccess.thecvf.com/content/CVPR2026/papers/Zhang_Cinematic_Audio_Source_Separation_Using_Visual_Cues_CVPR_2026_paper.pdf#page=3"
+    }
+  },
+  "sections": {
+    "TL;DR": [
+      "Cinematic audio source separation must recover dialogue, sound effects and music from one soundtrack, yet existing CASS systems listen without looking. AV-CASS uses lip and scene cues to condition a flow-matching generator, and avoids the shortage of films with isolated stems by synthesizing aligned training mixtures from separate public sources."
+    ],
+    "Why I might care": [
+      "This is a useful case study in multimodal supervision under missing labels. The visual channels do not merely improve a generic representation: a face provides evidence for dialogue, while a visible event provides evidence for effects. The paper also reports where those cues help, where a strong audio model remains competitive, and how a model trained without real separated film stems is evaluated on real movies."
+    ],
+    "Why it matters": [
+      "Clean dialogue, effects and music support dubbing, accessibility and restoration, but final mixes rarely ship with public stems. Audio alone can misplace a visible bird chirp into music. AV-CASS turns waveform decomposition into generation conditioned on what is on screen, trained without privileged studio assets."
+    ],
+    "Main idea": [
+      "Use different parts of the video for different ambiguities. Cropped face frames carry lip-synchronized speech evidence; full-scene frames carry sounding-object and event evidence. Fuse both into a visual condition, then generate all three stems jointly so the model can decide not only whether a sound exists but where it belongs. Music remains primarily audio-conditioned because it is often not visually grounded."
+    ],
+    "Method": [
+      "Training examples combine LRS3 speech with its face video, VGGSound effects with scene video, and music from FMA. A speech-and-music activity detector removes contaminated VGGSound and FMA clips, leaving about 152,000 dialogue, 62,000 effects and 49,000 music samples. Short clips are concatenated with overlaps, loudness-normalized to cinematic mastering conventions, and added into 60-second three-stem mixtures. The authors synthesize 10,000 training examples; audio is mono at 16 kHz.",
+      "For each 8.192-second window, a frozen AVDiffuSS facial encoder processes faces at 25 fps and a frozen CAVP scene encoder processes full frames at 4 fps. MLPs project both sequences to one width; temporal concatenation and fusion produce a visual condition that cross-attention injects into a CNN U-Net vector-field estimator.",
+      "The target is the joint distribution of dialogue, effects and music spectrograms. Conditional flow matching samples Gaussian noise, linearly interpolates it toward the concatenated clean stems at a logit-normal time, and trains the U-Net to predict the velocity from noise to data with an L2 loss. At inference, the model starts from noise and uses 128 forward-Euler steps, each conditioned on the mixture and visual sequence, to reach three spectrogram estimates. Inverse STFT converts them to waveforms.",
+      "A real movie supplies only one video, not the two curated streams used in synthesis. The inference pipeline extracts facial regions for the speech stream and uses the full frames for the scene stream, so the learned architecture can run unchanged. This is a practical bridge, but the distributions of synthetic and real visual pairings are not identical."
+    ],
+    "Experiments": [
+      "On AVDnR, 1,000 held-out 60-second examples with clean stems, AV-CASS obtains FAD 0.84, KL 0.93, PESQ 2.26 and wrong-placement ratio (WPR) 1.84%; its audio-only variant gives 1.63, 1.15, 2.08 and 2.01%. BandIt has higher waveform fidelity at 14.40 dB SI-SDR improvement versus 12.32 dB, illustrating a perceptual-quality versus reconstruction trade-off. On a 30-clip subset, 15 listeners rate AV-CASS at 3.90 ± 0.13 MOS; Hybrid Demucs and BandIt score 3.14 ± 0.15 and 3.12 ± 0.14.",
+      "For 30 real Condensed Movies segments, where clean stems do not exist, 27 participants assess clarity and completeness on a five-point scale. AV-CASS scores 4.13 ± 0.09 MOS, BandIt 3.78 ± 0.10 and MRX 2.55 ± 0.10. WPR on the same real material is 0.46% for dialogue, 19.81% for effects and 0.32% for music. DAVIS-Flow is better on effects at 14.58%, but much worse on dialogue and music at 5.88% and 35.94%.",
+      "The AVDnR ablation reduces FAD from 1.63 audio-only to 0.91 with faces, 0.87 with scenes and 0.84 with both; PESQ rises from 2.08 to 2.21, 2.24 and 2.26. Faces give the lowest dialogue leakage and scenes the lowest effects leakage; both optimize the overall perceptual balance, not every per-stem minimum."
+    ],
+    "What is new": [
+      "Earlier cinematic separation methods are audio-only, and generic audio-visual separators usually predict a target tied to one visible source. AV-CASS instead jointly generates three cinematic stems using role-specific face and scene streams, including an ungrounded music output. The flow-matching generator is established machinery; the new combination is its multi-stem visual conditioning plus a synthetic recipe that supplies aligned supervision without separated movie production tracks."
+    ],
+    "Limitations": [
+      "Real-movie evaluation has 30 clips and no reference stems, so it relies on listeners and a pretrained event detector for WPR. Synthetic mixtures cannot reproduce every edit or source interaction. The supplement reports difficulty with screams and laughter, speech-like artifacts under loud broadband effects, and confusion when music synchronizes perfectly with effects. Generation is iterative, and visual cues may be absent or misleading."
+    ],
+    "Creative use": [
+      "Editorial proposal, not tested in the paper: adapt the dual-stream conditioning and joint flow generator to separate remote-meeting audio into current-speaker speech, other human vocalizations and environmental noise. A face stream could encode visible lip activity, while a scene stream could encode keyboards, doors or appliances; joint generation would let the outputs compete for ambiguous events. Training would need consented meeting footage, explicit off-camera-speaker examples and identity-independent face features, with a fallback when video is disabled. The critical assumption is that visual absence means weak evidence rather than silence: off-screen speech is common, so hard visual gating would erase valid audio and must be avoided."
+    ]
+  }
+},
+{
     "slug": "spatialqa-spatial-logical-reasoning",
     "date": "2026-10-08",
     "publishedDate": "2026-02-24",
